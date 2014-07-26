@@ -1,12 +1,11 @@
 Rhythmus
 ========
 
-Rhythmus - simple SMPTE sequencer with fixed PPQN for iOS. 
+Rhythmus - is a simple SMPTE sequencer with fixed PPQN for iOS. 
 Noveo course project.
 
 Authors:
-Smirnov Vadim
-Tolstikhin Ilya
+Smirnov Vadim and Tolstikhin Ilya
 
 Curator:
 Maxim Zabelin
@@ -18,7 +17,7 @@ Maxim Zabelin
 3. Fixed pattern format.
 4. Default samples-library and patterns-library.
 5. Defined GUI design.
-6. Redactor view without Reductor functions.
+6. Redactor view (without Redactor functions).
 7. Smart metronome realisation.
 
 2 Lot
@@ -36,9 +35,10 @@ Maxim Zabelin
 
 3 Lot
 ----------
-1. Valosity with sampling the mic signal.
+1. Velocity with sampling the mic signal.
 2. Supporting multi-layer samples.
 3. Song mode.
 4. Hardware MIDI driver.
 5. Full supporting base MIDI messages.
+
 ...
