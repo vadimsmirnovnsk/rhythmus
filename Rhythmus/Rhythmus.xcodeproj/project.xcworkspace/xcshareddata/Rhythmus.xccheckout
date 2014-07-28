@@ -12,6 +12,8 @@
 	<dict>
 		<key>7CDF5F9C-969B-465A-8303-BD05B332862E</key>
 		<string>https://github.com/vadimsmirnovnsk/rhythmus.git</string>
+		<key>D45AE441-8A76-4D81-95D3-48CF4B230B5A</key>
+		<string>https://github.com/vadimsmirnovnsk/TestSingleViewApp.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Rhythmus/Rhythmus.xcodeproj/project.xcworkspace</string>
@@ -19,6 +21,8 @@
 	<dict>
 		<key>7CDF5F9C-969B-465A-8303-BD05B332862E</key>
 		<string>../../..</string>
+		<key>D45AE441-8A76-4D81-95D3-48CF4B230B5A</key>
+		<string>../../../../TestSingleViewApp</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>https://github.com/vadimsmirnovnsk/rhythmus.git</string>
@@ -35,6 +39,14 @@
 			<string>7CDF5F9C-969B-465A-8303-BD05B332862E</string>
 			<key>IDESourceControlWCCName</key>
 			<string>rhythmus</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>D45AE441-8A76-4D81-95D3-48CF4B230B5A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>TestSingleViewApp</string>
 		</dict>
 	</array>
 </dict>

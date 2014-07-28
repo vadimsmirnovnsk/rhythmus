@@ -22,6 +22,11 @@
 		CEA991EB198640F200CAB5AC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991CF198640F200CAB5AC /* CoreData.framework */; };
 		CEA991F3198640F200CAB5AC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEA991F1198640F200CAB5AC /* InfoPlist.strings */; };
 		CEA991F5198640F200CAB5AC /* RhythmusTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA991F4198640F200CAB5AC /* RhythmusTests.m */; };
+		CEA9921C1986466800CAB5AC /* SESystemTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA992101986466800CAB5AC /* SESystemTimer.m */; };
+		CEA9921D1986466800CAB5AC /* SESequencer.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA992121986466800CAB5AC /* SESequencer.m */; };
+		CEA9921E1986466800CAB5AC /* SESequencerEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA992151986466800CAB5AC /* SESequencerEvent.m */; };
+		CEA9921F1986466800CAB5AC /* SESequencerStream.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA992161986466800CAB5AC /* SESequencerStream.m */; };
+		CEA992201986466800CAB5AC /* SERhythmusPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA9921B1986466800CAB5AC /* SERhythmusPattern.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +58,18 @@
 		CEA991F0198640F200CAB5AC /* RhythmusTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RhythmusTests-Info.plist"; sourceTree = "<group>"; };
 		CEA991F2198640F200CAB5AC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CEA991F4198640F200CAB5AC /* RhythmusTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RhythmusTests.m; sourceTree = "<group>"; };
+		CEA992101986466800CAB5AC /* SESystemTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESystemTimer.m; path = Rhythmus/API/Sequencer/SESystemTimer.m; sourceTree = "<group>"; };
+		CEA992111986466800CAB5AC /* SESystemTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESystemTimer.h; path = Rhythmus/API/Sequencer/SESystemTimer.h; sourceTree = "<group>"; };
+		CEA992121986466800CAB5AC /* SESequencer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESequencer.m; path = Rhythmus/API/Sequencer/SESequencer.m; sourceTree = "<group>"; };
+		CEA992131986466800CAB5AC /* SESystemTimerHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESystemTimerHandler.h; path = Rhythmus/API/Sequencer/SESystemTimerHandler.h; sourceTree = "<group>"; };
+		CEA992141986466800CAB5AC /* SESequencer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESequencer.h; path = Rhythmus/API/Sequencer/SESequencer.h; sourceTree = "<group>"; };
+		CEA992151986466800CAB5AC /* SESequencerEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESequencerEvent.m; path = Rhythmus/API/Sequencer/SESequencerEvent.m; sourceTree = "<group>"; };
+		CEA992161986466800CAB5AC /* SESequencerStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESequencerStream.m; path = Rhythmus/API/Sequencer/SESequencerStream.m; sourceTree = "<group>"; };
+		CEA992171986466800CAB5AC /* SESequencerEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESequencerEvent.h; path = Rhythmus/API/Sequencer/SESequencerEvent.h; sourceTree = "<group>"; };
+		CEA992181986466800CAB5AC /* SEStreamHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SEStreamHandler.h; path = Rhythmus/API/Sequencer/SEStreamHandler.h; sourceTree = "<group>"; };
+		CEA992191986466800CAB5AC /* SESequencerStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESequencerStream.h; path = Rhythmus/API/Sequencer/SESequencerStream.h; sourceTree = "<group>"; };
+		CEA9921A1986466800CAB5AC /* SERhythmusPattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SERhythmusPattern.h; path = Rhythmus/API/Sequencer/SERhythmusPattern.h; sourceTree = "<group>"; };
+		CEA9921B1986466800CAB5AC /* SERhythmusPattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SERhythmusPattern.m; path = Rhythmus/API/Sequencer/SERhythmusPattern.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +101,8 @@
 		CEA991BD198640F200CAB5AC = {
 			isa = PBXGroup;
 			children = (
+				CEA991FF1986459600CAB5AC /* UI */,
+				CEA991FE1986458400CAB5AC /* API */,
 				CEA991D1198640F200CAB5AC /* Rhythmus */,
 				CEA991EE198640F200CAB5AC /* RhythmusTests */,
 				CEA991C8198640F200CAB5AC /* Frameworks */,
@@ -151,6 +170,48 @@
 				CEA991F1198640F200CAB5AC /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CEA991FE1986458400CAB5AC /* API */ = {
+			isa = PBXGroup;
+			children = (
+				CEA9921B1986466800CAB5AC /* SERhythmusPattern.m */,
+				CEA9921A1986466800CAB5AC /* SERhythmusPattern.h */,
+				CEA99200198645AA00CAB5AC /* Sequencer */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		CEA991FF1986459600CAB5AC /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		CEA99200198645AA00CAB5AC /* Sequencer */ = {
+			isa = PBXGroup;
+			children = (
+				CEA992211986467100CAB5AC /* Sequencer Protocols */,
+				CEA992101986466800CAB5AC /* SESystemTimer.m */,
+				CEA992111986466800CAB5AC /* SESystemTimer.h */,
+				CEA992121986466800CAB5AC /* SESequencer.m */,
+				CEA992141986466800CAB5AC /* SESequencer.h */,
+				CEA992171986466800CAB5AC /* SESequencerEvent.h */,
+				CEA992151986466800CAB5AC /* SESequencerEvent.m */,
+				CEA992161986466800CAB5AC /* SESequencerStream.m */,
+				CEA992191986466800CAB5AC /* SESequencerStream.h */,
+			);
+			name = Sequencer;
+			sourceTree = "<group>";
+		};
+		CEA992211986467100CAB5AC /* Sequencer Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				CEA992181986466800CAB5AC /* SEStreamHandler.h */,
+				CEA992131986466800CAB5AC /* SESystemTimerHandler.h */,
+			);
+			name = "Sequencer Protocols";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -249,9 +310,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEA992201986466800CAB5AC /* SERhythmusPattern.m in Sources */,
+				CEA9921E1986466800CAB5AC /* SESequencerEvent.m in Sources */,
+				CEA9921D1986466800CAB5AC /* SESequencer.m in Sources */,
+				CEA9921C1986466800CAB5AC /* SESystemTimer.m in Sources */,
 				CEA991DC198640F200CAB5AC /* SEAppDelegate.m in Sources */,
 				CEA991D8198640F200CAB5AC /* main.m in Sources */,
 				CEA991DF198640F200CAB5AC /* Rhythmus.xcdatamodeld in Sources */,
+				CEA9921F1986466800CAB5AC /* SESequencerStream.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,6 +514,7 @@
 				CEA991FA198640F200CAB5AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CEA991FB198640F200CAB5AC /* Build configuration list for PBXNativeTarget "RhythmusTests" */ = {
 			isa = XCConfigurationList;
@@ -456,6 +523,7 @@
 				CEA991FD198640F200CAB5AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
