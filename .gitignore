@@ -6,3 +6,7 @@
 #
 # Pods/
 
+.DS_Store
+Rhythmus/Rhythmus.xcodeproj/project.xcworkspace/xcuserdata/
+Rhythmus/Rhythmus.xcodeproj/xcuserdata/
+build/
