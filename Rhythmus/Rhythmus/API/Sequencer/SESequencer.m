@@ -1,213 +1,278 @@
 //
 //  SESequencer.m
-//  TestSingleViewApp
+//  Rhythmus_new
 //
-//  Created by Wadim on 7/25/14.
+//  Created by Wadim on 7/29/14.
 //  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
 //
 
 #import "SESequencer.h"
 #import "SESystemTimer.h"
+#import "SESequencerMessage.h"
+#import "SESequencerInput.h"
 
 #define DEBUG_NSLOG
 
-/*Set default PPQN*/
-#define defaultPPQNValue 960.0;
+/* Set Default Tempo value in BPM */
+#define DEFAULT_TEMPO_VALUE 100;
+
+/* Set default PPQN */
+#define DEFAULT_PPQN_VALUE 960.0;
+
 /* Constant for convertion BPM to single PPQN time in usec */
-#define BPMtoPPQNTickConstant 60000000.0/defaultPPQNValue;
+#define BPM_TO_PPQN_TICK_CONSTANT 60000000.0/DEFAULT_PPQN_VALUE;
 
-const float defaultPPQN = defaultPPQNValue;
-
-const float defaultBPMtoPPQNTickConstant = BPMtoPPQNTickConstant;
+const float defaultPPQN = DEFAULT_PPQN_VALUE;
+const int defaultTempo = DEFAULT_TEMPO_VALUE;
+const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
 // Private interface section
 @interface SESequencer ()
 
-@property (nonatomic, strong) NSMutableArray *streams;
-@property (nonatomic, strong) NSDate *startRecordingDate;
-@property (nonatomic, strong) SESystemTimer *systemTimer;
+@property (nonatomic, strong) NSMutableDictionary *privateMutableTracks;
+@property (nonatomic, strong) NSMutableDictionary *privateMutableOutputs;
+@property (nonatomic, strong) NSMutableDictionary *privateMutableInputs;
+@property (nonatomic, strong) NSDate *privateStartRecordingDate;
+@property (nonatomic, strong) SESystemTimer *privateSystemTimer;
+@property (nonatomic, readwrite) unsigned long privateExpectedTick;
+
+- (void) processExpectedTick;
+- (unsigned long) tickForNearestEvent;
 
 @end
+
+@interface SESequencerInput ()
+
+@property (nonatomic, weak) SESequencerTrack *track;
+@property (nonatomic, weak) SESequencer *delegate;
+
+@end
+
 
 @implementation SESequencer
 
 #pragma mark -
 #pragma mark Inits
-- (id) init {
+- (id) init
+{
     if (self = [super init]) {
-        _streams = [[NSMutableArray alloc]init];
-        _startRecordingDate = nil;
-        _isRecording = NO;
-        _tempo = @(100);
-        _systemTimer = [[SESystemTimer alloc]init];
+        _privateMutableTracks = [[NSMutableDictionary alloc]init];
+        _privateMutableOutputs = [[NSMutableDictionary alloc]init];
+        _privateMutableInputs = [[NSMutableDictionary alloc]init];
+        _privateStartRecordingDate = nil;
+        _recording = NO;
+        _tempo = @(defaultTempo);
+        _privateSystemTimer = [[SESystemTimer alloc]init];
+        _privateExpectedTick = 0;
     }
     return self;
 }
 
+#pragma mark -
+#pragma mark Tracks Methods
 
-#pragma mark - 
-#pragma mark Streams Methods
-
-/*  Create stream for source-object and destination object for creating pipe.
- *  After creating the stream, Sequencer can send or receive events via this 
- *  pipe connection, for recording or playing created stream. 
- *  Return stream number in Sequencer streams pool. */
-
-- (NSNumber*) createStreamWithSource:(id<SEStreamHandler>)source andDestination:(id<SEStreamHandler>)destination{
-    SESequencerStream *newStream = [[SESequencerStream alloc]initWithSource:source andDestination:destination];
-    [_streams addObject:newStream];
-    return @([_streams indexOfObject:newStream]);
+// Creating streams methods
+- (void) addExistingTrack:(SESequencerTrack *)track
+{
+    if ([track identifier]) {
+        [self.privateMutableTracks setObject:track forKey:[track identifier]];
+    }
 }
 
-/* Create stream by copying existing stream */
-- (NSNumber *) createStreamWithStream:(SESequencerStream *)stream {
-    SESequencerStream *copyStream = [stream copy];
-    [_streams addObject:copyStream];
-    return @([_streams indexOfObject:copyStream]);
-}
-
-/* Remove stream and pipe-connection with handler.
- * Return YES if operation was done successful */
-
-- (BOOL) removeStreamNumber:(NSNumber *)streamNumber {
-    if ([_streams count]>[streamNumber intValue]) {
-        [_streams removeObjectAtIndex:[streamNumber intValue]];
+// Removing tracks methods
+- (BOOL) removeTrackWithIdentifier:(NSString *)identifier
+{
+    if ([self.privateMutableTracks objectForKey:identifier]) {
+        [self.privateMutableTracks removeObjectForKey:identifier];
         return YES;
     }
     return NO;
 }
 
-/* Remove all streams and all pipe-connections with handlers. */
-
-- (void) removeAllStreams {
-    [_streams removeAllObjects];
+- (void) removeAllTracks
+{
+    [self.privateMutableTracks removeAllObjects];
 }
 
-/* Return source-object for streamNumber. Return nil if stream for streamNumber isn't exist. */
-
-- (id<SEStreamHandler>) sourceForStreamNumber:(NSNumber *)streamNumber {
-    if ([_streams count]>[streamNumber intValue]) {
-        return [[_streams objectAtIndex:[streamNumber intValue]]source];
+// Returns identifiers for all tracks that contained in Sequencer
+- (NSArray *)trackIdentifiers
+{
+    NSMutableArray *trackIdentifiers = [[NSMutableArray alloc]init];
+    for (id<NSCopying> key in self.privateMutableTracks) {
+        [trackIdentifiers addObject:key];
     }
-    return nil;
+    return [NSArray arrayWithArray:trackIdentifiers];
 }
 
-/* Return destination-object for streamNumber. Return nil if stream for streamNumber isn't exist. */
-
-- (id<SEStreamHandler>) destinationForStreamNumber:(NSNumber *)streamNumber{
-    if ([_streams count]>[streamNumber intValue]) {
-        return [[_streams objectAtIndex:[streamNumber intValue]]destination];
+// Registering inputs method
+- (void) registerInput:(SESequencerInput *)input
+    forTrackWithIdentifier:(NSString *)identifier
+{
+    SESequencerTrack *track = [self.privateMutableTracks objectForKey:identifier];
+    if (!track) {
+        [self.privateMutableTracks setObject:
+            track = [[SESequencerTrack alloc]initWithidentifier:identifier] forKey:identifier];
     }
-    return nil;
+    input.delegate = self;
+    input.track = track;
+    [self.privateMutableInputs setObject:input forKey:identifier];
 }
 
-/* Register new destination for stream. Return nil if stream for streamNumber isn't exist.*/
-
-- (BOOL) registerDestination:(id<SEStreamHandler>)destination forStreamNumber:(NSNumber *)streamNumber {
-    if ([_streams count]>[streamNumber intValue]) {
-        [[_streams objectAtIndex:[streamNumber intValue]]setDestination:destination];
-        return YES;
-    }
-    return NO;
+// Registering outputs method
+- (void) registerOutput:(id<SEReceiverDelegate>)output
+    forTrackWithIdentifier:(NSString *)identifier
+{
+    [self.privateMutableOutputs setObject:output forKey:identifier];
 }
-
-/* Register new source for stream. Return nil if stream for streamNumber isn't exist.*/
-
-- (BOOL) registerSource:(id<SEStreamHandler>)source forStreamNumber:(NSNumber *)streamNumber {
-    if ([_streams count]>[streamNumber intValue]) {
-        [[_streams objectAtIndex:[streamNumber intValue]]setSource:source];
-        return YES;
-    }  
-    return NO;
-}
-
-- (NSNumber *) streamsCount {
-    return @([_streams count]);
-}
-
-#pragma mark Pipe Methods
-/* Receive event from source for stream number. If stream with number not exist return NO.
- * Else create event with raw timestamp and write to stream and try to send event to destination */
-- (BOOL) receiveTriggerEventForStreamNumber: (NSNumber *)streamNumber {
-    if ([_streams count]>[streamNumber intValue]) {
-        id __weak tempStream = [_streams objectAtIndex:[streamNumber intValue]];
-        SESequencerEvent *newEvent = [[SESequencerEvent alloc]initWithRawTimestamp:[[NSDate date]
-                                                                                    timeIntervalSinceDate:_startRecordingDate]];
-        // Write event to stream in Recording mode
-        if (_isRecording) {
-            [tempStream addEvent:newEvent];
-        }
-        // Send 
-        if ([[tempStream destination]readyToEventFromStream]) {
-            [[tempStream destination]receiveEvent:newEvent fromStreamNumber:streamNumber];
-        }
-        return YES;
-    }
-    return NO;
-}
-
 
 #pragma mark Playback Methods
 
-- (BOOL) startRecording {
-    _isRecording = YES;
-    _startRecordingDate = [NSDate date];
+- (BOOL) startRecording
+{
+    _recording = YES;
+    self.privateStartRecordingDate = [NSDate date];
     return YES;
 }
 
 /* Stop recording events to streams and convert all raw timestamps into PPQNTimestamps
  */
-- (void) stopRecording {
-    _isRecording = NO;
-    // Get raw stop timestamp for correct processing convertation to PPQN for last events in every stream
-    NSTimeInterval stopRecordingTimeInterval = [[NSDate date]timeIntervalSinceDate:_startRecordingDate];
+- (void) stopRecording
+{
+    _recording = NO;
+    // Get raw stop timestamp for correct processing convertation to PPQN
+    // for last events in every stream
+    NSTimeInterval stopRecordingTimeInterval = [[NSDate date]
+        timeIntervalSinceDate:self.privateStartRecordingDate];
     float singleQuarterPulse = (60/((float)[_tempo intValue]*defaultPPQN));
-    for (SESequencerStream *stream in _streams) {
-        for (SESequencerEvent *event in [stream events]) {
-            event.PPQNTimeStamp = (int)(event.rawTimestamp/singleQuarterPulse);
+    for (id<NSCopying> key in self.privateMutableTracks) {
+        for (SESequencerMessage *message in
+            [[self.privateMutableTracks objectForKey:key]allMessages]) {
+            message.PPQNTimeStamp = (int)(message.rawTimestamp/singleQuarterPulse);
 #ifdef DEBUG_NSLOG
-            NSLog(@"Raw Timestamp = %f",event.rawTimestamp);
-            NSLog(@"PPQN TimeStamp = %i",event.PPQNTimeStamp);
+            NSLog(@"Raw Timestamp = %f",message.rawTimestamp);
+            NSLog(@"PPQN TimeStamp = %li",message.PPQNTimeStamp);
 #endif
         }
     }
 }
 
-- (void) playStreams:(NSSet */*of NSNumbers*/)streamsNumbers {
-    
-}
-
-- (void) playAllStreams {
-    // DEBUG!!!
-    [_systemTimer startWithPulsePeriod:(long)
-     (defaultBPMtoPPQNTickConstant/[_tempo intValue])*1000 callbackObject:self];
+/* Play all streams, so what can else say. */
+- (void) playAllStreams
+{
+    self.privateExpectedTick = 0;
+    self.privateExpectedTick = [self tickForNearestEvent];
+    [self.privateSystemTimer startWithPulsePeriod:(long)
+        (defaultBPMtoPPQNTickConstant/[_tempo intValue])*1000 withDelegate:self];
 #ifdef DEBUG_NSLOG
     NSLog(@"PPQN tick = %f",defaultBPMtoPPQNTickConstant/[_tempo intValue]);
 #endif
 }
 
-- (void) stop {
-    [_systemTimer stop];
-}
-- (void) pause {
-    
+- (void) stop
+{
+    [self.privateSystemTimer stop];
 }
 
-- (void) recordStreams:(NSSet * /*of NSNumbers*/)streams {
-    
+- (void) pause
+{
+    [self.privateSystemTimer stop];
 }
 
-- (void) recordAllStreams {
-    
+
+#pragma mark SESequencerInputDelegate Methods
+/* Receive event from source for stream number. If stream with number not exist return NO.
+ * Else create event with raw timestamp and write to stream and try to send event to destination */
+- (BOOL) receiveMessage:(SESequencerMessage *)message forTrack:(SESequencerTrack *)track
+{
+    if (!!track) {
+        if (message == nil) {
+            message = [[SESequencerMessage alloc]initWithRawTimestamp:[[NSDate date]
+            timeIntervalSinceDate:self.privateStartRecordingDate]];
+        }
+        // Write event to stream in Recording mode
+        if (_recording) {
+            [track addMessage:message];
+        }
+        // Send to output
+        id __weak tempObjectForKey = [self.privateMutableOutputs objectForKey:[track identifier]];
+        if (tempObjectForKey) {
+            if ([tempObjectForKey isKindOfClass:[NSMutableArray class]]) {
+                // Object for key is NSMutaleArray
+                for (id<SEReceiverDelegate> output in tempObjectForKey) {
+                    [output receiveMessage:message];
+                }
+            }
+            else {
+                // Object for key is just a single output
+                [tempObjectForKey receiveMessage:message];
+            }
+        }
+        
+        return YES;
+    }
+    return NO;
 }
 
-#pragma mark SESystemTimerHandler Protocol Methods
-- (void) receiveTick:(uint64_t)tick {
+#pragma mark SESystemTimerDelegate Protocol Methods
+- (void) receiveTick:(uint64_t)tick
+{
+    // Check for 1/4 click
     if (!!tick%960) {
         NSLog(@"Quarter %llu Received!",tick/960);
     }
+    // Check for nearest event
+    if (tick>=self.privateExpectedTick) {
+        self.privateExpectedTick = (unsigned long)tick;
+        [self processExpectedTick];
+    }
+    
 }
 
+#pragma mark Private Methods
 
+/* Process all streams with
+ */
+
+- (void) processExpectedTick
+{
+    SESequencerMessage *__weak trackCurrentMessage = nil;
+    SESequencerTrack *__weak track = nil;
+    for (id<NSCopying> identifier in self.privateMutableTracks) {
+        track = [self.privateMutableTracks objectForKey:identifier];
+        trackCurrentMessage = [track currentMessage];
+        if ([trackCurrentMessage PPQNTimeStamp]<=self.privateExpectedTick) {
+            if (![[self.privateMutableInputs objectForKey:identifier]isMuted]) {
+                [[self.privateMutableOutputs objectForKey:identifier]
+                    receiveMessage:trackCurrentMessage];
+            }
+        [track goToNextMessage];
+        }
+    }
+    self.privateExpectedTick = [self tickForNearestEvent];
+}
+
+/* Find one nearest Event time (in ticks) in all streams. 
+ * Return PPQN-value of nearest Event. 
+ */
+- (unsigned long) tickForNearestEvent
+{
+    unsigned long tickForNearestEvent = UINT32_MAX;
+    // Process 0 tick (begin playing)
+    if (self.privateExpectedTick == 0) {
+        for (id<NSCopying> identifier in self.privateMutableTracks) {
+            [[self.privateMutableTracks objectForKey:identifier]
+                setCurrentMessageCounter:@(0)];
+        }
+    }
+    // Find nearest event
+    for (id<NSCopying> identifier in self.privateMutableTracks) {
+        unsigned long tempTick = [[[self.privateMutableTracks objectForKey:identifier]
+            currentMessage]PPQNTimeStamp];
+        if (tempTick<tickForNearestEvent) {
+            tickForNearestEvent = tempTick;
+        }
+    }
+    return tickForNearestEvent;
+}
 
 @end

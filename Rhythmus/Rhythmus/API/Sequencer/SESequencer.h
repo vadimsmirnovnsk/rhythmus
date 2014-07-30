@@ -1,58 +1,50 @@
 //
 //  SESequencer.h
-//  TestSingleViewApp
+//  Rhythmus_new
 //
-//  Created by Wadim on 7/25/14.
+//  Created by Wadim on 7/29/14.
 //  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
 //
 
-/* SESequencer is class that realised model of real SMPTE sequencer with constant PPQN.
- * Logic of simple using this sequencer:
- * 1. Create streams [with events], for objects-sources of new events, and objects-receivers of events.
- * 2. Object source creates new events and send this events to sequencer.
- * 3. Sequencer save this events to streams with timestamps in Recording mode or just resend to receiver<?>.
- */
-
 #import <Foundation/Foundation.h>
-#import "SEStreamHandler.h"
-#import "SESequencerStream.h"
-#import "SESystemTimerHandler.h"
+#import "SESystemTimerDelegate.h"
+#import "SESequencerTrack.h"
+#import "SEReceiverDelegate.h"
+#import "SESequencerInput.h"
+#import "SEInputDelegate.h"
 
-@interface SESequencer : NSObject <SESystemTimerHandler>
+@interface SESequencer : NSObject <SESystemTimerDelegate, SEInputDelegate>
 
-@property (nonatomic, readonly) BOOL isRecording;
+@property (nonatomic, readonly, getter = isRecording) BOOL recording;
 @property (nonatomic, strong) NSNumber *tempo;
-@property (nonatomic, readonly, getter = streamsCount) NSNumber *streamsCount;
+@property (nonatomic, readonly) NSNumber *tracksCount;
+@property (nonatomic, readonly) NSArray *trackNames;
 
 #pragma mark -
-#pragma mark Streams Methods
+#pragma mark Track Methods
+// Creating tracks methods
+- (void) addExistingTrack:(SESequencerTrack *)track;
 
-// Creating streams methods
-- (NSNumber*) createStreamWithSource:(id<SEStreamHandler>)source andDestination:(id<SEStreamHandler>)destination;
-- (NSNumber*) createStreamWithStream:(SESequencerStream *)stream;
+// Removing tracks methods
+- (BOOL) removeTrackWithIdentifier:(NSString *)identifier;
+- (void) removeAllTracks;
 
-// Removing streams methods
-- (BOOL) removeStreamNumber:(NSNumber *)/* With Int*/streamNumber;
-- (void) removeAllStreams;
+// Info tracks methods
+- (NSArray *)trackIdentifiers;
 
-// Info streams methods
-- (id<SEStreamHandler>) sourceForStreamNumber:(NSNumber *)/* With Int*/streamNumber;
-- (id<SEStreamHandler>) destinationForStreamNumber:(NSNumber *)/* With Int*/streamNumber;
-
-// Redacting front-end point and back-end point for streams methods
-- (BOOL) registerDestination:(id<SEStreamHandler>)destination forStreamNumber:(NSNumber *)/* With Int*/streamNumber;
-- (BOOL) registerSource:(id<SEStreamHandler>)source forStreamNumber:(NSNumber *)/* With Int*/streamNumber;
-
-#pragma mark Pipe Methods
-
-- (BOOL) receiveTriggerEventForStreamNumber:(NSNumber *)/* With Int*/streamNumber;
+// Registering inputs and outputs methods
+- (void) registerInput:(SESequencerInput *)input
+    forTrackWithIdentifier:(NSString *)identifier;
+    
+- (void) registerOutput:(id<SEReceiverDelegate>)output
+    forTrackWithIdentifier:(NSString *)identifier;
 
 #pragma mark Playback Methods
-
 - (BOOL) startRecording;
 - (void) stopRecording;
 - (void) playAllStreams;
 - (void) stop;
 - (void) pause;
+
 
 @end

@@ -1,25 +1,22 @@
 //
 //  SESystemTimer.h
-//  TestSingleViewApp
+//  Rhythmus_new
 //
-//  Created by Wadim on 7/27/14.
+//  Created by Wadim on 7/29/14.
 //  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
 //
 
-/* System Timer Class
- * Create in High Priority Queue task and returns fine sync pulses.
- */
-
 #import <Foundation/Foundation.h>
-#import "SESystemTimerHandler.h"
+#import "SESystemTimerDelegate.h"
 
 @interface SESystemTimer : NSObject
 
-@property (atomic, readwrite) BOOL isClocking;
+@property (nonatomic, getter = isClocking) BOOL clocking;
 @property (nonatomic, readonly) unsigned int period;
-@property (nonatomic, weak) id<SESystemTimerHandler> handler;
+@property (nonatomic, weak) id<SESystemTimerDelegate> delegate;
 
-- (void) startWithPulsePeriod:(unsigned long)usecPeriod callbackObject:(id<SESystemTimerHandler>)receiver;
+- (void) startWithPulsePeriod:(unsigned long)usecPeriod withDelegate:
+    (id<SESystemTimerDelegate>)delegate;
 - (BOOL) start; // With current options
 - (void) stop;
 

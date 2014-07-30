@@ -8,6 +8,12 @@
 
 #import "SEAppDelegate.h"
 
+@interface SEAppDelegate ()
+
+@property (nonatomic, strong) UITabBarController *rootTapBarController;
+
+@end
+
 @implementation SEAppDelegate
 
 @synthesize managedObjectContext = _managedObjectContext;
