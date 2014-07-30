@@ -29,11 +29,17 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 // Private interface section
 @interface SESequencer ()
 
+// CR: The 'private' is redundant.
 @property (nonatomic, strong) NSMutableDictionary *privateMutableTracks;
+// CR: Same thing here.
 @property (nonatomic, strong) NSMutableDictionary *privateMutableOutputs;
+// CR: ... and here.
 @property (nonatomic, strong) NSMutableDictionary *privateMutableInputs;
+// CR: ... and here.
 @property (nonatomic, strong) NSDate *privateStartRecordingDate;
+// CR: ... and here.
 @property (nonatomic, strong) SESystemTimer *privateSystemTimer;
+// CR: ... and here.
 @property (nonatomic, readwrite) unsigned long privateExpectedTick;
 
 - (void) processExpectedTick;
@@ -111,10 +117,18 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
     SESequencerTrack *track = [self.privateMutableTracks objectForKey:identifier];
     if (!track) {
         [self.privateMutableTracks setObject:
+         // CR: Never ever do such a thing again. Replace the nested calls with
+         //     the lines given below.
+         //
+         //     track = [[SESequencerTrack alloc]initWithidentifier:identifier];
+         //     [self.privateMutableTracks setObject:track forKey:identifier];
+         //
             track = [[SESequencerTrack alloc]initWithidentifier:identifier] forKey:identifier];
     }
     input.delegate = self;
     input.track = track;
+
+    // CR: None of the sequencers should know about any inputs.
     [self.privateMutableInputs setObject:input forKey:identifier];
 }
 
@@ -122,6 +136,9 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 - (void) registerOutput:(id<SEReceiverDelegate>)output
     forTrackWithIdentifier:(NSString *)identifier
 {
+    // CR:  None of the equesncers should know about outputs.
+    //      IMHO, a track may have a weak pointer to an output.
+    //      How do you think?
     [self.privateMutableOutputs setObject:output forKey:identifier];
 }
 
