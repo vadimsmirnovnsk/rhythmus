@@ -10,6 +10,6 @@
 
 @protocol SEReceiverDelegate <NSObject>
 
-- (BOOL) receiveMessage:(SESequencerMessage *)message;
+- (void) receiveMessage:(SESequencerMessage *)message;
 
 @end

@@ -8,6 +8,22 @@
 
 #import <Foundation/Foundation.h>
 #import "SESequencerMessage.h"
+#import "SEReceiverDelegate.h"
+
+#pragma mark - Outputs Interface
+
+@interface SESequencerOutput : NSObject
+@property (nonatomic, readonly, copy) NSString *identifier;
+
+// Designated initializer
+- (instancetype) initWithIdentifier:(NSString *)identifier;
+
+// Linking the Destination object
+- (void) linkWith:(id<SEReceiverDelegate>)receiver;
+
+@end
+
+#pragma mark - Sequencer Track Interface
 
 @interface SESequencerTrack : NSObject
 
@@ -26,5 +42,8 @@
 
 // Return array with all messages that contains in Track
 - (NSArray *) allMessages;
+
+// Register output method
+- (void) registerOutput:(SESequencerOutput *)output;
 
 @end

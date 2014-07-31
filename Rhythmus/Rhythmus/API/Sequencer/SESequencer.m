@@ -171,13 +171,20 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 }
 
 // Registering outputs method
-- (void) registerOutput:(id<SEReceiverDelegate>)output
+- (void) registerOutput:(SESequencerOutput *)output
     forTrackWithIdentifier:(NSString *)identifier
 {
     // CR:  None of the equesncers should know about outputs.
     //      IMHO, a track may have a weak pointer to an output.
     //      How do you think?
-    [self.mutableOutputs setObject:output forKey:identifier];
+    
+    // I think tha your idea with Output and linking with KVO is extremely good!)
+    SESequencerTrack *track = self.mutableTracks[identifier];
+    if (!track) {
+        track = [[SESequencerTrack alloc]initWithidentifier:identifier];
+        self.mutableTracks[identifier] = track;
+    }
+    [track registerOutput:output];
 }
 
 #pragma mark Playback Methods

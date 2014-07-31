@@ -70,7 +70,7 @@
 // CR:  I don't like the name of the method: it's too verbose.
     forTrackIdentifier:(NSString *)identifier;
     
-- (void) registerOutput:(id<SEReceiverDelegate>)output
+- (void) registerOutput:(SESequencerOutput *)output
     forTrackWithIdentifier:(NSString *)identifier;
 
 #pragma mark Playback Methods

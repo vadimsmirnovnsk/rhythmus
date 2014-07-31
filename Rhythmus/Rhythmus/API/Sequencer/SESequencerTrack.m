@@ -7,12 +7,52 @@
 //
 
 #import "SESequencerTrack.h"
+#import "SEReceiverDelegate.h"
+
+#pragma mark - Outputs Extension
+
+@interface SESequencerOutput ()
+@property (nonatomic, weak) id<SEReceiverDelegate> delegate;
+@end
+
+#pragma mark - Sequencer Track Extension
 
 @interface SESequencerTrack ()
 
 @property (nonatomic, strong) NSMutableArray *mutableMessages;
+@property (nonatomic, weak) SESequencerOutput *output;
+
+- (void) unregisterOutput;
 
 @end
+
+#pragma mark - Outputs Implementation
+
+@implementation SESequencerOutput
+
+- (instancetype) init
+{
+    return [self initWithIdentifier:nil];
+}
+
+// Designated initializer
+- (instancetype) initWithIdentifier:(NSString *)identifier
+{
+    if (self = [super init]) {
+    _identifier = identifier;
+    }
+    return self;
+}
+
+- (void) linkWith:(id<SEReceiverDelegate>)receiver
+{
+    self.delegate = receiver;
+}
+
+@end
+
+
+#pragma mark - Sequencer Track Implementation
 
 @implementation SESequencerTrack
 
@@ -23,6 +63,7 @@
         _mutableMessages = [[NSMutableArray alloc]init];
         _currentMessageCounter = @(0);
         identifier = identifier;
+        _output = nil;
     }
     return self;
 }
@@ -66,6 +107,34 @@
 - (NSArray *) allMessages
 {
     return [self.mutableMessages copy];
+}
+
+// Register output method
+- (void) registerOutput:(SESequencerOutput *)output
+{
+    self.output = output;
+    [output addObserver:self forKeyPath:@"delegate"
+        options:NSKeyValueObservingOptionNew context:nil];
+}
+
+// KVO draft method
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
+    change:(NSDictionary *)change context:(void *)context
+{
+    if ([keyPath isEqualToString:@"delegate"]) {
+        if (![self.output delegate]) {
+            [self unregisterOutput];
+        }
+    }
+}
+
+
+#pragma mark Private Methods
+
+- (void) unregisterOutput
+{
+    [self.output removeObserver:self forKeyPath:@"delegate"];
+    self.output = nil;
 }
 
 #pragma mark NSCopying Protocol Methods
