@@ -9,7 +9,6 @@
 #import "SESequencer.h"
 #import "SESystemTimer.h"
 #import "SESequencerMessage.h"
-#import "SESequencerInput.h"
 
 #define DEBUG_NSLOG
 
@@ -26,26 +25,7 @@ const float defaultPPQN = DEFAULT_PPQN_VALUE;
 const int defaultTempo = DEFAULT_TEMPO_VALUE;
 const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
-// Private interface section
-@interface SESequencer ()
-
-// CR: The 'private' is redundant.
-@property (nonatomic, strong) NSMutableDictionary *privateMutableTracks;
-// CR: Same thing here.
-@property (nonatomic, strong) NSMutableDictionary *privateMutableOutputs;
-// CR: ... and here.
-@property (nonatomic, strong) NSMutableDictionary *privateMutableInputs;
-// CR: ... and here.
-@property (nonatomic, strong) NSDate *privateStartRecordingDate;
-// CR: ... and here.
-@property (nonatomic, strong) SESystemTimer *privateSystemTimer;
-// CR: ... and here.
-@property (nonatomic, readwrite) unsigned long privateExpectedTick;
-
-- (void) processExpectedTick;
-- (unsigned long) tickForNearestEvent;
-
-@end
+#pragma mark - Inputs Extension
 
 @interface SESequencerInput ()
 
@@ -54,22 +34,80 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
 @end
 
+#pragma mark - Sequencer Extension
+
+// Private interface section
+@interface SESequencer () <SESystemTimerDelegate, SEInputDelegate>
+
+// CR:Fixed The 'private' is redundant. Fixed.
+@property (nonatomic, strong) NSMutableDictionary *mutableTracks;
+// CR:Fixed Same thing here. Fixed.
+@property (nonatomic, strong) NSMutableDictionary *mutableOutputs;
+// CR:Fixed ... and here. Fixed.
+@property (nonatomic, strong) NSMutableDictionary *mutableInputs;
+// CR:Fixed ... and here. Fixed.
+@property (nonatomic, strong) NSDate *startRecordingDate;
+// CR:Fixed ... and here. Fixed.
+@property (nonatomic, strong) SESystemTimer *systemTimer;
+// CR:Fixed ... and here. Fixed.
+@property (nonatomic, readwrite) unsigned long expectedTick;
+
+- (void) processExpectedTick;
+- (unsigned long) tickForNearestEvent;
+
+@end
+
+
+#pragma mark - Inputs Implementation
+
+@implementation SESequencerInput
+
+#pragma mark Inits
+
+- (instancetype) init
+{
+    return [self initWithIdentifier:nil];
+}
+
+// Designated initializer
+- (instancetype) initWithIdentifier:(NSString *)identifier
+{
+    if (self = [super init]) {
+    _identifier = identifier;
+    }
+    return self;
+}
+
+#pragma mark Generate Messages Methods
+- (void) generateMessage
+{
+    [self.delegate receiveMessage:[SESequencerMessage defaultMessage] forTrack:self.track];
+}
+
+- (void)generateMessageWithParameters:(NSDictionary *)parameters
+{
+    
+}
+
+@end
+
+
+#pragma mark - Sequencer Implementation
 
 @implementation SESequencer
 
-#pragma mark -
 #pragma mark Inits
 - (id) init
 {
     if (self = [super init]) {
-        _privateMutableTracks = [[NSMutableDictionary alloc]init];
-        _privateMutableOutputs = [[NSMutableDictionary alloc]init];
-        _privateMutableInputs = [[NSMutableDictionary alloc]init];
-        _privateStartRecordingDate = nil;
+        _mutableTracks = [[NSMutableDictionary alloc]init];
+        _mutableOutputs = [[NSMutableDictionary alloc]init];
+        _mutableInputs = [[NSMutableDictionary alloc]init];
+        _startRecordingDate = nil;
         _recording = NO;
         _tempo = @(defaultTempo);
-        _privateSystemTimer = [[SESystemTimer alloc]init];
-        _privateExpectedTick = 0;
+        _systemTimer = [[SESystemTimer alloc]init];
+        _expectedTick = 0;
     }
     return self;
 }
@@ -81,15 +119,15 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 - (void) addExistingTrack:(SESequencerTrack *)track
 {
     if ([track identifier]) {
-        [self.privateMutableTracks setObject:track forKey:[track identifier]];
+        [self.mutableTracks setObject:track forKey:[track identifier]];
     }
 }
 
 // Removing tracks methods
 - (BOOL) removeTrackWithIdentifier:(NSString *)identifier
 {
-    if ([self.privateMutableTracks objectForKey:identifier]) {
-        [self.privateMutableTracks removeObjectForKey:identifier];
+    if ([self.mutableTracks objectForKey:identifier]) {
+        [self.mutableTracks removeObjectForKey:identifier];
         return YES;
     }
     return NO;
@@ -97,14 +135,14 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
 - (void) removeAllTracks
 {
-    [self.privateMutableTracks removeAllObjects];
+    [self.mutableTracks removeAllObjects];
 }
 
 // Returns identifiers for all tracks that contained in Sequencer
 - (NSArray *)trackIdentifiers
 {
     NSMutableArray *trackIdentifiers = [[NSMutableArray alloc]init];
-    for (id<NSCopying> key in self.privateMutableTracks) {
+    for (id<NSCopying> key in self.mutableTracks) {
         [trackIdentifiers addObject:key];
     }
     return [NSArray arrayWithArray:trackIdentifiers];
@@ -112,24 +150,24 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
 // Registering inputs method
 - (void) registerInput:(SESequencerInput *)input
-    forTrackWithIdentifier:(NSString *)identifier
+    forTrackIdentifier:(NSString *)identifier
 {
-    SESequencerTrack *track = [self.privateMutableTracks objectForKey:identifier];
+    SESequencerTrack *track = self.mutableTracks[identifier];
     if (!track) {
-        [self.privateMutableTracks setObject:
-         // CR: Never ever do such a thing again. Replace the nested calls with
+         // CR:Fixed Never ever do such a thing again. Replace the nested calls with
          //     the lines given below.
          //
          //     track = [[SESequencerTrack alloc]initWithidentifier:identifier];
-         //     [self.privateMutableTracks setObject:track forKey:identifier];
+         //     [self.mutableTracks setObject:track forKey:identifier];
          //
-            track = [[SESequencerTrack alloc]initWithidentifier:identifier] forKey:identifier];
+         // Fixed.
+        track = [[SESequencerTrack alloc]initWithidentifier:identifier];
+        self.mutableTracks[identifier] = track;
     }
     input.delegate = self;
     input.track = track;
-
-    // CR: None of the sequencers should know about any inputs.
-    [self.privateMutableInputs setObject:input forKey:identifier];
+    // CR:Fixed None of the sequencers should know about any inputs.
+    // Fixed.
 }
 
 // Registering outputs method
@@ -139,7 +177,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
     // CR:  None of the equesncers should know about outputs.
     //      IMHO, a track may have a weak pointer to an output.
     //      How do you think?
-    [self.privateMutableOutputs setObject:output forKey:identifier];
+    [self.mutableOutputs setObject:output forKey:identifier];
 }
 
 #pragma mark Playback Methods
@@ -147,7 +185,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 - (BOOL) startRecording
 {
     _recording = YES;
-    self.privateStartRecordingDate = [NSDate date];
+    self.startRecordingDate = [NSDate date];
     return YES;
 }
 
@@ -156,14 +194,14 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 - (void) stopRecording
 {
     _recording = NO;
-    // Get raw stop timestamp for correct processing convertation to PPQN
+    // ToDo: Get raw stop timestamp for correct processing convertation to PPQN
     // for last events in every stream
     NSTimeInterval stopRecordingTimeInterval = [[NSDate date]
-        timeIntervalSinceDate:self.privateStartRecordingDate];
+        timeIntervalSinceDate:self.startRecordingDate];
     float singleQuarterPulse = (60/((float)[_tempo intValue]*defaultPPQN));
-    for (id<NSCopying> key in self.privateMutableTracks) {
+    for (id<NSCopying> key in self.mutableTracks) {
         for (SESequencerMessage *message in
-            [[self.privateMutableTracks objectForKey:key]allMessages]) {
+            [[self.mutableTracks objectForKey:key]allMessages]) {
             message.PPQNTimeStamp = (int)(message.rawTimestamp/singleQuarterPulse);
 #ifdef DEBUG_NSLOG
             NSLog(@"Raw Timestamp = %f",message.rawTimestamp);
@@ -176,9 +214,9 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 /* Play all streams, so what can else say. */
 - (void) playAllStreams
 {
-    self.privateExpectedTick = 0;
-    self.privateExpectedTick = [self tickForNearestEvent];
-    [self.privateSystemTimer startWithPulsePeriod:(long)
+    self.expectedTick = 0;
+    self.expectedTick = [self tickForNearestEvent];
+    [self.systemTimer startWithPulsePeriod:(long)
         (defaultBPMtoPPQNTickConstant/[_tempo intValue])*1000 withDelegate:self];
 #ifdef DEBUG_NSLOG
     NSLog(@"PPQN tick = %f",defaultBPMtoPPQNTickConstant/[_tempo intValue]);
@@ -187,12 +225,12 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
 - (void) stop
 {
-    [self.privateSystemTimer stop];
+    [self.systemTimer stop];
 }
 
 - (void) pause
 {
-    [self.privateSystemTimer stop];
+    [self.systemTimer stop];
 }
 
 
@@ -204,14 +242,14 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
     if (!!track) {
         if (message == nil) {
             message = [[SESequencerMessage alloc]initWithRawTimestamp:[[NSDate date]
-            timeIntervalSinceDate:self.privateStartRecordingDate]];
+            timeIntervalSinceDate:self.startRecordingDate]];
         }
         // Write event to stream in Recording mode
         if (_recording) {
             [track addMessage:message];
         }
         // Send to output
-        id __weak tempObjectForKey = [self.privateMutableOutputs objectForKey:[track identifier]];
+        id __weak tempObjectForKey = [self.mutableOutputs objectForKey:[track identifier]];
         if (tempObjectForKey) {
             if ([tempObjectForKey isKindOfClass:[NSMutableArray class]]) {
                 // Object for key is NSMutaleArray
@@ -238,8 +276,8 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
         NSLog(@"Quarter %llu Received!",tick/960);
     }
     // Check for nearest event
-    if (tick>=self.privateExpectedTick) {
-        self.privateExpectedTick = (unsigned long)tick;
+    if (tick>=self.expectedTick) {
+        self.expectedTick = (unsigned long)tick;
         [self processExpectedTick];
     }
     
@@ -254,18 +292,18 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 {
     SESequencerMessage *__weak trackCurrentMessage = nil;
     SESequencerTrack *__weak track = nil;
-    for (id<NSCopying> identifier in self.privateMutableTracks) {
-        track = [self.privateMutableTracks objectForKey:identifier];
+    for (id<NSCopying> identifier in self.mutableTracks) {
+        track = [self.mutableTracks objectForKey:identifier];
         trackCurrentMessage = [track currentMessage];
-        if ([trackCurrentMessage PPQNTimeStamp]<=self.privateExpectedTick) {
-            if (![[self.privateMutableInputs objectForKey:identifier]isMuted]) {
-                [[self.privateMutableOutputs objectForKey:identifier]
+        if ([trackCurrentMessage PPQNTimeStamp]<=self.expectedTick) {
+            if (![[self.mutableInputs objectForKey:identifier]isMuted]) {
+                [[self.mutableOutputs objectForKey:identifier]
                     receiveMessage:trackCurrentMessage];
             }
         [track goToNextMessage];
         }
     }
-    self.privateExpectedTick = [self tickForNearestEvent];
+    self.expectedTick = [self tickForNearestEvent];
 }
 
 /* Find one nearest Event time (in ticks) in all streams. 
@@ -275,15 +313,15 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 {
     unsigned long tickForNearestEvent = UINT32_MAX;
     // Process 0 tick (begin playing)
-    if (self.privateExpectedTick == 0) {
-        for (id<NSCopying> identifier in self.privateMutableTracks) {
-            [[self.privateMutableTracks objectForKey:identifier]
+    if (self.expectedTick == 0) {
+        for (id<NSCopying> identifier in self.mutableTracks) {
+            [[self.mutableTracks objectForKey:identifier]
                 setCurrentMessageCounter:@(0)];
         }
     }
     // Find nearest event
-    for (id<NSCopying> identifier in self.privateMutableTracks) {
-        unsigned long tempTick = [[[self.privateMutableTracks objectForKey:identifier]
+    for (id<NSCopying> identifier in self.mutableTracks) {
+        unsigned long tempTick = [[[self.mutableTracks objectForKey:identifier]
             currentMessage]PPQNTimeStamp];
         if (tempTick<tickForNearestEvent) {
             tickForNearestEvent = tempTick;

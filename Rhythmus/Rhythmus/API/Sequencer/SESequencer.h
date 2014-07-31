@@ -10,26 +10,42 @@
 #import "SESystemTimerDelegate.h"
 #import "SESequencerTrack.h"
 #import "SEReceiverDelegate.h"
-#import "SESequencerInput.h"
 #import "SEInputDelegate.h"
 
-// CR:  I regret to say the class looks like a mess to me.
+#pragma mark - Inputs Interface
+@interface SESequencerInput : NSObject
+@property (nonatomic, readonly, copy) NSString *identifier;
+@property (nonatomic, readwrite, getter = isMuted) BOOL mute;
+
+// Designated initializer
+- (instancetype) initWithIdentifier:(NSString *)identifier;
+
+// Generate messages methods
+- (void) generateMessage;
+- (void) generateMessageWithParameters:(NSDictionary *)parameters;
+
+@end
+
+// CR:Fixed  I regret to say the class looks like a mess to me.
 //      Why have you ignored my suggestion to use a dedicated branch?
 //      It's really hard to review the source code.
 //      It's also not a good practice to implement everything in one trip.
 //      I guess we need to discuss it once again.
 
+
+#pragma mark - Sequencer Interface
 @interface SESequencer : NSObject
-// CR: Are you sure these protocols have to be public? I doubt.
-    <SESystemTimerDelegate, SEInputDelegate>
+// CR:Fixed Are you sure these protocols have to be public? I doubt.
+//
+    
 
 @property (nonatomic, readonly, getter = isRecording) BOOL recording;
 @property (nonatomic, strong) NSNumber *tempo;
 
-// CR:  Why do you use an NSNumber?
-@property (nonatomic, readonly) NSNumber *tracksCount;
-// CR:  What for do you need this?
-@property (nonatomic, readonly) NSArray *trackNames;
+// CR:Fixed  Why do you use an NSNumber?
+// Fixed with [- trackIdentifiers method].
+// CR:Fixed  What for do you need this?
+// Fixed with [- trackIdentifiers method].
 
 #pragma mark -
 #pragma mark Track Methods
@@ -52,7 +68,7 @@
 // Registering inputs and outputs methods
 - (void) registerInput:(SESequencerInput *)input
 // CR:  I don't like the name of the method: it's too verbose.
-    forTrackWithIdentifier:(NSString *)identifier;
+    forTrackIdentifier:(NSString *)identifier;
     
 - (void) registerOutput:(id<SEReceiverDelegate>)output
     forTrackWithIdentifier:(NSString *)identifier;
