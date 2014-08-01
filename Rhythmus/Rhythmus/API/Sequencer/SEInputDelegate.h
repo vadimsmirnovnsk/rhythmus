@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+// CR:  This protocol has to be private; define it within the SESequencer.m
 @protocol SEInputDelegate <NSObject>
 
 - (BOOL) receiveMessage:(SESequencerMessage *)message forTrack:(SESequencerTrack *)track;

@@ -15,6 +15,7 @@
 #pragma mark - Inputs Interface
 @interface SESequencerInput : NSObject
 @property (nonatomic, readonly, copy) NSString *identifier;
+// CR:  Please rename isMuted to isMute; follow the trend!
 @property (nonatomic, readwrite, getter = isMuted) BOOL mute;
 
 // Designated initializer
@@ -26,26 +27,12 @@
 
 @end
 
-// CR:Fixed  I regret to say the class looks like a mess to me.
-//      Why have you ignored my suggestion to use a dedicated branch?
-//      It's really hard to review the source code.
-//      It's also not a good practice to implement everything in one trip.
-//      I guess we need to discuss it once again.
-
-
 #pragma mark - Sequencer Interface
 @interface SESequencer : NSObject
-// CR:Fixed Are you sure these protocols have to be public? I doubt.
-//
-    
 
 @property (nonatomic, readonly, getter = isRecording) BOOL recording;
+// CR: Why do you use an NSNumber?
 @property (nonatomic, strong) NSNumber *tempo;
-
-// CR:Fixed  Why do you use an NSNumber?
-// Fixed with [- trackIdentifiers method].
-// CR:Fixed  What for do you need this?
-// Fixed with [- trackIdentifiers method].
 
 #pragma mark -
 #pragma mark Track Methods
@@ -67,10 +54,11 @@
 
 // Registering inputs and outputs methods
 - (void) registerInput:(SESequencerInput *)input
-// CR:  I don't like the name of the method: it's too verbose.
     forTrackIdentifier:(NSString *)identifier;
     
 - (void) registerOutput:(SESequencerOutput *)output
+// CR:  I don't like the name of the method: it's too verbose.
+//      At least remove 'with'.
     forTrackWithIdentifier:(NSString *)identifier;
 
 #pragma mark Playback Methods
