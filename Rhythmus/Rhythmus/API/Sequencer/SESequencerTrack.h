@@ -28,14 +28,15 @@
 @interface SESequencerTrack : NSObject
 
 @property (nonatomic, copy) NSString *identifier;
-@property (nonatomic, weak) SESequencerMessage *currentMessage;
-@property (nonatomic, strong) NSNumber *currentMessageCounter;
+@property (nonatomic, weak, readonly) SESequencerMessage *currentMessage;
+@property (nonatomic, readwrite) NSInteger currentMessageCounter;
 
 // Designated initializer
 - (instancetype) initWithidentifier: (NSString *)identifier;
 
 // Messages methods
 - (void) addMessage:(SESequencerMessage *)message;
+- (void) sendToOutput:(SESequencerMessage *)message;
 - (void) removeCurrentMessage;
 - (BOOL) removeMessagesAtIndexes:(NSIndexSet *)indexSet;
 - (void) goToNextMessage;

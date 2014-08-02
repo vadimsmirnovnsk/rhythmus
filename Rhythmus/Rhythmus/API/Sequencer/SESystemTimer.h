@@ -19,5 +19,6 @@
     (id<SESystemTimerDelegate>)delegate;
 - (BOOL) start; // With current options
 - (void) stop;
+- (void) reset;
 
 @end

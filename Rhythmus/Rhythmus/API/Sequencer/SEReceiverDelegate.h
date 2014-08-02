@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+@class SESequencerMessage;
 
 @protocol SEReceiverDelegate <NSObject>
 

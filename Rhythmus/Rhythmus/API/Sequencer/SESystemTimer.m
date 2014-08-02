@@ -9,6 +9,12 @@
 #import "SESystemTimer.h"
 #import <mach/mach_time.h>
 
+@interface SESystemTimer ()
+
+@property (nonatomic, readwrite) BOOL isReset;
+
+@end
+
 @implementation SESystemTimer
 
 // Designated initializer
@@ -38,7 +44,11 @@
     id <SESystemTimerDelegate> __weak receiverReference = delegate;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         while (_clocking && receiverReference) {
-            usleep(usecPeriod);
+            if (self.isReset) {
+                self.isReset = NO;
+                tick = 0;
+            }
+            usleep(usecPeriod/1000);
             currentTime = mach_absolute_time();
             tick = (currentTime - beginTime)*timebase.numer / timebase.denom / usecPeriod;
             // Return counted ticks to main thread
@@ -61,6 +71,11 @@
 - (void) stop
 {
     _clocking = NO;
+}
+
+- (void) reset
+{
+    self.isReset = YES;
 }
 
 

@@ -40,6 +40,7 @@
     
 
 @property (nonatomic, readonly, getter = isRecording) BOOL recording;
+@property (nonatomic, readonly, getter = isPlaying) BOOL playing;
 @property (nonatomic, strong) NSNumber *tempo;
 
 // CR:Fixed  Why do you use an NSNumber?

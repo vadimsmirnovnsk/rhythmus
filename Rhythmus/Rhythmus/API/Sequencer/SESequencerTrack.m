@@ -61,7 +61,7 @@
 {
     if (self=[super init]) {
         _mutableMessages = [[NSMutableArray alloc]init];
-        _currentMessageCounter = @(0);
+        _currentMessageCounter = 0;
         identifier = identifier;
         _output = nil;
     }
@@ -74,11 +74,20 @@
     [self.mutableMessages addObject:message];
 }
 
+- (SESequencerMessage *)currentMessage {
+    return self.mutableMessages[self.currentMessageCounter];
+}
+
+- (void) sendToOutput:(SESequencerMessage *)message
+{
+    [self.output.delegate receiveMessage:message];
+}
+
 - (void) removeCurrentMessage
 {
     if ((!!_currentMessageCounter) &&
-        ([_currentMessageCounter intValue]<=[self.mutableMessages count])) {
-        [self.mutableMessages removeObjectAtIndex:[_currentMessageCounter intValue]];
+        (_currentMessageCounter<=[self.mutableMessages count])) {
+        [self.mutableMessages removeObjectAtIndex:_currentMessageCounter];
     }
 }
 
@@ -95,11 +104,11 @@
 /* Move counter to the next Event or loop to 0. */
 - (void) goToNextMessage
 {
-    if ([_currentMessageCounter intValue]<[self.mutableMessages count]-1) {
-        _currentMessageCounter = @([_currentMessageCounter intValue]+1);
+    if (self.currentMessageCounter<[self.mutableMessages count]-1) {
+        self.currentMessageCounter = self.currentMessageCounter + 1;
     }
     else {
-    _currentMessageCounter = @(0);
+        self.currentMessageCounter = 0;
     }
 }
 
