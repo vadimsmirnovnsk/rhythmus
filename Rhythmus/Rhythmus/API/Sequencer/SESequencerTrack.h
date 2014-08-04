@@ -42,6 +42,7 @@
 - (void) sendToOutput:(SESequencerMessage *)message;
 - (void) removeCurrentMessage;
 - (BOOL) removeMessagesAtIndexes:(NSIndexSet *)indexSet;
+- (void) removeAllMessages;
 - (void) goToNextMessage;
 
 // Return array with all messages that contains in Track
@@ -53,5 +54,8 @@
 // Quantize to PPQN pulses
 - (void) quantizeWithPPQNPulseDuration:(float)singleQuarterPulse
     stopTimeInterval:(NSTimeInterval)stopTimeInterval;
+
+// Playhead methods
+- (void) resetPlayhead;
 
 @end

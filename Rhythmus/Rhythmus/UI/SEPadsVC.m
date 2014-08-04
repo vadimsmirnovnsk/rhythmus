@@ -16,6 +16,11 @@
 @property (nonatomic, strong) SESequencerInput *input0;
 @property (nonatomic, strong) SESequencerOutput *output0;
 @property (nonatomic, strong) SESamplePlayer *samplePlayer;
+@property (nonatomic, strong) SESequencerInput *input1;
+@property (nonatomic, strong) SESequencerOutput *output1;
+@property (nonatomic, strong) SESamplePlayer *samplePlayer1;
+
+@property (nonatomic, strong) IBOutlet UILabel *tempoLabel;
 
 @end
 
@@ -33,11 +38,23 @@
         self.output0 = [[SESequencerOutput alloc]initWithIdentifier:self.input0.identifier];
         [self.sequencer registerOutput:self.output0
             forTrackWithIdentifier:self.output0.identifier];
+        
+        self.input1 = [[SESequencerInput alloc]initWithIdentifier:@"1"];
+        [self.sequencer registerInput:self.input1 forTrackIdentifier:self.input1.identifier];
+        self.output1 = [[SESequencerOutput alloc]initWithIdentifier:self.input1.identifier];
+        [self.sequencer registerOutput:self.output1
+            forTrackWithIdentifier:self.output1.identifier];
+        
         // Create the Sample Player and connect it to output 0
         NSString *samplePath = [[NSBundle mainBundle]pathForResource:@"snare" ofType:@"aif"];
         NSURL *sampleURL = [NSURL fileURLWithPath:samplePath];
         self.samplePlayer = [SEAudioController playerWithSample:sampleURL];
         [self.output0 linkWithReceiver:self.samplePlayer];
+        
+        samplePath = [[NSBundle mainBundle]pathForResource:@"clap" ofType:@"aif"];
+        sampleURL = [NSURL fileURLWithPath:samplePath];
+        self.samplePlayer1 = [SEAudioController playerWithSample:sampleURL];
+        [self.output1 linkWithReceiver:self.samplePlayer1];
     }
     return self;
 }
@@ -45,6 +62,23 @@
 - (IBAction)pad0:(id)sender
 {
     [self.input0 generateMessage];
+}
+
+- (IBAction)pad1:(id)sender
+{
+    [self.input1 generateMessage];
+}
+
+- (IBAction)tempoMinus:(id)sender
+{
+    self.sequencer.tempo = self.sequencer.tempo - 10;
+    self.tempoLabel.text = [NSString stringWithFormat:@"%i", self.sequencer.tempo];
+}
+
+- (IBAction)tempoPlus:(id)sender
+{
+    self.sequencer.tempo = self.sequencer.tempo + 10;
+    self.tempoLabel.text = [NSString stringWithFormat:@"%i", self.sequencer.tempo];
 }
 
 - (IBAction)record:(id)sender
@@ -71,6 +105,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.tempoLabel.text = [NSString stringWithFormat:@"Tempo: %i bpm",self.sequencer.tempo];
 }
 
 - (void)didReceiveMemoryWarning

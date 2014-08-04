@@ -16,7 +16,7 @@
 #define DEFAULT_TEMPO_VALUE 100;
 
 /* Set default PPQN */
-#define DEFAULT_PPQN_VALUE 960.0;
+#define DEFAULT_PPQN_VALUE 96.0;
 
 /* Constant for convertion BPM to single PPQN time in usec */
 #define BPM_TO_PPQN_TICK_CONSTANT 60000000.0/DEFAULT_PPQN_VALUE;
@@ -92,8 +92,6 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 {
     if (self = [super init]) {
         _mutableTracks = [[NSMutableDictionary alloc]init];
-//        _mutableOutputs = [[NSMutableDictionary alloc]init];
-//        _mutableInputs = [[NSMutableDictionary alloc]init];
         _startRecordingDate = nil;
         _recording = NO;
         _playing = NO;
@@ -120,13 +118,8 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 // Removing tracks methods
 - (BOOL) removeTrackWithIdentifier:(NSString *)identifier
 {
-    // CR:  The implementation is overcomplicated. I'd expect to see
-    //          [self.mutableTracks setValue:nil forKey:identifier];
-    if ([self.mutableTracks objectForKey:identifier]) {
-        [self.mutableTracks removeObjectForKey:identifier];
-        return YES;
-    }
-    return NO;
+    [self.mutableTracks setValue:nil forKey:identifier];
+    return YES;
 }
 
 - (void) removeAllTracks
@@ -137,12 +130,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 // Returns identifiers for all tracks that contained in Sequencer
 - (NSArray *)trackIdentifiers
 {
-    // CR:  Why don't you return [self.mutableTracks allKeys]?
-    NSMutableArray *trackIdentifiers = [[NSMutableArray alloc]init];
-    for (id<NSCopying> key in self.mutableTracks) {
-        [trackIdentifiers addObject:key];
-    }
-    return [NSArray arrayWithArray:trackIdentifiers];
+    return [self.mutableTracks allKeys];
 }
 
 // Registering inputs method
@@ -174,6 +162,11 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
 - (BOOL) startRecording
 {
+    SESequencerTrack *track = nil;
+    for (id<NSCopying> key in self.mutableTracks) {
+        track = self.mutableTracks[key];
+        [track removeAllMessages];
+    }
     _recording = YES;
     self.startRecordingDate = [NSDate date];
     return YES;
@@ -184,8 +177,6 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 - (void) stopRecording
 {
     _recording = NO;
-    // ToDo: Get raw stop timestamp for correct processing convertation to PPQN
-    // for last events in every stream
     SESequencerTrack *track = nil;
     NSTimeInterval stopRecordingTimeInterval = [[NSDate date]
         timeIntervalSinceDate:self.startRecordingDate];
@@ -218,7 +209,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
     SESequencerTrack *track = nil;
     for (id<NSCopying> identifier in self.mutableTracks) {
         track = [self.mutableTracks objectForKey:identifier];
-        track.playHeadPosition = 0;
+        [track resetPlayhead];
     }
 }
 
@@ -294,13 +285,6 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 - (unsigned long) tickForNearestEvent
 {
     unsigned long tickForNearestEvent = UINT32_MAX;
-    // Process 0 tick (begin playing)
-    if (self.expectedTick == 0) {
-        for (id<NSCopying> identifier in self.mutableTracks) {
-            [[self.mutableTracks objectForKey:identifier]
-                setCurrentMessageCounter:0];
-        }
-    }
     // Find nearest event
     for (id<NSCopying> identifier in self.mutableTracks) {
         unsigned long tempTick = [[self.mutableTracks objectForKey:identifier]playHeadPosition];

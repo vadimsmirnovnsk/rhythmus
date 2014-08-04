@@ -24,7 +24,7 @@ typedef enum {
 @property (nonatomic, readwrite) MessageType type;
 @property (nonatomic, strong) NSData /*with raw MIDI message data*/ *data;
 @property (nonatomic, readwrite) unsigned long PPQNTimeStamp;
-@property (nonatomic, readwrite) NSInteger initialDuration; // Non-quantized duration - in PPQN.
+@property (nonatomic, readwrite) NSInteger initialDuration; // Non-music-quantized duration - in PPQN.
 @property (nonatomic, readwrite) NSTimeInterval rawTimestamp;
 
 #pragma mark Class Methods

@@ -15,8 +15,7 @@
 #pragma mark - Inputs Interface
 @interface SESequencerInput : NSObject
 @property (nonatomic, readonly, copy) NSString *identifier;
-// CR:  Please rename isMuted to isMute; follow the trend!
-@property (nonatomic, readwrite, getter = isMuted) BOOL mute;
+@property (nonatomic, readwrite, getter = isMute) BOOL mute;
 
 // Designated initializer
 - (instancetype) initWithIdentifier:(NSString *)identifier;
@@ -32,7 +31,6 @@
 
 @property (nonatomic, readonly, getter = isRecording) BOOL recording;
 @property (nonatomic, readonly, getter = isPlaying) BOOL playing;
-// CR: Why do you use an NSNumber?
 @property (nonatomic, readwrite) NSInteger tempo;
 
 #pragma mark -

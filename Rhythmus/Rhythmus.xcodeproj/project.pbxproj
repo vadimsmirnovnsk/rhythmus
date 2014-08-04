@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE6F973D198FE9FA009CED03 /* clap.aif in Resources */ = {isa = PBXBuildFile; fileRef = CE6F973C198FE9FA009CED03 /* clap.aif */; };
 		CEA991CA198640F200CAB5AC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991C9198640F200CAB5AC /* Foundation.framework */; };
 		CEA991CC198640F200CAB5AC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991CB198640F200CAB5AC /* CoreGraphics.framework */; };
 		CEA991CE198640F200CAB5AC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991CD198640F200CAB5AC /* UIKit.framework */; };
@@ -56,6 +57,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE6F973C198FE9FA009CED03 /* clap.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = clap.aif; path = Sounds/clap.aif; sourceTree = "<group>"; };
 		CEA991C6198640F200CAB5AC /* Rhythmus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rhythmus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA991C9198640F200CAB5AC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEA991CB198640F200CAB5AC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -273,6 +275,7 @@
 		CEE0A48D198CEB8E00232745 /* App Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				CE6F973C198FE9FA009CED03 /* clap.aif */,
 				CEE76637198CF516002A3E93 /* snare.aif */,
 			);
 			name = "App Sounds";
@@ -373,6 +376,7 @@
 				CEE7663F198CF7E2002A3E93 /* tapBarBackground.png in Resources */,
 				CEE76638198CF516002A3E93 /* snare.aif in Resources */,
 				CEE7662E198CF499002A3E93 /* fileCabinet.png in Resources */,
+				CE6F973D198FE9FA009CED03 /* clap.aif in Resources */,
 				CEE7664D198CFE30002A3E93 /* SEPadsVC.xib in Resources */,
 				CEA991D6198640F200CAB5AC /* InfoPlist.strings in Resources */,
 				CEE76640198CF7E2002A3E93 /* tapBarBackground@2x.png in Resources */,

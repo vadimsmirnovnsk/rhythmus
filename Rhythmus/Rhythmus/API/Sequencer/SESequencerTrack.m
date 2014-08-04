@@ -102,6 +102,11 @@
     return NO;
 }
 
+- (void)removeAllMessages
+{
+    [self.mutableMessages removeAllObjects];
+}
+
 /* Move counter to the next Event or loop to 0. */
 - (void) goToNextMessage
 {
@@ -118,32 +123,55 @@
     stopTimeInterval:(NSTimeInterval)stopTimeInterval
 {
     SESequencerMessage *previousMessage = nil;
+    SESequencerMessage *endMessage = nil;
     for (SESequencerMessage *message in self.mutableMessages) {
         message.PPQNTimeStamp = message.rawTimestamp/singleQuarterPulse;
-        // Process first trigger-message in track and convert it to pause.
         NSInteger index = [self.mutableMessages indexOfObject:message];
+        // Process first trigger-message in track and convert it to pause.
         if (index == 0) {
             message.type = messageTypePause;
             message.initialDuration = message.rawTimestamp/singleQuarterPulse;
+            // If array contains only 1 message
+            if (index == [self.mutableMessages count]-1) {
+                // Create last message on track for duration-messages processing
+                endMessage = [SESequencerMessage defaultMessage];
+                endMessage.PPQNTimeStamp = stopTimeInterval/singleQuarterPulse;
+                endMessage.type = messageTypeSample;
+                endMessage.initialDuration = endMessage.PPQNTimeStamp - message.PPQNTimeStamp;
+            }
         }
         // Process last trigger-message
-        else if (index == [self.mutableMessages count]) {
+        else if (index == [self.mutableMessages count]-1) {
+            previousMessage = [self.mutableMessages objectAtIndex:
+                [self.mutableMessages indexOfObject:message]-1];
             message.type = messageTypeSample;
             message.initialDuration = message.PPQNTimeStamp - previousMessage.PPQNTimeStamp;
             // Create last message on track for duration-messages processing
-            SESequencerMessage *endMessage = [SESequencerMessage defaultMessage];
+            endMessage = [SESequencerMessage defaultMessage];
             endMessage.PPQNTimeStamp = stopTimeInterval/singleQuarterPulse;
             endMessage.type = messageTypeSample;
             endMessage.initialDuration = endMessage.PPQNTimeStamp - message.PPQNTimeStamp;
         }
-        // Process all within messages
+        // Process all other-within messages
         else {
             previousMessage = [self.mutableMessages objectAtIndex:
                 [self.mutableMessages indexOfObject:message]-1];
             message.type = messageTypeSample;
             message.initialDuration = message.PPQNTimeStamp - previousMessage.PPQNTimeStamp;
         }
+        NSLog(@"Message %i quantized.\nType: %i\nPPQNTimestamp: %lu\nInitialDuration:%i",
+            index, message.type, message.PPQNTimeStamp, message.initialDuration);
     }
+    if (endMessage) {
+        [self.mutableMessages addObject:endMessage];
+    }
+}
+
+// Reset track playing state
+- (void) resetPlayhead
+{
+    self.playHeadPosition = 0;
+    self.currentMessageCounter = 0;
 }
 
 // Return array with all messages that contains in Track
