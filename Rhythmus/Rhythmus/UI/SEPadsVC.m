@@ -72,13 +72,13 @@
 - (IBAction)tempoMinus:(id)sender
 {
     self.sequencer.tempo = self.sequencer.tempo - 10;
-    self.tempoLabel.text = [NSString stringWithFormat:@"%i", self.sequencer.tempo];
+    self.tempoLabel.text = [NSString stringWithFormat:@"Tempo: %i bpm", self.sequencer.tempo];
 }
 
 - (IBAction)tempoPlus:(id)sender
 {
     self.sequencer.tempo = self.sequencer.tempo + 10;
-    self.tempoLabel.text = [NSString stringWithFormat:@"%i", self.sequencer.tempo];
+    self.tempoLabel.text = [NSString stringWithFormat:@"Tempo: %i bpm", self.sequencer.tempo];
 }
 
 - (IBAction)record:(id)sender

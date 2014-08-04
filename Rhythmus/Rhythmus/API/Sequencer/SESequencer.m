@@ -191,6 +191,15 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 /* Play all streams, so what can else say. */
 - (void) playAllStreams
 {
+    // Check arrays for elements
+    SESequencerTrack *track = nil;
+    for (id<NSCopying> key in self.mutableTracks) {
+        track = self.mutableTracks[key];
+        if (![[track allMessages]count]) {
+            NSLog(@"Nothing to play in track with identifier: %@", track.identifier);
+            return;
+        }
+    }
     _playing = YES;
     self.expectedTick = 0;
     // Process start tick

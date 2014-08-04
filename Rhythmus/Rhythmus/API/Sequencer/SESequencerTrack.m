@@ -39,7 +39,7 @@
 - (instancetype) initWithIdentifier:(NSString *)identifier
 {
     if (self = [super init]) {
-    _identifier = identifier;
+    _identifier = [identifier copy];
     }
     return self;
 }
@@ -62,7 +62,7 @@
     if (self=[super init]) {
         _mutableMessages = [[NSMutableArray alloc]init];
         _currentMessageCounter = 0;
-        identifier = identifier;
+        _identifier = [identifier copy];
         _output = nil;
         _playHeadPosition = 0;
     }
