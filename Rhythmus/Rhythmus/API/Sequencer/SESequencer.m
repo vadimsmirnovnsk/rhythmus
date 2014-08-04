@@ -22,7 +22,6 @@
 #define BPM_TO_PPQN_TICK_CONSTANT 60000000.0/DEFAULT_PPQN_VALUE;
 
 const float defaultPPQN = DEFAULT_PPQN_VALUE;
-const int defaultTempo = DEFAULT_TEMPO_VALUE;
 const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
 #pragma mark - Inputs Extension
@@ -39,17 +38,9 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 // Private interface section
 @interface SESequencer () <SESystemTimerDelegate, SEInputDelegate>
 
-// CR:Fixed The 'private' is redundant. Fixed.
 @property (nonatomic, strong) NSMutableDictionary *mutableTracks;
-// CR:Fixed Same thing here. Fixed.
-// @property (nonatomic, strong) NSMutableDictionary *mutableOutputs;
-// CR:Fixed ... and here. Fixed.
-// @property (nonatomic, strong) NSMutableDictionary *mutableInputs;
-// CR:Fixed ... and here. Fixed.
 @property (nonatomic, strong) NSDate *startRecordingDate;
-// CR:Fixed ... and here. Fixed.
 @property (nonatomic, strong) SESystemTimer *systemTimer;
-// CR:Fixed ... and here. Fixed.
 @property (nonatomic, readwrite) unsigned long expectedTick;
 
 - (void) processExpectedTick;
@@ -106,7 +97,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
         _startRecordingDate = nil;
         _recording = NO;
         _playing = NO;
-        _tempo = @(defaultTempo);
+        _tempo = DEFAULT_TEMPO_VALUE;
         _systemTimer = [[SESystemTimer alloc]init];
         _expectedTick = 0;
     }
@@ -119,6 +110,8 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 // Creating streams methods
 - (void) addExistingTrack:(SESequencerTrack *)track
 {
+    // CR:  It's not a sequencer's responsibility to provide an identifier for track.
+    //      We've already discussed it.
     if ([track identifier]) {
         [self.mutableTracks setObject:track forKey:[track identifier]];
     }
@@ -127,6 +120,8 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 // Removing tracks methods
 - (BOOL) removeTrackWithIdentifier:(NSString *)identifier
 {
+    // CR:  The implementation is overcomplicated. I'd expect to see
+    //          [self.mutableTracks setValue:nil forKey:identifier];
     if ([self.mutableTracks objectForKey:identifier]) {
         [self.mutableTracks removeObjectForKey:identifier];
         return YES;
@@ -142,6 +137,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 // Returns identifiers for all tracks that contained in Sequencer
 - (NSArray *)trackIdentifiers
 {
+    // CR:  Why don't you return [self.mutableTracks allKeys]?
     NSMutableArray *trackIdentifiers = [[NSMutableArray alloc]init];
     for (id<NSCopying> key in self.mutableTracks) {
         [trackIdentifiers addObject:key];
@@ -155,31 +151,17 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 {
     SESequencerTrack *track = self.mutableTracks[identifier];
     if (!track) {
-         // CR:Fixed Never ever do such a thing again. Replace the nested calls with
-         //     the lines given below.
-         //
-         //     track = [[SESequencerTrack alloc]initWithidentifier:identifier];
-         //     [self.mutableTracks setObject:track forKey:identifier];
-         //
-         // Fixed.
         track = [[SESequencerTrack alloc]initWithidentifier:identifier];
         self.mutableTracks[identifier] = track;
     }
     input.delegate = self;
     input.track = track;
-    // CR:Fixed None of the sequencers should know about any inputs.
-    // Fixed.
 }
 
 // Registering outputs method
 - (void) registerOutput:(SESequencerOutput *)output
     forTrackWithIdentifier:(NSString *)identifier
 {
-    // CR:  None of the equesncers should know about outputs.
-    //      IMHO, a track may have a weak pointer to an output.
-    //      How do you think?
-    
-    // I think that your idea with Output and linking with KVO is extremely good!)
     SESequencerTrack *track = self.mutableTracks[identifier];
     if (!track) {
         track = [[SESequencerTrack alloc]initWithidentifier:identifier];
@@ -207,7 +189,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
     SESequencerTrack *track = nil;
     NSTimeInterval stopRecordingTimeInterval = [[NSDate date]
         timeIntervalSinceDate:self.startRecordingDate];
-    float singleQuarterPulse = (60/((float)[_tempo intValue]*defaultPPQN));
+    float singleQuarterPulse = (60/((float)_tempo*defaultPPQN));
     for (id<NSCopying> key in self.mutableTracks) {
         track = self.mutableTracks[key];
         [track quantizeWithPPQNPulseDuration:singleQuarterPulse
@@ -223,9 +205,9 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
     // Process start tick
     [self processExpectedTick];
     [self.systemTimer startWithPulsePeriod:(long)
-        (defaultBPMtoPPQNTickConstant/[_tempo intValue])*1000 withDelegate:self];
+        (defaultBPMtoPPQNTickConstant/_tempo)*1000 withDelegate:self];
 #ifdef DEBUG_NSLOG
-    NSLog(@"PPQN tick = %f",defaultBPMtoPPQNTickConstant/[_tempo intValue]);
+    NSLog(@"PPQN tick = %f",defaultBPMtoPPQNTickConstant/_tempo);
 #endif
 }
 

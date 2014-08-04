@@ -11,7 +11,7 @@
 #import "SEReceiverDelegate.h"
 
 #pragma mark - Outputs Interface
-
+// CR:  This class has to be a part of the SESequencer.
 @interface SESequencerOutput : NSObject
 
 @property (nonatomic, readonly, copy) NSString *identifier;
@@ -22,10 +22,11 @@
 // Linking the Destination object
 - (void) linkWithReceiver:(id<SEReceiverDelegate>)receiver;
 
+
 @end
 
 #pragma mark - Sequencer Track Interface
-
+// CR:  This class has to be private; define it within the SESequencer.m
 @interface SESequencerTrack : NSObject
 
 @property (nonatomic, copy) NSString *identifier;
