@@ -10,12 +10,15 @@
 #import "SESequencerMessage.h"
 @import AVFoundation;
 
+/* Set Default Tempo value in BPM */
+#define DEFAULT_PLAYER_POOL_CAPACITY 10;
 
 #pragma mark - SamplePlayer Extension
 
 @interface SESamplePlayer () <AVAudioPlayerDelegate>
 
-@property (nonatomic, strong) AVAudioPlayer *player;
+@property (nonatomic, strong) NSMutableArray /*of AVAudioPlayers*/ *players;
+@property (nonatomic, copy) NSURL *sampleUrl;
 
 // Designated initializer
 - (id) initWithSample: (NSURL *)sampleUrl;
@@ -27,7 +30,7 @@
 
 @interface SEAudioController ()
 
-@property (strong, nonatomic) AVAudioSession *audioSession;
+@property (nonatomic, strong) AVAudioSession *audioSession;
 
 - (void) configureAudioSession;
 
@@ -51,11 +54,15 @@
         return nil;
     }
     if (self = [super init]) {
-        // Configuring audio player.
-        self.player = [[AVAudioPlayer alloc] initWithContentsOfURL:sampleUrl error:nil];
-        self.player.delegate = self;
-        self.player.numberOfLoops = 0;
-        [self.player prepareToPlay];
+        // Configuring first audio player in the players-pool.
+        _sampleUrl = [sampleUrl copy];
+        _playersPoolCapacity = DEFAULT_PLAYER_POOL_CAPACITY;
+        AVAudioPlayer *newPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:
+            sampleUrl error:nil];
+        newPlayer.delegate = self;
+        newPlayer.numberOfLoops = 0;
+        [newPlayer prepareToPlay];
+        self.players = [@[newPlayer] mutableCopy];
     }
     return self;
 }
@@ -64,20 +71,37 @@
 
 - (void)play
 {
-    if ([self.player isPlaying]) {
-        [self.player stop];
-    }
-    [self.player play];
+
 }
 
 #pragma SEReceiverDelegate Protocol Methods
 
 - (void) receiveMessage:(SESequencerMessage *)message
 {
-    if ([self.player isPlaying]) {
-        [self.player stop];
+    if (message.type == messageTypePause) {
+        return;
     }
-    [self.player play];
+    NSArray *playersCopy = [self.players copy];
+    for (AVAudioPlayer *player in playersCopy) {
+        if (![player isPlaying]) {
+            [player play];
+            // Create new player if this player is last active in pool
+            if ([playersCopy indexOfObject:player]==[playersCopy count]-1) {
+                if ([playersCopy count] < self.playersPoolCapacity) {
+                    AVAudioPlayer *newPlayer = [[AVAudioPlayer alloc]
+                    initWithContentsOfURL:self.sampleUrl error:nil];
+                    newPlayer.delegate = self;
+                    newPlayer.numberOfLoops = 0;
+                    [newPlayer prepareToPlay];
+                    [self.players addObject:newPlayer];
+                }
+                else {
+                    NSLog(@"Error: trying to overflow players pool with capacity: %i", self.playersPoolCapacity);
+                }
+            }
+            break;
+        }
+    }
 }
 
 #pragma mark - AVAudioPlayerDelegate methods
@@ -138,15 +162,15 @@
         NSLog(@"Error %ld, %@", (long)audioSessionError.code, audioSessionError.localizedDescription);
     }
  
-    double sampleRate = 44100.0;
+    double sampleRate = 22050.0;
     [self.audioSession setPreferredSampleRate:sampleRate error:&audioSessionError];
     if (audioSessionError) {
         NSLog(@"Error %ld, %@", (long)audioSessionError.code, audioSessionError.localizedDescription);
     }
  
-    [[NSNotificationCenter defaultCenter] addObserver:self
-        selector:@selector(handleRouteChange:) name:AVAudioSessionRouteChangeNotification
-        object:self.audioSession];
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//        selector:@selector(handleRouteChange:) name:AVAudioSessionRouteChangeNotification
+//        object:self.audioSession];
  
     // ToDo: Activate only with PlayButton
     NSLog(@"Activate with start application.");

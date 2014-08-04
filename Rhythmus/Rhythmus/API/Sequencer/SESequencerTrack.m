@@ -44,7 +44,7 @@
     return self;
 }
 
-- (void) linkWith:(id<SEReceiverDelegate>)receiver
+- (void) linkWithReceiver:(id<SEReceiverDelegate>)receiver
 {
     self.delegate = receiver;
 }
@@ -64,6 +64,7 @@
         _currentMessageCounter = 0;
         identifier = identifier;
         _output = nil;
+        _playHeadPosition = 0;
     }
     return self;
 }
@@ -109,6 +110,39 @@
     }
     else {
         self.currentMessageCounter = 0;
+    }
+}
+
+// Quantize to PPQN pulses and Stop Timeinterval
+- (void) quantizeWithPPQNPulseDuration:(float)singleQuarterPulse
+    stopTimeInterval:(NSTimeInterval)stopTimeInterval
+{
+    SESequencerMessage *previousMessage = nil;
+    for (SESequencerMessage *message in self.mutableMessages) {
+        message.PPQNTimeStamp = message.rawTimestamp/singleQuarterPulse;
+        // Process first trigger-message in track and convert it to pause.
+        NSInteger index = [self.mutableMessages indexOfObject:message];
+        if (index == 0) {
+            message.type = messageTypePause;
+            message.initialDuration = message.rawTimestamp/singleQuarterPulse;
+        }
+        // Process last trigger-message
+        else if (index == [self.mutableMessages count]) {
+            message.type = messageTypeSample;
+            message.initialDuration = message.PPQNTimeStamp - previousMessage.PPQNTimeStamp;
+            // Create last message on track for duration-messages processing
+            SESequencerMessage *endMessage = [SESequencerMessage defaultMessage];
+            endMessage.PPQNTimeStamp = stopTimeInterval/singleQuarterPulse;
+            endMessage.type = messageTypeSample;
+            endMessage.initialDuration = endMessage.PPQNTimeStamp - message.PPQNTimeStamp;
+        }
+        // Process all within messages
+        else {
+            previousMessage = [self.mutableMessages objectAtIndex:
+                [self.mutableMessages indexOfObject:message]-1];
+            message.type = messageTypeSample;
+            message.initialDuration = message.PPQNTimeStamp - previousMessage.PPQNTimeStamp;
+        }
     }
 }
 

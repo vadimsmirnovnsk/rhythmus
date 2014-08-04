@@ -28,10 +28,11 @@
 - (instancetype) initWithRawTimestamp:(NSTimeInterval)rawTimestamp
 {
     if (self=[super init]) {
-        _type = messageTypeDefaultType;
+        _type = messageTypeDefault;
         _data = nil;
         _PPQNTimeStamp = SEQUENCE_MESSAGE_PPQN_NO_INTERVAL;
         _rawTimestamp = rawTimestamp;
+        _initialDuration = SEQUENCE_MESSAGE_NULL_DURATION;
     }
     return self;
 }

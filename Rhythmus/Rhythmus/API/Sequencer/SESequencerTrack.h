@@ -13,13 +13,14 @@
 #pragma mark - Outputs Interface
 
 @interface SESequencerOutput : NSObject
+
 @property (nonatomic, readonly, copy) NSString *identifier;
 
 // Designated initializer
 - (instancetype) initWithIdentifier:(NSString *)identifier;
 
 // Linking the Destination object
-- (void) linkWith:(id<SEReceiverDelegate>)receiver;
+- (void) linkWithReceiver:(id<SEReceiverDelegate>)receiver;
 
 @end
 
@@ -30,6 +31,7 @@
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, weak, readonly) SESequencerMessage *currentMessage;
 @property (nonatomic, readwrite) NSInteger currentMessageCounter;
+@property (nonatomic,readwrite) unsigned long playHeadPosition;
 
 // Designated initializer
 - (instancetype) initWithidentifier: (NSString *)identifier;
@@ -46,5 +48,9 @@
 
 // Register output method
 - (void) registerOutput:(SESequencerOutput *)output;
+
+// Quantize to PPQN pulses
+- (void) quantizeWithPPQNPulseDuration:(float)singleQuarterPulse
+    stopTimeInterval:(NSTimeInterval)stopTimeInterval;
 
 @end

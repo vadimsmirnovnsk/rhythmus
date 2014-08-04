@@ -11,6 +11,8 @@
 
 @interface SESamplePlayer : NSObject <SEReceiverDelegate>
 
+@property (nonatomic, readwrite) NSInteger playersPoolCapacity;
+
 - (void) play;
 
 @end

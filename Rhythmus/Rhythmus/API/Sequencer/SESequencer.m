@@ -210,17 +210,8 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
     float singleQuarterPulse = (60/((float)[_tempo intValue]*defaultPPQN));
     for (id<NSCopying> key in self.mutableTracks) {
         track = self.mutableTracks[key];
-        track.currentMessageCounter = 0;
-        for (SESequencerMessage *message in [[self.mutableTracks objectForKey:key]allMessages])
-        {
-            [track.currentMessage setPPQNTimeStamp:
-                (int)(track.currentMessage.rawTimestamp/singleQuarterPulse)];
-#ifdef DEBUG_NSLOG
-            NSLog(@"Raw Timestamp = %f",track.currentMessage.rawTimestamp);
-            NSLog(@"PPQN TimeStamp = %li",track.currentMessage.PPQNTimeStamp);
-#endif
-            [track goToNextMessage];
-        }
+        [track quantizeWithPPQNPulseDuration:singleQuarterPulse
+            stopTimeInterval:stopRecordingTimeInterval];
     }
 }
 
@@ -229,8 +220,8 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 {
     _playing = YES;
     self.expectedTick = 0;
-    self.expectedTick = [self tickForNearestEvent];
-    NSLog(@"Expected tick: %li",self.expectedTick);
+    // Process start tick
+    [self processExpectedTick];
     [self.systemTimer startWithPulsePeriod:(long)
         (defaultBPMtoPPQNTickConstant/[_tempo intValue])*1000 withDelegate:self];
 #ifdef DEBUG_NSLOG
@@ -242,6 +233,11 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 {
     [self.systemTimer stop];
     _playing = NO;
+    SESequencerTrack *track = nil;
+    for (id<NSCopying> identifier in self.mutableTracks) {
+        track = [self.mutableTracks objectForKey:identifier];
+        track.playHeadPosition = 0;
+    }
 }
 
 - (void) pause
@@ -252,7 +248,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
 
 #pragma mark SESequencerInputDelegate Methods
-/* Receive event from source for stream number. If stream with number not exist return NO.
+/* Receive event from source for stream number. If track is not exist return NO.
  * Else create event with raw timestamp and write to stream and try to send event to destination */
 - (BOOL) receiveMessage:(SESequencerMessage *)message forTrack:(SESequencerTrack *)track
 {
@@ -300,11 +296,11 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
     for (id<NSCopying> identifier in self.mutableTracks) {
         track = [self.mutableTracks objectForKey:identifier];
         trackCurrentMessage = [track currentMessage];
-        if ([trackCurrentMessage PPQNTimeStamp]<=self.expectedTick) {
+        if (track.playHeadPosition<=self.expectedTick) {
         // ToDo: If isMuted
             [track sendToOutput:trackCurrentMessage];
+            track.playHeadPosition = track.playHeadPosition + [trackCurrentMessage initialDuration];
             [track goToNextMessage];
-            NSLog(@"PPQN Process Timestamp:%li",[[track currentMessage] PPQNTimeStamp]);
         }
     }
     self.expectedTick = [self tickForNearestEvent];
@@ -325,7 +321,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
     }
     // Find nearest event
     for (id<NSCopying> identifier in self.mutableTracks) {
-        unsigned long tempTick = [[[self.mutableTracks objectForKey:identifier] currentMessage]PPQNTimeStamp];
+        unsigned long tempTick = [[self.mutableTracks objectForKey:identifier]playHeadPosition];
         if (tempTick<tickForNearestEvent) {
             tickForNearestEvent = tempTick;
         }

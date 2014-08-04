@@ -12,17 +12,19 @@
 
 #define SEQUENCE_MESSAGE_PPQN_NO_INTERVAL -1;
 #define SEQUENCE_MESSAGE_NULL_TIMESTAMP -1;
+#define SEQUENCE_MESSAGE_NULL_DURATION -1;
 
 typedef enum {
-    messageTypeDefaultType = 0,
-    messageTypeTypeTrigger = 0,
-    messageTypeTypeNoteOn = 1,
-    messageTypeTypeNoteOff = 2
+    messageTypeDefault = 0,
+    messageTypeTrigger = 0,
+    messageTypePause = 1,
+    messageTypeSample = 2
 } MessageType;
 
 @property (nonatomic, readwrite) MessageType type;
 @property (nonatomic, strong) NSData /*with raw MIDI message data*/ *data;
 @property (nonatomic, readwrite) unsigned long PPQNTimeStamp;
+@property (nonatomic, readwrite) NSInteger initialDuration; // Non-quantized duration - in PPQN.
 @property (nonatomic, readwrite) NSTimeInterval rawTimestamp;
 
 #pragma mark Class Methods

@@ -37,7 +37,7 @@
         NSString *samplePath = [[NSBundle mainBundle]pathForResource:@"snare" ofType:@"aif"];
         NSURL *sampleURL = [NSURL fileURLWithPath:samplePath];
         self.samplePlayer = [SEAudioController playerWithSample:sampleURL];
-        [self.output0 linkWith:self.samplePlayer];
+        [self.output0 linkWithReceiver:self.samplePlayer];
     }
     return self;
 }
