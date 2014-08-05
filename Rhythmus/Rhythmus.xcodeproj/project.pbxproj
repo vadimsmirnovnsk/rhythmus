@@ -81,9 +81,48 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE6F974019914145009CED03 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CE6F974219914174009CED03 /* Audio */,
+				CE6F97411991415F009CED03 /* Images */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		CE6F97411991415F009CED03 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		CE6F974219914174009CED03 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Audio;
+			sourceTree = "<group>";
+		};
+		CE6F974319914190009CED03 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		CE6F97441991419F009CED03 /* API */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
 		CEA991BD198640F200CAB5AC = {
 			isa = PBXGroup;
 			children = (
+				CE6F97441991419F009CED03 /* API */,
+				CE6F974319914190009CED03 /* UI */,
 				CEA991D1198640F200CAB5AC /* Rhythmus */,
 				CEA991EE198640F200CAB5AC /* RhythmusTests */,
 				CEA991C8198640F200CAB5AC /* Frameworks */,
@@ -127,6 +166,7 @@
 		CEA991D2198640F200CAB5AC /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CE6F974019914145009CED03 /* Resources */,
 				CEA991D3198640F200CAB5AC /* Rhythmus-Info.plist */,
 				CEA991D4198640F200CAB5AC /* InfoPlist.strings */,
 				CEA991D7198640F200CAB5AC /* main.m */,
@@ -448,6 +488,7 @@
 				CEA991FA198640F200CAB5AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		CEA991FB198640F200CAB5AC /* Build configuration list for PBXNativeTarget "RhythmusTests" */ = {
 			isa = XCConfigurationList;
@@ -456,6 +497,7 @@
 				CEA991FD198640F200CAB5AC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
