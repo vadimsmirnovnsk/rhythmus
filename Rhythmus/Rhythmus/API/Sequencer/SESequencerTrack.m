@@ -32,6 +32,7 @@
 
 - (instancetype) init
 {
+    //  CR: I'd say there is no way to create a new output with no identifier.
     return [self initWithIdentifier:nil];
 }
 
@@ -184,6 +185,8 @@
 - (void) registerOutput:(SESequencerOutput *)output
 {
     self.output = output;
+
+    // CR:  This looks like a magic to me.
     [output addObserver:self forKeyPath:@"delegate"
         options:NSKeyValueObservingOptionNew context:nil];
 }

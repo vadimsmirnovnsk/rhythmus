@@ -36,7 +36,7 @@
 #pragma mark -
 #pragma mark Track Methods
 // Creating tracks methods
-// CR:  You can simply add a track; you should ask for an identifier.
+// CR:  You can't simply add a track; you should ask for an identifier.
 //      I also think it's not really good to assign a track from the outside.
 //      Could you please explain how a hardware sequencer "implements" such
 //      a feature?

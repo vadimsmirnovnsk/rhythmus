@@ -19,6 +19,8 @@
 
 @interface SEAudioController : NSObject
 
+// CR:  It's quite strange to define this method in here.
+//      BTW, I'd name it like + (...)playerWithContentsOfURL:(NSURL *)fileURL;
 + (SESamplePlayer *)playerWithSample:(NSURL *)sampleUrl;
 
 @end

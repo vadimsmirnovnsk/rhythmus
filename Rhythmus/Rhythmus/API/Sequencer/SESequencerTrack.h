@@ -20,6 +20,7 @@
 - (instancetype) initWithIdentifier:(NSString *)identifier;
 
 // Linking the Destination object
+// CR:  This method seems to be redundant; use a property instead.
 - (void) linkWithReceiver:(id<SEReceiverDelegate>)receiver;
 
 
@@ -28,9 +29,11 @@
 #pragma mark - Sequencer Track Interface
 // CR:  This class has to be private; define it within the SESequencer.m
 @interface SESequencerTrack : NSObject
+//  CR: The class doesn't conform to NSCopying protocol.
 
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, weak, readonly) SESequencerMessage *currentMessage;
+// CR:  The property's name is obscure and misleads.
 @property (nonatomic, readwrite) NSInteger currentMessageCounter;
 @property (nonatomic,readwrite) unsigned long playHeadPosition;
 

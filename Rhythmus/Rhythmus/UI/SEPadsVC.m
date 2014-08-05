@@ -12,6 +12,7 @@
 
 @interface SEPadsVC ()
 
+// CR:  You'd better make up a more generic solution to deal with the inputs & outputs.
 @property (nonatomic, strong) SESequencer *sequencer;
 @property (nonatomic, strong) SESequencerInput *input0;
 @property (nonatomic, strong) SESequencerOutput *output0;
@@ -20,6 +21,7 @@
 @property (nonatomic, strong) SESequencerOutput *output1;
 @property (nonatomic, strong) SESamplePlayer *samplePlayer1;
 
+// CR:  Why is the outlet strongly pointed?
 @property (nonatomic, strong) IBOutlet UILabel *tempoLabel;
 
 @end

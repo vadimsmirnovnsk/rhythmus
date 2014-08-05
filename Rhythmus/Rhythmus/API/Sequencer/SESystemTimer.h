@@ -11,10 +11,12 @@
 
 @interface SESystemTimer : NSObject
 
+// CR:  Are you sure it's possible to start cloking from the outside?
 @property (nonatomic, getter = isClocking) BOOL clocking;
 @property (nonatomic, readonly) unsigned int period;
 @property (nonatomic, weak) id<SESystemTimerDelegate> delegate;
 
+// CR:  What for do you need a delegate to be passed in?
 - (void) startWithPulsePeriod:(unsigned long)usecPeriod withDelegate:
     (id<SESystemTimerDelegate>)delegate;
 - (BOOL) start; // With current options

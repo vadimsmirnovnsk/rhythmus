@@ -29,6 +29,8 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 @interface SESequencerInput ()
 
 @property (nonatomic, weak) SESequencerTrack *track;
+// CR:  Why do you keep a pointer to a particular sequencer?
+//      You have to keep a pointer to an id<SESequencerInputDelegate>.
 @property (nonatomic, weak) SESequencer *delegate;
 
 @end
@@ -57,6 +59,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
 - (instancetype) init
 {
+    // CR:  I'd say there is no way to create an input without an identifier.
     return [self initWithIdentifier:nil];
 }
 

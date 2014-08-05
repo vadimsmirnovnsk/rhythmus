@@ -11,6 +11,7 @@
 
 @interface SESystemTimer ()
 
+// CR:  The property's name is obscure. What do you mean by 'isReset'?
 @property (nonatomic, readwrite) BOOL isReset;
 
 @end
@@ -21,8 +22,8 @@
 - (id) init
 {
     if (self = [super init]) {
-        _clocking = NO;
-        _delegate = nil;
+        _clocking = NO; // CR:  It's already assigned with @b NO.
+        _delegate = nil; // CR: It's already assigned with @b nil.
     }
     return self;
 }
@@ -31,7 +32,9 @@
     withDelegate:(id <SESystemTimerDelegate>)delegate
 {
     // Checking for already pulsing
-    if (_clocking) {
+    if (_clocking) { // CR: We never ever access the ivars directly,
+                     //     unless you do such a thing from within
+                     //     an initializer or a getter/setter.
         return;
     }
     _clocking = YES;
@@ -62,6 +65,7 @@
 - (BOOL) start
 {
     if ((_period!=0)&&(!!_delegate)) {
+        // CR:  Same thing: do NOT access the ivars directly.
         [self startWithPulsePeriod:_period withDelegate:_delegate];
         return YES;
     }
