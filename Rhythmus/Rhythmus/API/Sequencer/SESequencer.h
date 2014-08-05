@@ -7,10 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SESystemTimerDelegate.h"
 #import "SESequencerTrack.h"
 #import "SEReceiverDelegate.h"
-#import "SEInputDelegate.h"
+
+@class SESequencerInput;
+
+#pragma mark - SEInputDelegate Protocol
+@protocol SEInputDelegate <NSObject>
+
+- (BOOL) input:(SESequencerInput *)sender didGenerateMessage:(SESequencerMessage *)message;
+
+@end
 
 #pragma mark - Inputs Interface
 @interface SESequencerInput : NSObject
@@ -56,9 +63,7 @@
     forTrackIdentifier:(NSString *)identifier;
     
 - (void) registerOutput:(SESequencerOutput *)output
-// CR:  I don't like the name of the method: it's too verbose.
-//      At least remove 'with'.
-    forTrackWithIdentifier:(NSString *)identifier;
+    forTrackIdentifier:(NSString *)identifier;
 
 #pragma mark Playback Methods
 - (BOOL) startRecording;

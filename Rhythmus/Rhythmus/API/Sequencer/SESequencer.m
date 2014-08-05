@@ -29,9 +29,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 @interface SESequencerInput ()
 
 @property (nonatomic, weak) SESequencerTrack *track;
-// CR:  Why do you keep a pointer to a particular sequencer?
-//      You have to keep a pointer to an id<SESequencerInputDelegate>.
-@property (nonatomic, weak) SESequencer *delegate;
+@property (nonatomic, weak) id<SEInputDelegate> delegate;
 
 @end
 
@@ -57,10 +55,10 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
 #pragma mark Inits
 
-- (instancetype) init
+- (instancetype)init
 {
-    // CR:  I'd say there is no way to create an input without an identifier.
-    return [self initWithIdentifier:nil];
+    NSLog(@"Method can't be called. Please use an -initWithIdentifier: method.");
+    return nil;
 }
 
 // Designated initializer
@@ -75,7 +73,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 #pragma mark Generate Messages Methods
 - (void) generateMessage
 {
-    [self.delegate receiveMessage:[SESequencerMessage defaultMessage] forTrack:self.track];
+    [self.delegate input:self didGenerateMessage:[SESequencerMessage defaultMessage]];
 }
 
 - (void)generateMessageWithParameters:(NSDictionary *)parameters
@@ -99,7 +97,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
         _recording = NO;
         _playing = NO;
         _tempo = DEFAULT_TEMPO_VALUE;
-        _systemTimer = [[SESystemTimer alloc]init];
+        _systemTimer = [[SESystemTimer alloc]initWithDelegate:self];
         _expectedTick = 0;
     }
     return self;
@@ -151,7 +149,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
 // Registering outputs method
 - (void) registerOutput:(SESequencerOutput *)output
-    forTrackWithIdentifier:(NSString *)identifier
+    forTrackIdentifier:(NSString *)identifier
 {
     SESequencerTrack *track = self.mutableTracks[identifier];
     if (!track) {
@@ -208,7 +206,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
     // Process start tick
     [self processExpectedTick];
     [self.systemTimer startWithPulsePeriod:(long)
-        (defaultBPMtoPPQNTickConstant/_tempo)*1000 withDelegate:self];
+        (defaultBPMtoPPQNTickConstant/_tempo)*1000];
 #ifdef DEBUG_NSLOG
     NSLog(@"PPQN tick = %f",defaultBPMtoPPQNTickConstant/_tempo);
 #endif
@@ -235,8 +233,9 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 #pragma mark SESequencerInputDelegate Methods
 /* Receive event from source for stream number. If track is not exist return NO.
  * Else create event with raw timestamp and write to stream and try to send event to destination */
-- (BOOL) receiveMessage:(SESequencerMessage *)message forTrack:(SESequencerTrack *)track
+- (BOOL) input:(id)sender didGenerateMessage:(SESequencerMessage *)message
 {
+    SESequencerTrack *const __weak track = [sender track];
     if (!!track) {
         if (message == nil) {
             message = [[SESequencerMessage alloc]initWithRawTimestamp:[[NSDate date]
@@ -255,7 +254,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 }
 
 #pragma mark SESystemTimerDelegate Protocol Methods
-- (void) receiveTick:(uint64_t)tick
+- (void) timer:(SESystemTimer *)timer didCountTick:(uint64_t)tick
 {
     // Check for 1/4 click
 //    if (!!tick%960) {

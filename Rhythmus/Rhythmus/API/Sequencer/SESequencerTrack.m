@@ -21,6 +21,7 @@
 
 @property (nonatomic, strong) NSMutableArray *mutableMessages;
 @property (nonatomic, weak) SESequencerOutput *output;
+@property (nonatomic, readwrite) NSInteger messageCounter;
 
 - (void) unregisterOutput;
 
@@ -62,7 +63,7 @@
 {
     if (self=[super init]) {
         _mutableMessages = [[NSMutableArray alloc]init];
-        _currentMessageCounter = 0;
+        _messageCounter = 0;
         _identifier = [identifier copy];
         _output = nil;
         _playHeadPosition = 0;
@@ -77,7 +78,7 @@
 }
 
 - (SESequencerMessage *)currentMessage {
-    return self.mutableMessages[self.currentMessageCounter];
+    return self.mutableMessages[self.messageCounter];
 }
 
 - (void) sendToOutput:(SESequencerMessage *)message
@@ -87,9 +88,9 @@
 
 - (void) removeCurrentMessage
 {
-    if ((!!_currentMessageCounter) &&
-        (_currentMessageCounter<=[self.mutableMessages count])) {
-        [self.mutableMessages removeObjectAtIndex:_currentMessageCounter];
+    if ((!!self.messageCounter) &&
+        (self.messageCounter<=[self.mutableMessages count])) {
+        [self.mutableMessages removeObjectAtIndex:self.messageCounter];
     }
 }
 
@@ -111,11 +112,11 @@
 /* Move counter to the next Event or loop to 0. */
 - (void) goToNextMessage
 {
-    if (self.currentMessageCounter<[self.mutableMessages count]-1) {
-        self.currentMessageCounter = self.currentMessageCounter + 1;
+    if (self.messageCounter<[self.mutableMessages count]-1) {
+        self.messageCounter = self.messageCounter + 1;
     }
     else {
-        self.currentMessageCounter = 0;
+        self.messageCounter = 0;
     }
 }
 
@@ -172,7 +173,7 @@
 - (void) resetPlayhead
 {
     self.playHeadPosition = 0;
-    self.currentMessageCounter = 0;
+    self.messageCounter = 0;
 }
 
 // Return array with all messages that contains in Track
@@ -218,6 +219,9 @@
     SESequencerTrack *newTrack = [[[self class]allocWithZone:zone]init];
     newTrack.mutableMessages = [self.mutableMessages copy];
     newTrack.identifier = [NSString stringWithFormat:@"%@ copy",self.identifier];
+    newTrack.output = self.output;
+    newTrack.messageCounter = self.messageCounter;
+    newTrack.playHeadPosition = self.playHeadPosition;
     return newTrack;
 }
 

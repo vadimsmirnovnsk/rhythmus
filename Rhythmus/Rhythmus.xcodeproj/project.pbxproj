@@ -83,11 +83,9 @@
 		CEA9928B19878EA900CAB5AC /* SESystemTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESystemTimer.m; path = Rhythmus/API/Sequencer/SESystemTimer.m; sourceTree = "<group>"; };
 		CEA9928D19878EEB00CAB5AC /* SESequencerTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESequencerTrack.h; path = Rhythmus/API/Sequencer/SESequencerTrack.h; sourceTree = "<group>"; };
 		CEA9928E19878EEB00CAB5AC /* SESequencerTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESequencerTrack.m; path = Rhythmus/API/Sequencer/SESequencerTrack.m; sourceTree = "<group>"; };
-		CEA9929019878F0800CAB5AC /* SESystemTimerDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SESystemTimerDelegate.h; path = Rhythmus/API/Sequencer/SESystemTimerDelegate.h; sourceTree = "<group>"; };
 		CEA992921987934F00CAB5AC /* SESequencerMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESequencerMessage.h; path = Rhythmus/API/Sequencer/SESequencerMessage.h; sourceTree = "<group>"; };
 		CEA992931987934F00CAB5AC /* SESequencerMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESequencerMessage.m; path = Rhythmus/API/Sequencer/SESequencerMessage.m; sourceTree = "<group>"; };
 		CEA992971988F00E00CAB5AC /* SEReceiverDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SEReceiverDelegate.h; path = Rhythmus/API/Sequencer/SEReceiverDelegate.h; sourceTree = "<group>"; };
-		CEA992981988F0F600CAB5AC /* SEInputDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SEInputDelegate.h; path = Rhythmus/API/Sequencer/SEInputDelegate.h; sourceTree = "<group>"; };
 		CEA992A0198A85FE00CAB5AC /* SEAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SEAudioController.h; path = Rhythmus/API/SEAudioController.h; sourceTree = "<group>"; };
 		CEA992A1198A85FE00CAB5AC /* SEAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SEAudioController.m; path = Rhythmus/API/SEAudioController.m; sourceTree = "<group>"; };
 		CEA992A3198A88BA00CAB5AC /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -139,6 +137,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE6F974519914248009CED03 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CEE0A48D198CEB8E00232745 /* Audio */,
+				CEE7661B198CF407002A3E93 /* Images */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		CEA991BD198640F200CAB5AC = {
 			isa = PBXGroup;
 			children = (
@@ -176,8 +183,7 @@
 		CEA991D1198640F200CAB5AC /* Rhythmus */ = {
 			isa = PBXGroup;
 			children = (
-				CEE7661B198CF407002A3E93 /* App Pics */,
-				CEE0A48D198CEB8E00232745 /* App Sounds */,
+				CE6F974519914248009CED03 /* Resources */,
 				CEA991DA198640F200CAB5AC /* SEAppDelegate.h */,
 				CEA991DB198640F200CAB5AC /* SEAppDelegate.m */,
 				CEA991E0198640F200CAB5AC /* Images.xcassets */,
@@ -265,23 +271,21 @@
 		CEA992211986467100CAB5AC /* Sequencer Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				CEA9929019878F0800CAB5AC /* SESystemTimerDelegate.h */,
-				CEA992981988F0F600CAB5AC /* SEInputDelegate.h */,
 				CEA992971988F00E00CAB5AC /* SEReceiverDelegate.h */,
 			);
 			name = "Sequencer Protocols";
 			sourceTree = "<group>";
 		};
-		CEE0A48D198CEB8E00232745 /* App Sounds */ = {
+		CEE0A48D198CEB8E00232745 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
 				CE6F973C198FE9FA009CED03 /* clap.aif */,
 				CEE76637198CF516002A3E93 /* snare.aif */,
 			);
-			name = "App Sounds";
+			name = Audio;
 			sourceTree = "<group>";
 		};
-		CEE7661B198CF407002A3E93 /* App Pics */ = {
+		CEE7661B198CF407002A3E93 /* Images */ = {
 			isa = PBXGroup;
 			children = (
 				CEE7663D198CF7E2002A3E93 /* tapBarBackground.png */,
@@ -293,7 +297,7 @@
 				CEE7662C198CF499002A3E93 /* pencil.png */,
 				CEE7662D198CF499002A3E93 /* pencil@2x.png */,
 			);
-			name = "App Pics";
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

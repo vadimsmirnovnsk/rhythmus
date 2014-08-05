@@ -11,44 +11,47 @@
 
 @interface SESystemTimer ()
 
-// CR:  The property's name is obscure. What do you mean by 'isReset'?
-@property (nonatomic, readwrite) BOOL isReset;
+@property (nonatomic, readwrite) BOOL shouldReset;
+@property (nonatomic, getter = isClocking) BOOL clocking;
+@property (nonatomic, weak) id<SESystemTimerDelegate> delegate;
+@property (nonatomic, readonly) unsigned int period;
 
 @end
 
 @implementation SESystemTimer
 
+- (instancetype)init
+{
+    NSLog(@"Method can't be called. Please use an -initWithDelegate method.");
+    return nil;
+}
+
 // Designated initializer
-- (id) init
+- (instancetype) initWithDelegate:(id<SESystemTimerDelegate>)delegate
 {
     if (self = [super init]) {
-        _clocking = NO; // CR:  It's already assigned with @b NO.
-        _delegate = nil; // CR: It's already assigned with @b nil.
+        _delegate = delegate;
     }
     return self;
 }
 
 - (void) startWithPulsePeriod:(unsigned long)usecPeriod
-    withDelegate:(id <SESystemTimerDelegate>)delegate
 {
     // Checking for already pulsing
-    if (_clocking) { // CR: We never ever access the ivars directly,
-                     //     unless you do such a thing from within
-                     //     an initializer or a getter/setter.
+    if (self.clocking) {
         return;
     }
-    _clocking = YES;
-    // Init start tick by 0, get timebase and good enough resolution absolut-time
+    self.clocking = YES;
+    // Init start tick by 0, get timebase and good enough resolution of absolute-time
     uint64_t __block tick = 0;
     uint64_t __block currentTime = 0;
     mach_timebase_info_data_t timebase;
     mach_timebase_info(&timebase);
     uint64_t beginTime = mach_absolute_time();
-    id <SESystemTimerDelegate> __weak receiverReference = delegate;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        while (_clocking && receiverReference) {
-            if (self.isReset) {
-                self.isReset = NO;
+        while (self.clocking) {
+            if (self.shouldReset) {
+                self.shouldReset = NO;
                 tick = 0;
             }
             usleep(usecPeriod/1000);
@@ -56,7 +59,7 @@
             tick = (currentTime - beginTime)*timebase.numer / timebase.denom / usecPeriod;
             // Return counted ticks to main thread
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [delegate receiveTick:tick];
+                [self.delegate timer:self didCountTick:tick];
             });
         }
     });
@@ -64,9 +67,8 @@
 
 - (BOOL) start
 {
-    if ((_period!=0)&&(!!_delegate)) {
-        // CR:  Same thing: do NOT access the ivars directly.
-        [self startWithPulsePeriod:_period withDelegate:_delegate];
+    if ((self.period!=0)&&(!!self.delegate)) {
+        [self startWithPulsePeriod:self.period];
         return YES;
     }
     return NO;
@@ -74,12 +76,12 @@
 
 - (void) stop
 {
-    _clocking = NO;
+    self.clocking = NO;
 }
 
 - (void) reset
 {
-    self.isReset = YES;
+    self.shouldReset = YES;
 }
 
 

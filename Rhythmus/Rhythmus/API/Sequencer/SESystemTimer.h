@@ -7,18 +7,28 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SESystemTimerDelegate.h"
+
+@class SESystemTimer;
+@protocol SESystemTimerDelegate <NSObject>
+
+/**
+ *      Follow these patterns when delegating any duties:
+ *
+ *          - (BOOL)shouldSomebodyDoSomething:(id)sender;
+ *          - (void)somebodyDid/WillDoSomething:(id)sender;
+ *          - (void)somebody:(id)sender did/WillFinishDoingSomethingWithResult:(id)result;
+ *
+ *      That's it! Isn't it simple? ;-)
+ */
+ 
+- (void) timer:(SESystemTimer *)timer didCountTick:(uint64_t)tick;
+
+@end
 
 @interface SESystemTimer : NSObject
 
-// CR:  Are you sure it's possible to start cloking from the outside?
-@property (nonatomic, getter = isClocking) BOOL clocking;
-@property (nonatomic, readonly) unsigned int period;
-@property (nonatomic, weak) id<SESystemTimerDelegate> delegate;
-
-// CR:  What for do you need a delegate to be passed in?
-- (void) startWithPulsePeriod:(unsigned long)usecPeriod withDelegate:
-    (id<SESystemTimerDelegate>)delegate;
+- (instancetype) initWithDelegate:(id<SESystemTimerDelegate>)delegate;
+- (void) startWithPulsePeriod:(unsigned long)usecPeriod;
 - (BOOL) start; // With current options
 - (void) stop;
 - (void) reset;

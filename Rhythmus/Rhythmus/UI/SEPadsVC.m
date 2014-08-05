@@ -39,13 +39,13 @@
         [self.sequencer registerInput:self.input0 forTrackIdentifier:self.input0.identifier];
         self.output0 = [[SESequencerOutput alloc]initWithIdentifier:self.input0.identifier];
         [self.sequencer registerOutput:self.output0
-            forTrackWithIdentifier:self.output0.identifier];
+            forTrackIdentifier:self.output0.identifier];
         
         self.input1 = [[SESequencerInput alloc]initWithIdentifier:@"1"];
         [self.sequencer registerInput:self.input1 forTrackIdentifier:self.input1.identifier];
         self.output1 = [[SESequencerOutput alloc]initWithIdentifier:self.input1.identifier];
         [self.sequencer registerOutput:self.output1
-            forTrackWithIdentifier:self.output1.identifier];
+            forTrackIdentifier:self.output1.identifier];
         
         // Create the Sample Player and connect it to output 0
         NSString *samplePath = [[NSBundle mainBundle]pathForResource:@"snare" ofType:@"aif"];
