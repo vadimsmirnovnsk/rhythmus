@@ -10,7 +10,7 @@
 #import "SESequencerMessage.h"
 @import AVFoundation;
 
-/* Set Default Tempo value in BPM */
+/* Set Default max number of players in pool. */
 #define DEFAULT_PLAYER_POOL_CAPACITY 10;
 
 #pragma mark - SamplePlayer Extension
@@ -44,6 +44,7 @@
 #pragma Initializers
 - (id)init
 {
+    NSLog(@"Method shouldn't be called. Please use an -initWithSample: method.");
     return nil;
 }
 
@@ -71,16 +72,6 @@
 
 - (void)play
 {
-
-}
-
-#pragma SEReceiverDelegate Protocol Methods
-
-- (void) receiveMessage:(SESequencerMessage *)message
-{
-    if (message.type == messageTypePause) {
-        return;
-    }
     NSArray *playersCopy = [self.players copy];
     for (AVAudioPlayer *player in playersCopy) {
         if (![player isPlaying]) {
@@ -96,12 +87,23 @@
                     [self.players addObject:newPlayer];
                 }
                 else {
-                    NSLog(@"Error: trying to overflow players pool with capacity: %i", self.playersPoolCapacity);
+                    NSLog(@"Error: trying to overflow players pool with capacity: %i",
+                        self.playersPoolCapacity);
                 }
             }
             break;
         }
     }
+}
+
+#pragma SEReceiverDelegate Protocol Methods
+
+- (void) receiveMessage:(SESequencerMessage *)message
+{
+    if (message.type == messageTypePause) {
+        return;
+    }
+    [self play];
 }
 
 #pragma mark - AVAudioPlayerDelegate methods
@@ -136,9 +138,9 @@
 
 #pragma mark Class Methods
 
-+ (SESamplePlayer *)playerWithSample:(NSURL *)sampleUrl
++ (SESamplePlayer *)playerWithContentsOfURL:(NSURL *)fileURL
 {
-    return [[SESamplePlayer alloc]initWithSample:sampleUrl];
+    return [[SESamplePlayer alloc]initWithSample:fileURL];
 }
 
 #pragma mark Custom Methods
@@ -153,19 +155,22 @@
         NSLog(@"Error success for audio session.\n");
     }
     if (audioSessionError) {
-        NSLog(@"Error %ld, %@", (long)audioSessionError.code, audioSessionError.localizedDescription);
+        NSLog(@"Error %ld, %@", (long)audioSessionError.code,
+            audioSessionError.localizedDescription);
     }
     
     NSTimeInterval bufferDuration =.005;
     [self.audioSession setPreferredIOBufferDuration:bufferDuration error:&audioSessionError];
     if (audioSessionError) {
-        NSLog(@"Error %ld, %@", (long)audioSessionError.code, audioSessionError.localizedDescription);
+        NSLog(@"Error %ld, %@", (long)audioSessionError.code,
+            audioSessionError.localizedDescription);
     }
  
     double sampleRate = 22050.0;
     [self.audioSession setPreferredSampleRate:sampleRate error:&audioSessionError];
     if (audioSessionError) {
-        NSLog(@"Error %ld, %@", (long)audioSessionError.code, audioSessionError.localizedDescription);
+        NSLog(@"Error %ld, %@", (long)audioSessionError.code,
+            audioSessionError.localizedDescription);
     }
  
 //    [[NSNotificationCenter defaultCenter] addObserver:self
@@ -176,7 +181,8 @@
     NSLog(@"Activate with start application.");
     [self.audioSession setActive:YES error:&audioSessionError];
         if (audioSessionError) {
-            NSLog(@"Error %ld, %@", (long)audioSessionError.code, audioSessionError.localizedDescription);
+            NSLog(@"Error %ld, %@", (long)audioSessionError.code,
+                audioSessionError.localizedDescription);
     }
  
     sampleRate = self.audioSession.sampleRate;

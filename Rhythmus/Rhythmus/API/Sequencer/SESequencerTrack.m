@@ -161,8 +161,8 @@
             message.type = messageTypeSample;
             message.initialDuration = message.PPQNTimeStamp - previousMessage.PPQNTimeStamp;
         }
-        NSLog(@"Message %i quantized.\nType: %i\nPPQNTimestamp: %lu\nInitialDuration:%i",
-            index, message.type, message.PPQNTimeStamp, message.initialDuration);
+//        NSLog(@"Message %i quantized.\nType: %i\nPPQNTimestamp: %lu\nInitialDuration:%i",
+//            index, message.type, message.PPQNTimeStamp, message.initialDuration);
     }
     if (endMessage) {
         [self.mutableMessages addObject:endMessage];

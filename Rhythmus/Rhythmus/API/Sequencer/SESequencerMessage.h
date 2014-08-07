@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SESequencerMessage : NSObject
-//  CR: The class doesn't conform to NSCopying protocol.
+@interface SESequencerMessage : NSObject <NSCopying>
 
 #define SEQUENCE_MESSAGE_PPQN_NO_INTERVAL -1;
 #define SEQUENCE_MESSAGE_NULL_TIMESTAMP -1;

@@ -22,7 +22,7 @@
 
 - (instancetype)init
 {
-    NSLog(@"Method can't be called. Please use an -initWithDelegate method.");
+    NSLog(@"Method shouldn't be called. Please use an -initWithDelegate method.");
     return nil;
 }
 
@@ -62,6 +62,9 @@
                 [self.delegate timer:self didCountTick:tick];
             });
         }
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.delegate resetPlayhead];
+        });
     });
 }
 

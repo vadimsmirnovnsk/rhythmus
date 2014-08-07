@@ -28,6 +28,7 @@
 		CEA992941987934F00CAB5AC /* SESequencerMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA992931987934F00CAB5AC /* SESequencerMessage.m */; };
 		CEA992A2198A85FE00CAB5AC /* SEAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA992A1198A85FE00CAB5AC /* SEAudioController.m */; };
 		CEA992A6198A892200CAB5AC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA992A5198A892200CAB5AC /* AudioToolbox.framework */; };
+		CED77FD1199375D90014449A /* SEMusicTimebase.m in Sources */ = {isa = PBXBuildFile; fileRef = CED77FD0199375D90014449A /* SEMusicTimebase.m */; };
 		CEE7662E198CF499002A3E93 /* fileCabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE76628198CF499002A3E93 /* fileCabinet.png */; };
 		CEE7662F198CF499002A3E93 /* fileCabinet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE76629198CF499002A3E93 /* fileCabinet@2x.png */; };
 		CEE76630198CF499002A3E93 /* padViewTabIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE7662A198CF499002A3E93 /* padViewTabIcon.png */; };
@@ -90,6 +91,8 @@
 		CEA992A1198A85FE00CAB5AC /* SEAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SEAudioController.m; path = Rhythmus/API/SEAudioController.m; sourceTree = "<group>"; };
 		CEA992A3198A88BA00CAB5AC /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		CEA992A5198A892200CAB5AC /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		CED77FCF199375D90014449A /* SEMusicTimebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SEMusicTimebase.h; path = Rhythmus/API/Sequencer/SEMusicTimebase.h; sourceTree = "<group>"; };
+		CED77FD0199375D90014449A /* SEMusicTimebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SEMusicTimebase.m; path = Rhythmus/API/Sequencer/SEMusicTimebase.m; sourceTree = "<group>"; };
 		CEE76628198CF499002A3E93 /* fileCabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fileCabinet.png; path = Pics/fileCabinet.png; sourceTree = "<group>"; };
 		CEE76629198CF499002A3E93 /* fileCabinet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fileCabinet@2x.png"; path = "Pics/fileCabinet@2x.png"; sourceTree = "<group>"; };
 		CEE7662A198CF499002A3E93 /* padViewTabIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = padViewTabIcon.png; path = Pics/padViewTabIcon.png; sourceTree = "<group>"; };
@@ -264,6 +267,8 @@
 				CEA9928E19878EEB00CAB5AC /* SESequencerTrack.m */,
 				CEA992921987934F00CAB5AC /* SESequencerMessage.h */,
 				CEA992931987934F00CAB5AC /* SESequencerMessage.m */,
+				CED77FCF199375D90014449A /* SEMusicTimebase.h */,
+				CED77FD0199375D90014449A /* SEMusicTimebase.m */,
 			);
 			name = Sequencer;
 			sourceTree = "<group>";
@@ -422,6 +427,7 @@
 				CEA991D8198640F200CAB5AC /* main.m in Sources */,
 				CEE76636198CF509002A3E93 /* UIColor+ColorFromHexString.m in Sources */,
 				CEA991DF198640F200CAB5AC /* Rhythmus.xcdatamodeld in Sources */,
+				CED77FD1199375D90014449A /* SEMusicTimebase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

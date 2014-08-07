@@ -14,6 +14,8 @@
 
 /* Set Default Tempo value in BPM */
 #define DEFAULT_TEMPO_VALUE 100;
+#define DEFAULT_SIGNATURE_UPPERPART 4;
+#define DEFAULT_SIGNATURE_LOWERPART noteDividerQuarter;
 
 /* Set default PPQN */
 #define DEFAULT_PPQN_VALUE 96.0;
@@ -21,8 +23,12 @@
 /* Constant for convertion BPM to single PPQN time in usec */
 #define BPM_TO_PPQN_TICK_CONSTANT 60000000.0/DEFAULT_PPQN_VALUE;
 
-const float defaultPPQN = DEFAULT_PPQN_VALUE;
-const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
+static float const defaultPPQN = DEFAULT_PPQN_VALUE;
+static float const defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
+static NSInteger const defaultTimeSignatureUpperPart = DEFAULT_SIGNATURE_UPPERPART;
+static SENoteDividerValue const defaultTimeSignatureLowerPart = noteDividerQuarter;
+static NSString *const kDefaultMetronomeOutputIdentifier = @"Metronome Output";
+static NSString *const kDefaultMetronomeSyncOutputIdentifier = @"Metronome Sync Output";
 
 #pragma mark - Inputs Extension
 
@@ -43,6 +49,12 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 @property (nonatomic, strong) SESystemTimer *systemTimer;
 @property (nonatomic, readwrite) unsigned long expectedTick;
 
+@property (nonatomic, readwrite) NSInteger bar;
+@property (nonatomic, readwrite) NSInteger teilInBar;
+@property (nonatomic, readwrite) NSInteger ticksPerTeil;
+@property (nonatomic, readwrite) unsigned long ticksForLastTeil;
+@property (nonatomic, readwrite) uint64_t currentTick;
+
 - (void) processExpectedTick;
 - (unsigned long) tickForNearestEvent;
 
@@ -57,7 +69,7 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 
 - (instancetype)init
 {
-    NSLog(@"Method can't be called. Please use an -initWithIdentifier: method.");
+    NSLog(@"Method shouldn't be called. Please use an -initWithIdentifier: method.");
     return nil;
 }
 
@@ -93,12 +105,15 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 {
     if (self = [super init]) {
         _mutableTracks = [[NSMutableDictionary alloc]init];
-        _startRecordingDate = nil;
-        _recording = NO;
-        _playing = NO;
         _tempo = DEFAULT_TEMPO_VALUE;
         _systemTimer = [[SESystemTimer alloc]initWithDelegate:self];
-        _expectedTick = 0;
+        self.timeSignature = (SETimeSignature){defaultTimeSignatureUpperPart,
+            defaultTimeSignatureLowerPart};
+        _metronomeOutput = [[SESequencerOutput alloc]
+            initWithIdentifier:kDefaultMetronomeOutputIdentifier];
+        _metronomeSyncOutput = [[SESequencerOutput alloc]
+            initWithIdentifier:kDefaultMetronomeSyncOutputIdentifier];
+        _click = YES;
     }
     return self;
 }
@@ -216,11 +231,6 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 {
     [self.systemTimer stop];
     _playing = NO;
-    SESequencerTrack *track = nil;
-    for (id<NSCopying> identifier in self.mutableTracks) {
-        track = [self.mutableTracks objectForKey:identifier];
-        [track resetPlayhead];
-    }
 }
 
 - (void) pause
@@ -229,6 +239,15 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
     _playing = NO;
 }
 
+#pragma mark Setters
+- (void) setTimeSignature:(SETimeSignature)timeSignature
+{
+    _timeSignature = timeSignature;
+    self.ticksPerTeil = [SEMusicTimebase ticksPerDuration:
+        timeSignature.lowerPart withPPQN:defaultPPQN];
+    self.bar = 0;
+    self.teilInBar = 0;
+}
 
 #pragma mark SESequencerInputDelegate Methods
 /* Receive event from source for stream number. If track is not exist return NO.
@@ -256,16 +275,40 @@ const float defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 #pragma mark SESystemTimerDelegate Protocol Methods
 - (void) timer:(SESystemTimer *)timer didCountTick:(uint64_t)tick
 {
-    // Check for 1/4 click
-//    if (!!tick%960) {
-//        NSLog(@"Quarter %llu Received!",tick/960);
-//    }
-    // Check for nearest event
-    if (tick>=self.expectedTick) {
-        self.expectedTick = (unsigned long)tick;
-        [self processExpectedTick];
+    // Teils and bars counting
+    self.currentTick = tick;
+    if (tick - self.ticksForLastTeil>=self.ticksPerTeil) {
+        self.teilInBar ++;
+        if (self.teilInBar >= self.timeSignature.upperPart) {
+            self.teilInBar = 0;
+            self.bar = self.bar + 1;
+        }
+        self.ticksForLastTeil = self.ticksForLastTeil + self.ticksPerTeil;
+        if (self.isClick) {
+            NSLog(@"Click! Bar: %i Teil: %i", self.bar, self.teilInBar);
+        }
     }
-    
+    if (!self.isRecording) {
+        // Check for nearest event
+        if (tick>=self.expectedTick) {
+            self.expectedTick = (unsigned long)tick;
+            [self processExpectedTick];
+        }
+    }
+}
+
+- (void) resetPlayhead
+{
+    // Reset self-playhead
+    self.ticksForLastTeil = 0;
+    self.bar = 0;
+    self.teilInBar = 0;
+    // Reset track-playheads
+    SESequencerTrack *track = nil;
+    for (id<NSCopying> identifier in self.mutableTracks) {
+        track = [self.mutableTracks objectForKey:identifier];
+        [track resetPlayhead];
+    }
 }
 
 #pragma mark Private Methods

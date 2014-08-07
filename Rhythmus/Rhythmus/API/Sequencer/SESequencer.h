@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "SESequencerTrack.h"
 #import "SEReceiverDelegate.h"
+#import "SEMusicTimebase.h"
 
 @class SESequencerInput;
 
@@ -38,7 +39,11 @@
 
 @property (nonatomic, readonly, getter = isRecording) BOOL recording;
 @property (nonatomic, readonly, getter = isPlaying) BOOL playing;
+@property (nonatomic, getter = isClick) BOOL click;
 @property (nonatomic, readwrite) NSInteger tempo;
+@property (nonatomic, readwrite) SETimeSignature timeSignature;
+@property (nonatomic, strong) SESequencerOutput *metronomeOutput;
+@property (nonatomic, strong) SESequencerOutput *metronomeSyncOutput;
 
 #pragma mark -
 #pragma mark Track Methods
