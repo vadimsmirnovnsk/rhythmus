@@ -39,6 +39,7 @@
 
 @property (nonatomic, readonly, getter = isRecording) BOOL recording;
 @property (nonatomic, readonly, getter = isPlaying) BOOL playing;
+@property (nonatomic, readonly, getter = isPreparing) BOOL preparing;
 @property (nonatomic, getter = isClick) BOOL click;
 @property (nonatomic, readwrite) NSInteger tempo;
 @property (nonatomic, readwrite) SETimeSignature timeSignature;
@@ -72,6 +73,7 @@
 
 #pragma mark Playback Methods
 - (BOOL) startRecording;
+- (void) startRecordingWithPrepare;
 - (void) stopRecording;
 - (void) playAllStreams;
 - (void) stop;

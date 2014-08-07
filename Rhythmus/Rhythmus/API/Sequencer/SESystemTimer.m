@@ -48,10 +48,11 @@
     mach_timebase_info_data_t timebase;
     mach_timebase_info(&timebase);
     uint64_t beginTime = mach_absolute_time();
+    __typeof (self) __weak blockSelf = self;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-        while (self.clocking) {
-            if (self.shouldReset) {
-                self.shouldReset = NO;
+        while (blockSelf.clocking) {
+            if (blockSelf.shouldReset) {
+                blockSelf.shouldReset = NO;
                 tick = 0;
             }
             usleep(usecPeriod/1000);
@@ -59,11 +60,11 @@
             tick = (currentTime - beginTime)*timebase.numer / timebase.denom / usecPeriod;
             // Return counted ticks to main thread
             dispatch_sync(dispatch_get_main_queue(), ^{
-                [self.delegate timer:self didCountTick:tick];
+                [blockSelf.delegate timer:blockSelf didCountTick:tick];
             });
         }
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [self.delegate resetPlayhead];
+            [blockSelf.delegate timerDidStop:blockSelf];
         });
     });
 }

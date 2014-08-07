@@ -98,7 +98,7 @@
 
 #pragma SEReceiverDelegate Protocol Methods
 
-- (void) receiveMessage:(SESequencerMessage *)message
+- (void) output:(SESequencerOutput *)sender didGenerateMessage:(SESequencerMessage *)message;
 {
     if (message.type == messageTypePause) {
         return;

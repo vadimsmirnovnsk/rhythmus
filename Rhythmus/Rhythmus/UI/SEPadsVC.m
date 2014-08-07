@@ -89,7 +89,7 @@
         [self.sequencer stopRecording];
     }
     else {
-        [self.sequencer startRecording];
+        [self.sequencer startRecordingWithPrepare];
     }
 }
 

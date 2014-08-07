@@ -22,7 +22,7 @@
  */
  
 - (void) timer:(SESystemTimer *)timer didCountTick:(uint64_t)tick;
-- (void) resetPlayhead;
+- (void) timerDidStop:(SESystemTimer *)timer;
 
 @end
 

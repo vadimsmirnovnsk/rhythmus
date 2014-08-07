@@ -83,7 +83,7 @@
 
 - (void) sendToOutput:(SESequencerMessage *)message
 {
-    [self.output.delegate receiveMessage:message];
+    [self.output.delegate output:self.output didGenerateMessage:message];
 }
 
 - (void) removeCurrentMessage

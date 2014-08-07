@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @class SESequencerMessage;
+@class SESequencerOutput;
 
 @protocol SEReceiverDelegate <NSObject>
 
@@ -24,6 +25,6 @@
  *
  *      That's it! Isn't it simple? ;-)
  */
-- (void) receiveMessage:(SESequencerMessage *)message;
+- (void) output:(SESequencerOutput *)sender didGenerateMessage:(SESequencerMessage *)message;
 
 @end
