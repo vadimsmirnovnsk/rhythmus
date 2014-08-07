@@ -7,21 +7,26 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SESequencerTrack.h"
 #import "SEReceiverDelegate.h"
 #import "SEMusicTimebase.h"
 
 @class SESequencerInput;
+@class SESequencerTrack;
+
 
 #pragma mark - SEInputDelegate Protocol
+
 @protocol SEInputDelegate <NSObject>
 
 - (BOOL) input:(SESequencerInput *)sender didGenerateMessage:(SESequencerMessage *)message;
 
 @end
 
+
 #pragma mark - Inputs Interface
+
 @interface SESequencerInput : NSObject
+
 @property (nonatomic, readonly, copy) NSString *identifier;
 @property (nonatomic, readwrite, getter = isMute) BOOL mute;
 
@@ -34,7 +39,22 @@
 
 @end
 
+
+#pragma mark - Outputs Interface
+
+@interface SESequencerOutput : NSObject
+
+@property (nonatomic, readonly, copy) NSString *identifier;
+@property (nonatomic, weak) id<SEReceiverDelegate> delegate;
+
+// Designated initializer
+- (instancetype) initWithIdentifier:(NSString *)identifier;
+
+@end
+
+
 #pragma mark - Sequencer Interface
+
 @interface SESequencer : NSObject
 
 @property (nonatomic, readonly, getter = isRecording) BOOL recording;
@@ -46,7 +66,7 @@
 @property (nonatomic, strong) SESequencerOutput *metronomeOutput;
 @property (nonatomic, strong) SESequencerOutput *metronomeSyncOutput;
 
-#pragma mark -
+
 #pragma mark Track Methods
 // Creating tracks methods
 // CR:  You can't simply add a track; you should ask for an identifier.

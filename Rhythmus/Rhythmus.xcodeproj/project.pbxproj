@@ -24,7 +24,6 @@
 		CEA992201986466800CAB5AC /* SERhythmusPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA9921B1986466800CAB5AC /* SERhythmusPattern.m */; };
 		CEA9928319878E3700CAB5AC /* SESequencer.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA9928219878E3700CAB5AC /* SESequencer.m */; };
 		CEA9928C19878EA900CAB5AC /* SESystemTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA9928B19878EA900CAB5AC /* SESystemTimer.m */; };
-		CEA9928F19878EEB00CAB5AC /* SESequencerTrack.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA9928E19878EEB00CAB5AC /* SESequencerTrack.m */; };
 		CEA992941987934F00CAB5AC /* SESequencerMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA992931987934F00CAB5AC /* SESequencerMessage.m */; };
 		CEA992A2198A85FE00CAB5AC /* SEAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA992A1198A85FE00CAB5AC /* SEAudioController.m */; };
 		CEA992A6198A892200CAB5AC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA992A5198A892200CAB5AC /* AudioToolbox.framework */; };
@@ -82,8 +81,6 @@
 		CEA9928219878E3700CAB5AC /* SESequencer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESequencer.m; path = Rhythmus/API/Sequencer/SESequencer.m; sourceTree = "<group>"; };
 		CEA9928A19878EA900CAB5AC /* SESystemTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESystemTimer.h; path = Rhythmus/API/Sequencer/SESystemTimer.h; sourceTree = "<group>"; };
 		CEA9928B19878EA900CAB5AC /* SESystemTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESystemTimer.m; path = Rhythmus/API/Sequencer/SESystemTimer.m; sourceTree = "<group>"; };
-		CEA9928D19878EEB00CAB5AC /* SESequencerTrack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESequencerTrack.h; path = Rhythmus/API/Sequencer/SESequencerTrack.h; sourceTree = "<group>"; };
-		CEA9928E19878EEB00CAB5AC /* SESequencerTrack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESequencerTrack.m; path = Rhythmus/API/Sequencer/SESequencerTrack.m; sourceTree = "<group>"; };
 		CEA992921987934F00CAB5AC /* SESequencerMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESequencerMessage.h; path = Rhythmus/API/Sequencer/SESequencerMessage.h; sourceTree = "<group>"; };
 		CEA992931987934F00CAB5AC /* SESequencerMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESequencerMessage.m; path = Rhythmus/API/Sequencer/SESequencerMessage.m; sourceTree = "<group>"; };
 		CEA992971988F00E00CAB5AC /* SEReceiverDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SEReceiverDelegate.h; path = Rhythmus/API/Sequencer/SEReceiverDelegate.h; sourceTree = "<group>"; };
@@ -263,8 +260,6 @@
 				CEA9928B19878EA900CAB5AC /* SESystemTimer.m */,
 				CEA9928119878E3700CAB5AC /* SESequencer.h */,
 				CEA9928219878E3700CAB5AC /* SESequencer.m */,
-				CEA9928D19878EEB00CAB5AC /* SESequencerTrack.h */,
-				CEA9928E19878EEB00CAB5AC /* SESequencerTrack.m */,
 				CEA992921987934F00CAB5AC /* SESequencerMessage.h */,
 				CEA992931987934F00CAB5AC /* SESequencerMessage.m */,
 				CED77FCF199375D90014449A /* SEMusicTimebase.h */,
@@ -415,7 +410,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEA992A2198A85FE00CAB5AC /* SEAudioController.m in Sources */,
-				CEA9928F19878EEB00CAB5AC /* SESequencerTrack.m in Sources */,
 				CEA992941987934F00CAB5AC /* SESequencerMessage.m in Sources */,
 				CEA9928C19878EA900CAB5AC /* SESystemTimer.m in Sources */,
 				CEA9928319878E3700CAB5AC /* SESequencer.m in Sources */,

@@ -28,7 +28,8 @@
 
 @interface SESystemTimer : NSObject
 
-- (instancetype) initWithDelegate:(id<SESystemTimerDelegate>)delegate;
+@property (nonatomic, weak) id<SESystemTimerDelegate> delegate;
+
 - (void) startWithPulsePeriod:(unsigned long)usecPeriod;
 - (BOOL) start; // With current options
 - (void) stop;

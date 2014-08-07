@@ -13,27 +13,11 @@
 
 @property (nonatomic, readwrite) BOOL shouldReset;
 @property (nonatomic, getter = isClocking) BOOL clocking;
-@property (nonatomic, weak) id<SESystemTimerDelegate> delegate;
 @property (nonatomic, readonly) unsigned int period;
 
 @end
 
 @implementation SESystemTimer
-
-- (instancetype)init
-{
-    NSLog(@"Method shouldn't be called. Please use an -initWithDelegate method.");
-    return nil;
-}
-
-// Designated initializer
-- (instancetype) initWithDelegate:(id<SESystemTimerDelegate>)delegate
-{
-    if (self = [super init]) {
-        _delegate = delegate;
-    }
-    return self;
-}
 
 - (void) startWithPulsePeriod:(unsigned long)usecPeriod
 {

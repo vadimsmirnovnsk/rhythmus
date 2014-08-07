@@ -51,12 +51,12 @@
         NSString *samplePath = [[NSBundle mainBundle]pathForResource:@"snare" ofType:@"aif"];
         NSURL *sampleURL = [NSURL fileURLWithPath:samplePath];
         self.samplePlayer = [SEAudioController playerWithContentsOfURL:sampleURL];
-        [self.output0 linkWithReceiver:self.samplePlayer];
+        [self.output0 setDelegate: self.samplePlayer];
         
         samplePath = [[NSBundle mainBundle]pathForResource:@"clap" ofType:@"aif"];
         sampleURL = [NSURL fileURLWithPath:samplePath];
         self.samplePlayer1 = [SEAudioController playerWithContentsOfURL:sampleURL];
-        [self.output1 linkWithReceiver:self.samplePlayer1];
+        self.output1.delegate = self.samplePlayer1;
     }
     return self;
 }
