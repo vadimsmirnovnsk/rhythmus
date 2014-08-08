@@ -13,8 +13,6 @@
 @class SESequencerInput;
 @class SESequencerTrack;
 
-static NSString *const kSequencerPadsFeedbackParameter = @"Identifier";
-
 
 #pragma mark - SEInputDelegate Protocol
 

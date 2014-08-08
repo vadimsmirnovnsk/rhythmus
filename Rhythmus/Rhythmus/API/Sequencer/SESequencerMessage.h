@@ -8,6 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+// Workspace Feedback Parameters
+static NSString *const kSequencerPadsFeedbackParameter = @"Identifier";
+
+// SystemPrepare Paramaters
+static NSString *const kSequencerPrepareWillStartParameter = @"Prepare will start";
+static NSString *const kSequencerPrepareWillAbortParameter = @"Prepare will abort";
+static NSString *const kSequencerRecordWillStartParameter = @"Record will start";
+
+
 @interface SESequencerMessage : NSObject <NSCopying>
 
 #define SEQUENCE_MESSAGE_PPQN_NO_INTERVAL -1;
@@ -19,7 +28,9 @@ typedef enum {
     messageTypeTrigger = 0,
     messageTypePause = 1,
     messageTypeSample = 2,
-    messageTypeInputFeedback = 3
+    messageTypeInputFeedback = 3,
+    messageTypeSystemPrepare = 4,
+    messageTypeMetronomeClick = 5
 } MessageType;
 
 @property (nonatomic, readwrite) MessageType type;

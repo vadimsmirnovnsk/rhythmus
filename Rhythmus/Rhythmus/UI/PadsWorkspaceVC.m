@@ -5,6 +5,10 @@
 #import "SEReceiverDelegate.h"
 #import "SESequencerMessage.h"
 
+const CGFloat pwActivePadAlpha =  0.75;
+const CGFloat pwNormalPadAlpha =  1.0;
+const CGFloat pwDisabledPadAlpha =  0.3;
+
 #pragma mark - SEPad Interface
 
 
@@ -30,6 +34,8 @@
 @property (nonatomic, strong) NSMutableDictionary *outputs;
 @property (nonatomic, strong) NSMutableDictionary *players;
 @property (nonatomic, strong) NSMutableDictionary *pads;
+
+@property (nonatomic,strong) UIView *preparingView;
 
 @end
 
@@ -58,10 +64,10 @@
     
     __weak typeof(self) blockSelf = self;
     [UIView animateWithDuration:0.05 delay:0.0 options:UIViewAnimationOptionAutoreverse animations:^{
-        [blockSelf setAlpha:0.9];
+        [blockSelf setAlpha:pwActivePadAlpha];
         [blockSelf setFrame:finishLayout];
     } completion:^(BOOL finished) {
-        [blockSelf setAlpha:1.0];
+        [blockSelf setAlpha:pwNormalPadAlpha];
         [blockSelf setFrame:startLayout];
     }];
 }
@@ -131,6 +137,7 @@
         // Send message to UIColor
         newPad.backgroundColor = objc_msgSend([UIColor class], s);
         newPad.identifier = identifier;
+        newPad.alpha = pwNormalPadAlpha;
         [newPad addTarget:self action:@selector(didTapped:) forControlEvents:UIControlEventTouchDown];
         [self.view addSubview:newPad];
         
@@ -139,6 +146,25 @@
         [_players setObject:newPlayer forKey:identifier];
         [_pads setObject:newPad forKey:identifier];
         [_sequencer.padsFeedbackOutput setDelegate:self];
+        
+        _preparingView = [[UIView alloc]init];
+        _preparingView.backgroundColor = [UIColor iOS7BlackColor];
+        _preparingView.frame = (CGRect){
+            5,
+            -4,
+            310,
+            0
+        };
+        _preparingView.alpha = (CGFloat)0.7;
+        [self.view addSubview:_preparingView];
+//        [UIView animateWithDuration:0.5 animations:^{
+//            _preparingView.frame = (CGRect){
+//            5,
+//            0,
+//            310,
+//            310
+//        };
+//        }];
     }
 
 }
@@ -147,6 +173,48 @@
 {
     [self.inputs[sender.identifier]generateMessage];
     [sender animatePad];
+}
+
+- (void)showPrepareSubview
+{
+        [UIView animateWithDuration:0.7 delay:0.0 usingSpringWithDamping:0.4 initialSpringVelocity:0.9 options:UIViewAnimationOptionTransitionFlipFromTop animations:^{
+            self.preparingView.frame = (CGRect){
+            5,
+            -2,
+            310,
+            310
+            };
+        } completion:^(BOOL finished) {
+            self.preparingView.frame = (CGRect){
+            5,
+            -2,
+            310,
+            314
+            };
+        }];
+}
+
+- (void)hidePrepareSubview
+{
+    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
+        self.preparingView.alpha = 0.0;
+        self.preparingView.frame = (CGRect){
+        160,
+        160,
+        0,
+        0
+        };
+    } completion:^(BOOL finished) {
+        _preparingView.frame = (CGRect){
+        5,
+        -4,
+        310,
+        0
+        };
+    _preparingView.alpha = (CGFloat)0.7;
+    }];
+     
+    
 }
 
 - (void)viewDidLoad
@@ -159,6 +227,15 @@
 {
     if (message.type == messageTypeInputFeedback) {
         [self.pads[message.parameters[kSequencerPadsFeedbackParameter]] animatePad];
+    }
+    else if (message.type == messageTypeSystemPrepare) {
+        if (message.parameters[kSequencerPrepareWillStartParameter]) {
+            [self showPrepareSubview];
+        }
+        else if (message.parameters[kSequencerRecordWillStartParameter] ||
+                 message.parameters[kSequencerPrepareWillAbortParameter]) {
+            [self hidePrepareSubview];
+        }
     }
 }
 

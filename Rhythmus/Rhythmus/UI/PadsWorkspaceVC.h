@@ -11,4 +11,5 @@
 
 - (void)tuneForSequencer:(SESequencer *)sequencer;
 
+
 @end

@@ -457,7 +457,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         [track removeAllMessages];
     }
     self.preparing = YES;
-    NSLog(@"Send to Prepare Output: Let's do it!");
+    //NSLog(@"Send to Prepare Output: Let's do it!");
+    [_padsFeedbackOutput.delegate output:_padsFeedbackOutput didGenerateMessage:[SESequencerMessage messageWithType:messageTypeSystemPrepare andParameters:
+                    @{kSequencerPrepareWillStartParameter: kSequencerPrepareWillStartParameter}]];
     [self.systemTimer startWithPulsePeriod:(long)
         (defaultBPMtoPPQNTickConstant/_tempo)*1000];
 }
@@ -467,7 +469,10 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 - (void) stopRecording
 {
     if (self.isPreparing) {
-        return;
+        [_padsFeedbackOutput.delegate output:_padsFeedbackOutput
+            didGenerateMessage:[SESequencerMessage
+            messageWithType:messageTypeSystemPrepare andParameters:
+            @{kSequencerPrepareWillAbortParameter:kSequencerPrepareWillAbortParameter}]];
     }
     [self.systemTimer stop];
     SESequencerTrack *track = nil;
@@ -602,11 +607,18 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         }
         self.ticksForLastTeil = self.ticksForLastTeil + self.ticksPerTeil;
         if (self.isClick) {
-            NSLog(@"Click! Bar: %i Teil: %i", self.bar, self.teilInBar);
+            // NSLog(@"Click! Bar: %i Teil: %i", self.bar, self.teilInBar);
+            [_metronomeOutput.delegate output:_metronomeOutput
+                didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeClick
+                andParameters:@{@"Bar":@(self.bar), @"Teil":@(self.teilInBar)}]];
                 // Process preparing ticks
                 if (self.isPreparing) {
                     if (self.timeSignature.upperPart - 1 == self.teilInBar) {
-                            NSLog(@"Send to Prepare Output: GO!");
+                            // NSLog(@"Send to Prepare Output: GO!");
+                            [_padsFeedbackOutput.delegate output:_padsFeedbackOutput
+                                didGenerateMessage:[SESequencerMessage
+                                messageWithType:messageTypeSystemPrepare andParameters:
+                                @{kSequencerRecordWillStartParameter:kSequencerRecordWillStartParameter}]];
                             self.bar = 0;
                             self.preparing = NO;
                             self.recording = YES;

@@ -59,6 +59,10 @@
         [self addChildViewController:newPlaybackVC];
         [self.view addSubview:newPlaybackVC.view];
         [newPlaybackVC setSequencer:_sequencer];
+        NSString *samplePath = [[NSBundle mainBundle]pathForResource:@"drumstick" ofType:@"wav"];
+        NSURL *sampleURL = [NSURL fileURLWithPath:samplePath];
+        _samplePlayer = [SEAudioController playerWithContentsOfURL:sampleURL];
+        [_sequencer.metronomeOutput setDelegate:_samplePlayer];
     }
     return self;
 }

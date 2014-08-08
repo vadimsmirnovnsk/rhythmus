@@ -32,9 +32,9 @@
         
         _recButton = [[UIButton alloc]init];
         _recButton.frame = (CGRect){
-            50,
+            5,
             10,
-            60,
+            145,
             60
         };
         [_recButton setImage:[UIImage imageNamed:@"recButtonActive"] forState:UIControlStateNormal];
@@ -45,9 +45,9 @@
         
         _playButton = [[UIButton alloc]init];
         _playButton.frame = (CGRect){
-            200,
+            160,
             10,
-            60,
+            145,
             60
         };
         [_playButton setImage:[UIImage imageNamed:@"playButtonActive"]
@@ -57,16 +57,16 @@
         [self.view addSubview:_playButton];
         [_playButton addTarget:self action:@selector(handlePlayButton:)
             forControlEvents:UIControlEventTouchUpInside];
+        
+//        _recButton.backgroundColor = [UIColor redOrangeColor];
+//        _playButton.backgroundColor = [UIColor manateeColor];
     }
     return self;
 }
 
 - (void) handleRecButton:(UIButton *)sender
 {
-    if ([_sequencer isPreparing]) {
-        [_sequencer stopRecording];
-    }
-    if ([_sequencer isRecording]) {
+    if ([_sequencer isRecording] || [_sequencer isPreparing]) {
         [_recButton setImage:[UIImage imageNamed:@"recButtonActive"]
             forState:UIControlStateNormal];
         [_sequencer stopRecording];

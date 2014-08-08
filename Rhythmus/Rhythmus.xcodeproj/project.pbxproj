@@ -45,6 +45,7 @@
 		CED77FFC1994E8AE0014449A /* playButtonActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FF41994E8AE0014449A /* playButtonActive@2x.png */; };
 		CED77FFD1994E8AE0014449A /* playButtonPlaying.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FF51994E8AE0014449A /* playButtonPlaying.png */; };
 		CED77FFE1994E8AE0014449A /* playButtonPlaying@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FF61994E8AE0014449A /* playButtonPlaying@2x.png */; };
+		CED7800219953F450014449A /* drumstick.wav in Resources */ = {isa = PBXBuildFile; fileRef = CED7800119953F450014449A /* drumstick.wav */; };
 		CEE7662E198CF499002A3E93 /* fileCabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE76628198CF499002A3E93 /* fileCabinet.png */; };
 		CEE7662F198CF499002A3E93 /* fileCabinet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE76629198CF499002A3E93 /* fileCabinet@2x.png */; };
 		CEE76630198CF499002A3E93 /* padViewTabIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE7662A198CF499002A3E93 /* padViewTabIcon.png */; };
@@ -127,6 +128,7 @@
 		CED77FF41994E8AE0014449A /* playButtonActive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "playButtonActive@2x.png"; path = "Pics/playButtonActive@2x.png"; sourceTree = "<group>"; };
 		CED77FF51994E8AE0014449A /* playButtonPlaying.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playButtonPlaying.png; path = Pics/playButtonPlaying.png; sourceTree = "<group>"; };
 		CED77FF61994E8AE0014449A /* playButtonPlaying@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "playButtonPlaying@2x.png"; path = "Pics/playButtonPlaying@2x.png"; sourceTree = "<group>"; };
+		CED7800119953F450014449A /* drumstick.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = drumstick.wav; path = Sounds/drumstick.wav; sourceTree = "<group>"; };
 		CEE76628198CF499002A3E93 /* fileCabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fileCabinet.png; path = Pics/fileCabinet.png; sourceTree = "<group>"; };
 		CEE76629198CF499002A3E93 /* fileCabinet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fileCabinet@2x.png"; path = "Pics/fileCabinet@2x.png"; sourceTree = "<group>"; };
 		CEE7662A198CF499002A3E93 /* padViewTabIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = padViewTabIcon.png; path = Pics/padViewTabIcon.png; sourceTree = "<group>"; };
@@ -281,8 +283,8 @@
 				CEE7664E198CFE4C002A3E93 /* SERedactorVC.h */,
 				CEE7664F198CFE4C002A3E93 /* SERedactorVC.m */,
 				CEE76650198CFE4C002A3E93 /* SERedactorVC.xib */,
-				CEE76634198CF509002A3E93 /* UIColor+ColorFromHexString.m */,
 				CEE76635198CF509002A3E93 /* UIColor+ColorFromHexString.h */,
+				CEE76634198CF509002A3E93 /* UIColor+ColorFromHexString.m */,
 				CED77FD21993E99A0014449A /* UIColor+iOS7Colors.h */,
 				CED77FD31993E99A0014449A /* UIColor+iOS7Colors.m */,
 			);
@@ -318,8 +320,8 @@
 			children = (
 				CED77FE01994D3800014449A /* PlaybackVC.h */,
 				CED77FE11994D3800014449A /* PlaybackVC.m */,
-				CED77FD71993F59D0014449A /* PadsWorkspaceVC.m */,
 				CED77FD61993F59D0014449A /* PadsWorkspaceVC.h */,
+				CED77FD71993F59D0014449A /* PadsWorkspaceVC.m */,
 				CEE76649198CFE30002A3E93 /* SEPadsVC.h */,
 				CEE7664A198CFE30002A3E93 /* SEPadsVC.m */,
 				CEE7664B198CFE30002A3E93 /* SEPadsVC.xib */,
@@ -330,6 +332,7 @@
 		CEE0A48D198CEB8E00232745 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				CED7800119953F450014449A /* drumstick.wav */,
 				CED77FD91993FC570014449A /* bassdrum.aif */,
 				CED77FDA1993FC570014449A /* hihat.aif */,
 				CE6F973C198FE9FA009CED03 /* clap.aif */,
@@ -466,6 +469,7 @@
 				CED77FEE1994E4EC0014449A /* recButtonDisactive@2x.png in Resources */,
 				CEE76631198CF499002A3E93 /* padViewTabIcon@2x.png in Resources */,
 				CEE76645198CFDEB002A3E93 /* SELibraryVC.xib in Resources */,
+				CED7800219953F450014449A /* drumstick.wav in Resources */,
 				CEE76652198CFE4C002A3E93 /* SERedactorVC.xib in Resources */,
 				CEE76630198CF499002A3E93 /* padViewTabIcon.png in Resources */,
 				CED77FF71994E8AE0014449A /* recButtonRecording.png in Resources */,
