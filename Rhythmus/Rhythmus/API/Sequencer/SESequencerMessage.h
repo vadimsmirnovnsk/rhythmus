@@ -18,7 +18,8 @@ typedef enum {
     messageTypeDefault = 0,
     messageTypeTrigger = 0,
     messageTypePause = 1,
-    messageTypeSample = 2
+    messageTypeSample = 2,
+    messageTypeInputFeedback = 3
 } MessageType;
 
 @property (nonatomic, readwrite) MessageType type;
@@ -26,13 +27,16 @@ typedef enum {
 @property (nonatomic, readwrite) unsigned long PPQNTimeStamp;
 @property (nonatomic, readwrite) NSInteger initialDuration; // Non-music-quantized duration - in PPQN.
 @property (nonatomic, readwrite) NSTimeInterval rawTimestamp;
+@property (nonatomic, strong) NSDictionary *parameters;
 
 #pragma mark Class Methods
 + (instancetype) defaultMessage;
++ (instancetype) messageWithType:(MessageType)type andParameters:(NSDictionary *)parameters;
 
 #pragma mark -
 #pragma mark Initializers
-- (id) initWithRawTimestamp:(NSTimeInterval)rawTimestamp;
+- (instancetype) initWithRawTimestamp:(NSTimeInterval)rawTimestamp
+    type:(MessageType)type parameters:(NSDictionary *)parameters;
 
 
 @end

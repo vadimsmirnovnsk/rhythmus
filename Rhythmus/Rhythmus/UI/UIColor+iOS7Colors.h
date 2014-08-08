@@ -6,6 +6,8 @@
 //      http://chir.ag/projects/name-that-color/
 
 
++ (NSArray *) sharedColorNames;
+
 #pragma mark Clear Colors
 
 + (UIColor *)silverColor;
@@ -21,6 +23,8 @@
 + (UIColor *)azureRadianceColor;
 + (UIColor *)indigoColor;
 + (UIColor *)mineShaftColor;
++ (UIColor *)lightSilverColor;
++ (UIColor *)doveGrayColor;
 
 
 #pragma mark Aliaces
@@ -37,6 +41,11 @@
 + (UIColor *)iOS7PinkColor;
 + (UIColor *)iOS7GrayColor;
 
++ (UIColor *)rhythmusDividerColor;
++ (UIColor *)rhythmusPlaybackPanelColor;
++ (UIColor *)rhythmusMetronomeTextColor;
++ (UIColor *)rhythmusLedOffColor;
++ (UIColor *)rhythmusLedOnColor;
 + (UIColor *)rhythmusBackgroundColor;
 + (UIColor *)rhythmusTapBarColor;
 + (UIColor *)rhythmusNavBarColor;

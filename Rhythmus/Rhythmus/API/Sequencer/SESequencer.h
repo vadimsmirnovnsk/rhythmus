@@ -13,6 +13,8 @@
 @class SESequencerInput;
 @class SESequencerTrack;
 
+static NSString *const kSequencerPadsFeedbackParameter = @"Identifier";
+
 
 #pragma mark - SEInputDelegate Protocol
 
@@ -45,7 +47,7 @@
 @interface SESequencerOutput : NSObject
 
 @property (nonatomic, readonly, copy) NSString *identifier;
-@property (nonatomic, weak) id<SEReceiverDelegate> delegate;
+@property (nonatomic, strong) id<SEReceiverDelegate> delegate;
 
 // Designated initializer
 - (instancetype) initWithIdentifier:(NSString *)identifier;
@@ -65,6 +67,7 @@
 @property (nonatomic, readwrite) SETimeSignature timeSignature;
 @property (nonatomic, strong) SESequencerOutput *metronomeOutput;
 @property (nonatomic, strong) SESequencerOutput *metronomeSyncOutput;
+@property (nonatomic, strong) SESequencerOutput *padsFeedbackOutput;
 
 
 #pragma mark Track Methods
@@ -95,7 +98,7 @@
 - (BOOL) startRecording;
 - (void) startRecordingWithPrepare;
 - (void) stopRecording;
-- (void) playAllStreams;
+- (BOOL) playAllStreams;
 - (void) stop;
 - (void) pause;
 

@@ -18,21 +18,30 @@
     return ([[SESequencerMessage alloc]init]);
 }
 
++ (instancetype) messageWithType:(MessageType)type andParameters:(NSDictionary *)parameters
+{
+    double empty_time_interval = SEQUENCE_MESSAGE_NULL_TIMESTAMP;
+    return [[SESequencerMessage alloc]initWithRawTimestamp:empty_time_interval
+        type:type parameters:parameters];
+}
+
 - (instancetype) init
 {
     double empty_time_interval = SEQUENCE_MESSAGE_NULL_TIMESTAMP;
-    return [self initWithRawTimestamp:empty_time_interval];
+    return [self initWithRawTimestamp:empty_time_interval type:messageTypeDefault parameters:nil];
 }
 
 // Designated initializer
 - (instancetype) initWithRawTimestamp:(NSTimeInterval)rawTimestamp
+    type:(MessageType)type parameters:(NSDictionary *)parameters
 {
     if (self=[super init]) {
-        _type = messageTypeDefault;
+        _type = type;
         _data = nil;
         _PPQNTimeStamp = SEQUENCE_MESSAGE_PPQN_NO_INTERVAL;
         _rawTimestamp = rawTimestamp;
         _initialDuration = SEQUENCE_MESSAGE_NULL_DURATION;
+        _parameters = parameters;
     }
     return self;
 }

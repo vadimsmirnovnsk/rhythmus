@@ -7,6 +7,8 @@
 
 @interface PadsWorkspaceVC : UIViewController <SEReceiverDelegate>
 
-@property (nonatomic, strong /*TODO: change to weak*/) SESequencer *sequencer;
+@property (nonatomic, strong) SESequencer *sequencer;
+
+- (void)tuneForSequencer:(SESequencer *)sequencer;
 
 @end

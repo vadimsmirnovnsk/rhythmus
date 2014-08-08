@@ -4,6 +4,29 @@
 @implementation UIColor (iOS7Colors)
 
 
++ (NSArray *)sharedColorNames
+{
+    static NSArray *colors = nil;
+    static dispatch_once_t onceToken = 0;
+    dispatch_once(&onceToken, ^{
+        colors = [NSArray arrayWithObjects:
+        @"silverColor",
+        @"manateeColor",
+        @"radicalRedColor",
+        @"redOrangeColor",
+        @"pizazzColor",
+        @"supernovaColor",
+        @"emeraldColor",
+        @"malibuColor",
+        @"curiousBlueColor",
+        @"azureRadianceColor",
+        @"indigoColor",
+ //       @"mercuryColor",
+        nil];
+    });
+    return colors;
+}
+
 #pragma mark Clear Colors
 
 + (UIColor *)silverColor
@@ -80,8 +103,26 @@
 
 + (UIColor *)mineShaftColor
 {
-    return [UIColor colorWithRed:(CGFloat){45.0/255.0} green:(CGFloat){45.0/255.0}
-            blue:(CGFloat){45.0/255.0} alpha:(CGFloat){1.0}];
+    return [UIColor colorWithRed:(CGFloat){40.0/255.0} green:(CGFloat){40.0/255.0}
+            blue:(CGFloat){40.0/255.0} alpha:(CGFloat){1.0}];
+}
+
++ (UIColor *)mercuryColor
+{
+    return [UIColor colorWithRed:(CGFloat){232.0/255.0} green:(CGFloat){232.0/255.0}
+            blue:(CGFloat){232.0/255.0} alpha:(CGFloat){1.0}];
+}
+
++ (UIColor *)lightSilverColor
+{
+    return [UIColor colorWithRed:(CGFloat){196.0/255.0} green:(CGFloat){196.0/255.0}
+            blue:(CGFloat){196.0/255.0} alpha:(CGFloat){1.0}];
+}
+
++ (UIColor *)doveGrayColor
+{
+    return [UIColor colorWithRed:(CGFloat){104.0/255.0} green:(CGFloat){104.0/255.0}
+            blue:(CGFloat){104.0/255.0} alpha:(CGFloat){1.0}];
 }
 
 
@@ -143,6 +184,22 @@
     return [UIColor manateeColor];
 }
 
+
++ (UIColor *)rhythmusMetronomeTextColor
+{
+    return [UIColor altoColor];
+}
+
++ (UIColor *)rhythmusLedOffColor
+{
+    return [UIColor mineShaftColor];
+}
+
++ (UIColor *)rhythmusLedOnColor
+{
+    return [UIColor mercuryColor];
+}
+
 + (UIColor *)rhythmusNavBarColor
 {
     return [UIColor silverColor];
@@ -156,6 +213,16 @@
 + (UIColor *)rhythmusBackgroundColor
 {
     return [UIColor altoColor];
+}
+
++ (UIColor *)rhythmusPlaybackPanelColor
+{
+    return [UIColor lightSilverColor];
+}
+
++ (UIColor *)rhythmusDividerColor
+{
+    return [UIColor doveGrayColor];
 }
 
 @end

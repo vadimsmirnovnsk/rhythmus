@@ -26,9 +26,12 @@
 static float const defaultPPQN = DEFAULT_PPQN_VALUE;
 static float const defaultBPMtoPPQNTickConstant = BPM_TO_PPQN_TICK_CONSTANT;
 static NSInteger const defaultTimeSignatureUpperPart = DEFAULT_SIGNATURE_UPPERPART;
+
 static SENoteDividerValue const defaultTimeSignatureLowerPart = noteDividerQuarter;
+
 static NSString *const kDefaultMetronomeOutputIdentifier = @"Metronome Output";
 static NSString *const kDefaultMetronomeSyncOutputIdentifier = @"Metronome Sync Output";
+static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Output";
 
 
 #pragma mark - Sequencer Track Interface
@@ -166,6 +169,7 @@ static NSString *const kDefaultMetronomeSyncOutputIdentifier = @"Metronome Sync 
     }
     return self;
 }
+
 
 @end
 
@@ -364,6 +368,8 @@ static NSString *const kDefaultMetronomeSyncOutputIdentifier = @"Metronome Sync 
             initWithIdentifier:kDefaultMetronomeOutputIdentifier];
         _metronomeSyncOutput = [[SESequencerOutput alloc]
             initWithIdentifier:kDefaultMetronomeSyncOutputIdentifier];
+        _padsFeedbackOutput = [[SESequencerOutput alloc]
+            initWithIdentifier:kDefaultPadsFeedbackOutputIdentifier];
         _click = YES;
         _teilInBar = -1;
     }
@@ -476,10 +482,10 @@ static NSString *const kDefaultMetronomeSyncOutputIdentifier = @"Metronome Sync 
 }
 
 /* Play all streams, so what can else say. */
-- (void) playAllStreams
+- (BOOL) playAllStreams
 {
     if (self.isPreparing || self.isRecording || self.isPlaying) {
-        return;
+        return YES;
     }
     // Check arrays for elements
     SESequencerTrack *track = nil;
@@ -487,7 +493,7 @@ static NSString *const kDefaultMetronomeSyncOutputIdentifier = @"Metronome Sync 
         track = self.mutableTracks[key];
         if (![[track allMessages]count]) {
             NSLog(@"Nothing to play in track with identifier: %@", track.identifier);
-            return;
+            return NO;
         }
     }
     self.playing = YES;
@@ -499,6 +505,7 @@ static NSString *const kDefaultMetronomeSyncOutputIdentifier = @"Metronome Sync 
 #ifdef DEBUG_NSLOG
     NSLog(@"PPQN tick = %f",defaultBPMtoPPQNTickConstant/_tempo);
 #endif
+    return YES;
 }
 
 - (void) stop
@@ -531,7 +538,11 @@ static NSString *const kDefaultMetronomeSyncOutputIdentifier = @"Metronome Sync 
         trackCurrentMessage = [track currentMessage];
         if (track.playHeadPosition<=self.expectedTick) {
         // ToDo: If isMuted
-            [track sendToOutput:trackCurrentMessage];
+            if (trackCurrentMessage.type != messageTypePause) {
+                [track sendToOutput:trackCurrentMessage];
+                [_padsFeedbackOutput.delegate output:_padsFeedbackOutput didGenerateMessage:[SESequencerMessage messageWithType:messageTypeInputFeedback andParameters:
+                    @{kSequencerPadsFeedbackParameter: track.identifier}]];
+            }
             track.playHeadPosition = track.playHeadPosition + [trackCurrentMessage initialDuration];
             [track goToNextMessage];
         }
@@ -564,7 +575,7 @@ static NSString *const kDefaultMetronomeSyncOutputIdentifier = @"Metronome Sync 
     if (!!track) {
         if (message == nil) {
             message = [[SESequencerMessage alloc]initWithRawTimestamp:[[NSDate date]
-            timeIntervalSinceDate:self.startRecordingDate]];
+            timeIntervalSinceDate:self.startRecordingDate] type:messageTypeDefault parameters:nil];
         }
         // Write event to stream in Recording mode
         if (self.recording) {

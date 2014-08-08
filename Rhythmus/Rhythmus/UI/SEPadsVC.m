@@ -11,6 +11,7 @@
 #import "SEAudioController.h"
 #import "UIColor+iOS7Colors.h"
 #import "PadsWorkspaceVC.h"
+#import "PlaybackVC.h"
 
 @interface SEPadsVC ()
 
@@ -35,34 +36,29 @@
     if (self) {
 //        // Custom initialization
 //        // Creating the Sequencer with Input and Output Model
-//        self.sequencer = [[SESequencer alloc]init];
-//        self.input0 = [[SESequencerInput alloc]initWithIdentifier:@"0"];
-//        [self.sequencer registerInput:self.input0 forTrackIdentifier:self.input0.identifier];
-//        self.output0 = [[SESequencerOutput alloc]initWithIdentifier:self.input0.identifier];
-//        [self.sequencer registerOutput:self.output0
-//            forTrackIdentifier:self.output0.identifier];
-//        
-//        self.input1 = [[SESequencerInput alloc]initWithIdentifier:@"1"];
-//        [self.sequencer registerInput:self.input1 forTrackIdentifier:self.input1.identifier];
-//        self.output1 = [[SESequencerOutput alloc]initWithIdentifier:self.input1.identifier];
-//        [self.sequencer registerOutput:self.output1
-//            forTrackIdentifier:self.output1.identifier];
-//        
-//        // Create the Sample Player and connect it to output 0
-//        NSString *samplePath = [[NSBundle mainBundle]pathForResource:@"snare" ofType:@"aif"];
-//        NSURL *sampleURL = [NSURL fileURLWithPath:samplePath];
-//        self.samplePlayer = [SEAudioController playerWithContentsOfURL:sampleURL];
-//        [self.output0 setDelegate: self.samplePlayer];
-//        
-//        samplePath = [[NSBundle mainBundle]pathForResource:@"clap" ofType:@"aif"];
-//        sampleURL = [NSURL fileURLWithPath:samplePath];
-//        self.samplePlayer1 = [SEAudioController playerWithContentsOfURL:sampleURL];
-//        self.output1.delegate = self.samplePlayer1;
+        _sequencer = [[SESequencer alloc]init];
     
-        PadsWorkspaceVC *newWorkspace = [[PadsWorkspaceVC alloc]init];
-        newWorkspace.view.frame = self.view.bounds;
-        [self addChildViewController:newWorkspace];
-        [self.view addSubview:newWorkspace.view];
+        PadsWorkspaceVC *newWorkspaceVC = [[PadsWorkspaceVC alloc]init];
+        newWorkspaceVC.view.frame = (CGRect){
+            0,
+            205,
+            320,
+            360
+        };
+        [self addChildViewController:newWorkspaceVC];
+        [self.view addSubview:newWorkspaceVC.view];
+        [newWorkspaceVC tuneForSequencer:_sequencer];
+        
+        PlaybackVC *newPlaybackVC = [[PlaybackVC alloc]init];
+        newPlaybackVC.view.frame = (CGRect){
+            5,
+            125,
+            310,
+            125
+        };
+        [self addChildViewController:newPlaybackVC];
+        [self.view addSubview:newPlaybackVC.view];
+        [newPlaybackVC setSequencer:_sequencer];
     }
     return self;
 }

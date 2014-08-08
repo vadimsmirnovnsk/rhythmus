@@ -32,6 +32,19 @@
 		CED77FD81993F59D0014449A /* PadsWorkspaceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CED77FD71993F59D0014449A /* PadsWorkspaceVC.m */; };
 		CED77FDB1993FC570014449A /* bassdrum.aif in Resources */ = {isa = PBXBuildFile; fileRef = CED77FD91993FC570014449A /* bassdrum.aif */; };
 		CED77FDC1993FC570014449A /* hihat.aif in Resources */ = {isa = PBXBuildFile; fileRef = CED77FDA1993FC570014449A /* hihat.aif */; };
+		CED77FE21994D3800014449A /* PlaybackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CED77FE11994D3800014449A /* PlaybackVC.m */; };
+		CED77FEB1994E4EC0014449A /* recButtonActive.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FE71994E4EC0014449A /* recButtonActive.png */; };
+		CED77FEC1994E4EC0014449A /* recButtonActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FE81994E4EC0014449A /* recButtonActive@2x.png */; };
+		CED77FED1994E4EC0014449A /* recButtonDisactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FE91994E4EC0014449A /* recButtonDisactive.png */; };
+		CED77FEE1994E4EC0014449A /* recButtonDisactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FEA1994E4EC0014449A /* recButtonDisactive@2x.png */; };
+		CED77FF71994E8AE0014449A /* recButtonRecording.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FEF1994E8AE0014449A /* recButtonRecording.png */; };
+		CED77FF81994E8AE0014449A /* recButtonRecording@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FF01994E8AE0014449A /* recButtonRecording@2x.png */; };
+		CED77FF91994E8AE0014449A /* playButtonDisactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FF11994E8AE0014449A /* playButtonDisactive.png */; };
+		CED77FFA1994E8AE0014449A /* playButtonDisactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FF21994E8AE0014449A /* playButtonDisactive@2x.png */; };
+		CED77FFB1994E8AE0014449A /* playButtonActive.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FF31994E8AE0014449A /* playButtonActive.png */; };
+		CED77FFC1994E8AE0014449A /* playButtonActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FF41994E8AE0014449A /* playButtonActive@2x.png */; };
+		CED77FFD1994E8AE0014449A /* playButtonPlaying.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FF51994E8AE0014449A /* playButtonPlaying.png */; };
+		CED77FFE1994E8AE0014449A /* playButtonPlaying@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FF61994E8AE0014449A /* playButtonPlaying@2x.png */; };
 		CEE7662E198CF499002A3E93 /* fileCabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE76628198CF499002A3E93 /* fileCabinet.png */; };
 		CEE7662F198CF499002A3E93 /* fileCabinet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE76629198CF499002A3E93 /* fileCabinet@2x.png */; };
 		CEE76630198CF499002A3E93 /* padViewTabIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE7662A198CF499002A3E93 /* padViewTabIcon.png */; };
@@ -100,6 +113,20 @@
 		CED77FD71993F59D0014449A /* PadsWorkspaceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PadsWorkspaceVC.m; path = Rhythmus/UI/PadsWorkspaceVC.m; sourceTree = "<group>"; };
 		CED77FD91993FC570014449A /* bassdrum.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = bassdrum.aif; path = Sounds/bassdrum.aif; sourceTree = "<group>"; };
 		CED77FDA1993FC570014449A /* hihat.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = hihat.aif; path = Sounds/hihat.aif; sourceTree = "<group>"; };
+		CED77FE01994D3800014449A /* PlaybackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaybackVC.h; path = Rhythmus/UI/PlaybackVC.h; sourceTree = "<group>"; };
+		CED77FE11994D3800014449A /* PlaybackVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaybackVC.m; path = Rhythmus/UI/PlaybackVC.m; sourceTree = "<group>"; };
+		CED77FE71994E4EC0014449A /* recButtonActive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recButtonActive.png; path = Pics/recButtonActive.png; sourceTree = "<group>"; };
+		CED77FE81994E4EC0014449A /* recButtonActive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "recButtonActive@2x.png"; path = "Pics/recButtonActive@2x.png"; sourceTree = "<group>"; };
+		CED77FE91994E4EC0014449A /* recButtonDisactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recButtonDisactive.png; path = Pics/recButtonDisactive.png; sourceTree = "<group>"; };
+		CED77FEA1994E4EC0014449A /* recButtonDisactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "recButtonDisactive@2x.png"; path = "Pics/recButtonDisactive@2x.png"; sourceTree = "<group>"; };
+		CED77FEF1994E8AE0014449A /* recButtonRecording.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recButtonRecording.png; path = Pics/recButtonRecording.png; sourceTree = "<group>"; };
+		CED77FF01994E8AE0014449A /* recButtonRecording@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "recButtonRecording@2x.png"; path = "Pics/recButtonRecording@2x.png"; sourceTree = "<group>"; };
+		CED77FF11994E8AE0014449A /* playButtonDisactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playButtonDisactive.png; path = Pics/playButtonDisactive.png; sourceTree = "<group>"; };
+		CED77FF21994E8AE0014449A /* playButtonDisactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "playButtonDisactive@2x.png"; path = "Pics/playButtonDisactive@2x.png"; sourceTree = "<group>"; };
+		CED77FF31994E8AE0014449A /* playButtonActive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playButtonActive.png; path = Pics/playButtonActive.png; sourceTree = "<group>"; };
+		CED77FF41994E8AE0014449A /* playButtonActive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "playButtonActive@2x.png"; path = "Pics/playButtonActive@2x.png"; sourceTree = "<group>"; };
+		CED77FF51994E8AE0014449A /* playButtonPlaying.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playButtonPlaying.png; path = Pics/playButtonPlaying.png; sourceTree = "<group>"; };
+		CED77FF61994E8AE0014449A /* playButtonPlaying@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "playButtonPlaying@2x.png"; path = "Pics/playButtonPlaying@2x.png"; sourceTree = "<group>"; };
 		CEE76628198CF499002A3E93 /* fileCabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fileCabinet.png; path = Pics/fileCabinet.png; sourceTree = "<group>"; };
 		CEE76629198CF499002A3E93 /* fileCabinet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fileCabinet@2x.png"; path = "Pics/fileCabinet@2x.png"; sourceTree = "<group>"; };
 		CEE7662A198CF499002A3E93 /* padViewTabIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = padViewTabIcon.png; path = Pics/padViewTabIcon.png; sourceTree = "<group>"; };
@@ -289,8 +316,10 @@
 		CED77FD51993F53B0014449A /* PadsView */ = {
 			isa = PBXGroup;
 			children = (
-				CED77FD61993F59D0014449A /* PadsWorkspaceVC.h */,
+				CED77FE01994D3800014449A /* PlaybackVC.h */,
+				CED77FE11994D3800014449A /* PlaybackVC.m */,
 				CED77FD71993F59D0014449A /* PadsWorkspaceVC.m */,
+				CED77FD61993F59D0014449A /* PadsWorkspaceVC.h */,
 				CEE76649198CFE30002A3E93 /* SEPadsVC.h */,
 				CEE7664A198CFE30002A3E93 /* SEPadsVC.m */,
 				CEE7664B198CFE30002A3E93 /* SEPadsVC.xib */,
@@ -312,6 +341,18 @@
 		CEE7661B198CF407002A3E93 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				CED77FEF1994E8AE0014449A /* recButtonRecording.png */,
+				CED77FF01994E8AE0014449A /* recButtonRecording@2x.png */,
+				CED77FF11994E8AE0014449A /* playButtonDisactive.png */,
+				CED77FF21994E8AE0014449A /* playButtonDisactive@2x.png */,
+				CED77FF31994E8AE0014449A /* playButtonActive.png */,
+				CED77FF41994E8AE0014449A /* playButtonActive@2x.png */,
+				CED77FF51994E8AE0014449A /* playButtonPlaying.png */,
+				CED77FF61994E8AE0014449A /* playButtonPlaying@2x.png */,
+				CED77FE71994E4EC0014449A /* recButtonActive.png */,
+				CED77FE81994E4EC0014449A /* recButtonActive@2x.png */,
+				CED77FE91994E4EC0014449A /* recButtonDisactive.png */,
+				CED77FEA1994E4EC0014449A /* recButtonDisactive@2x.png */,
 				CEE7663D198CF7E2002A3E93 /* tapBarBackground.png */,
 				CEE7663E198CF7E2002A3E93 /* tapBarBackground@2x.png */,
 				CEE76628198CF499002A3E93 /* fileCabinet.png */,
@@ -402,21 +443,33 @@
 			files = (
 				CEE76632198CF499002A3E93 /* pencil.png in Resources */,
 				CEE7663F198CF7E2002A3E93 /* tapBarBackground.png in Resources */,
+				CED77FFD1994E8AE0014449A /* playButtonPlaying.png in Resources */,
 				CED77FDC1993FC570014449A /* hihat.aif in Resources */,
 				CEE76638198CF516002A3E93 /* snare.aif in Resources */,
+				CED77FEB1994E4EC0014449A /* recButtonActive.png in Resources */,
 				CEE7662E198CF499002A3E93 /* fileCabinet.png in Resources */,
 				CE6F973D198FE9FA009CED03 /* clap.aif in Resources */,
+				CED77FFA1994E8AE0014449A /* playButtonDisactive@2x.png in Resources */,
 				CEE7664D198CFE30002A3E93 /* SEPadsVC.xib in Resources */,
+				CED77FEC1994E4EC0014449A /* recButtonActive@2x.png in Resources */,
+				CED77FFE1994E8AE0014449A /* playButtonPlaying@2x.png in Resources */,
 				CEA991D6198640F200CAB5AC /* InfoPlist.strings in Resources */,
 				CEE76640198CF7E2002A3E93 /* tapBarBackground@2x.png in Resources */,
 				CEE76633198CF499002A3E93 /* pencil@2x.png in Resources */,
 				CEE7662F198CF499002A3E93 /* fileCabinet@2x.png in Resources */,
 				CEA991E1198640F200CAB5AC /* Images.xcassets in Resources */,
+				CED77FF81994E8AE0014449A /* recButtonRecording@2x.png in Resources */,
 				CED77FDB1993FC570014449A /* bassdrum.aif in Resources */,
+				CED77FFC1994E8AE0014449A /* playButtonActive@2x.png in Resources */,
+				CED77FFB1994E8AE0014449A /* playButtonActive.png in Resources */,
+				CED77FF91994E8AE0014449A /* playButtonDisactive.png in Resources */,
+				CED77FEE1994E4EC0014449A /* recButtonDisactive@2x.png in Resources */,
 				CEE76631198CF499002A3E93 /* padViewTabIcon@2x.png in Resources */,
 				CEE76645198CFDEB002A3E93 /* SELibraryVC.xib in Resources */,
 				CEE76652198CFE4C002A3E93 /* SERedactorVC.xib in Resources */,
 				CEE76630198CF499002A3E93 /* padViewTabIcon.png in Resources */,
+				CED77FF71994E8AE0014449A /* recButtonRecording.png in Resources */,
+				CED77FED1994E4EC0014449A /* recButtonDisactive.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -442,6 +495,7 @@
 				CEA992201986466800CAB5AC /* SERhythmusPattern.m in Sources */,
 				CEE7664C198CFE30002A3E93 /* SEPadsVC.m in Sources */,
 				CEE76644198CFDEB002A3E93 /* SELibraryVC.m in Sources */,
+				CED77FE21994D3800014449A /* PlaybackVC.m in Sources */,
 				CED77FD81993F59D0014449A /* PadsWorkspaceVC.m in Sources */,
 				CEA991DC198640F200CAB5AC /* SEAppDelegate.m in Sources */,
 				CEE76651198CFE4C002A3E93 /* SERedactorVC.m in Sources */,
