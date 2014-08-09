@@ -66,6 +66,9 @@
 
 - (void) handleRecButton:(UIButton *)sender
 {
+    if ([_sequencer isPlaying]) {
+        return;
+    }
     if ([_sequencer isRecording] || [_sequencer isPreparing]) {
         [_recButton setImage:[UIImage imageNamed:@"recButtonActive"]
             forState:UIControlStateNormal];
@@ -83,12 +86,21 @@
     if ([_sequencer isPlaying]) {
         [_playButton setImage:[UIImage imageNamed:@"playButtonActive"]
             forState:UIControlStateNormal];
+        [_recButton setImage:[UIImage imageNamed:@"recButtonActive"]
+            forState:UIControlStateNormal];
         [_sequencer stop];
+    }
+    else if ([_sequencer isRecording] || [_sequencer isPreparing]) {
+        [_recButton setImage:[UIImage imageNamed:@"recButtonActive"]
+            forState:UIControlStateNormal];
+        [_sequencer stopRecording];
     }
     else {
             if ([_sequencer playAllStreams]) {
                 [_playButton setImage:[UIImage imageNamed:@"playButtonPlaying"]
-            forState:UIControlStateNormal];
+                    forState:UIControlStateNormal];
+                [_recButton setImage:[UIImage imageNamed:@"recButtonDisactive"]
+                    forState:UIControlStateNormal];
         }
     }
 }

@@ -14,6 +14,7 @@ static NSString *const kSequencerPadsFeedbackParameter = @"Identifier";
 // SystemPrepare Paramaters
 static NSString *const kSequencerPrepareWillStartParameter = @"Prepare will start";
 static NSString *const kSequencerPrepareWillAbortParameter = @"Prepare will abort";
+static NSString *const kSequencerPrepareDidClickWithTeil = @"Prepare did click with teil";
 static NSString *const kSequencerRecordWillStartParameter = @"Record will start";
 
 

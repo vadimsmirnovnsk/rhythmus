@@ -299,8 +299,8 @@
 				CEA9928B19878EA900CAB5AC /* SESystemTimer.m */,
 				CEA9928119878E3700CAB5AC /* SESequencer.h */,
 				CEA9928219878E3700CAB5AC /* SESequencer.m */,
-				CEA992921987934F00CAB5AC /* SESequencerMessage.h */,
 				CEA992931987934F00CAB5AC /* SESequencerMessage.m */,
+				CEA992921987934F00CAB5AC /* SESequencerMessage.h */,
 				CED77FCF199375D90014449A /* SEMusicTimebase.h */,
 				CED77FD0199375D90014449A /* SEMusicTimebase.m */,
 			);

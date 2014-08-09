@@ -52,7 +52,7 @@
         PlaybackVC *newPlaybackVC = [[PlaybackVC alloc]init];
         newPlaybackVC.view.frame = (CGRect){
             5,
-            125,
+            124,
             310,
             125
         };

@@ -63,6 +63,10 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 - (void) quantizeWithPPQNPulseDuration:(float)singleQuarterPulse
     stopTimeInterval:(NSTimeInterval)stopTimeInterval;
 
+// Quantize to PPQN pulses
+- (void) quantizeWithPPQNPulseDuration:(float)singleQuarterPulse
+    stopTick:(unsigned long)stopTick;
+
 // Playhead methods
 - (void) resetPlayhead;
 
@@ -97,7 +101,8 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 @interface SESequencer () <SESystemTimerDelegate, SEInputDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary *mutableTracks;
-@property (nonatomic, strong) NSDate *startRecordingDate;
+@property (nonatomic, strong) NSDate *startRecordingDate; // TODO: remove startRecodringDate
+@property (nonatomic, readwrite) unsigned long startRecordingTick;
 @property (nonatomic, strong) SESystemTimer *systemTimer;
 @property (nonatomic, readwrite) unsigned long expectedTick;
 
@@ -253,7 +258,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     SESequencerMessage *previousMessage = nil;
     SESequencerMessage *endMessage = nil;
     for (SESequencerMessage *message in self.mutableMessages) {
-        message.PPQNTimeStamp = message.rawTimestamp/singleQuarterPulse;
+        if (message.PPQNTimeStamp == 0) {
+            message.PPQNTimeStamp = message.rawTimestamp/singleQuarterPulse;
+        }
         NSInteger index = [self.mutableMessages indexOfObject:message];
         // Process first trigger-message in track and convert it to pause.
         if (index == 0) {
@@ -291,6 +298,52 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     if (endMessage) {
         [self.mutableMessages addObject:endMessage];
     }
+}
+
+- (void) quantizeWithPPQNPulseDuration:(float)singleQuarterPulse
+    stopTick:(unsigned long)stopTick
+{
+    SESequencerMessage *previousMessage = nil;
+    SESequencerMessage *endMessage = nil;
+    for (SESequencerMessage *message in self.mutableMessages) {
+        NSInteger index = [self.mutableMessages indexOfObject:message];
+        // Process first trigger-message in track and convert it to pause.
+        if (index == 0) {
+            message.type = messageTypePause;
+            message.initialDuration = message.PPQNTimeStamp;
+            // If array contains only 1 message
+            if (index == [self.mutableMessages count]-1) {
+                // Create last message on track for duration-messages processing
+                endMessage = [SESequencerMessage defaultMessage];
+                endMessage.PPQNTimeStamp = stopTick;
+                endMessage.type = messageTypeSample;
+                endMessage.initialDuration = endMessage.PPQNTimeStamp - message.PPQNTimeStamp;
+            }
+        }
+        // Process last trigger-message
+        else if (index == [self.mutableMessages count]-1) {
+            previousMessage = [self.mutableMessages objectAtIndex:
+                [self.mutableMessages indexOfObject:message]-1];
+            message.type = messageTypeSample;
+            message.initialDuration = message.PPQNTimeStamp - previousMessage.PPQNTimeStamp;
+            // Create last message on track for duration-messages processing
+            endMessage = [SESequencerMessage defaultMessage];
+            endMessage.PPQNTimeStamp = stopTick;
+            endMessage.type = messageTypeSample;
+            endMessage.initialDuration = endMessage.PPQNTimeStamp - message.PPQNTimeStamp;
+        }
+        // Process all other-within messages
+        else {
+            previousMessage = [self.mutableMessages objectAtIndex:
+                [self.mutableMessages indexOfObject:message]-1];
+            message.type = messageTypeSample;
+            message.initialDuration = message.PPQNTimeStamp - previousMessage.PPQNTimeStamp;
+        }
+    }
+    if (endMessage) {
+        [self.mutableMessages addObject:endMessage];
+    }
+
 }
 
 // Reset track playing state
@@ -371,7 +424,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         _padsFeedbackOutput = [[SESequencerOutput alloc]
             initWithIdentifier:kDefaultPadsFeedbackOutputIdentifier];
         _click = YES;
-        _teilInBar = -1;
+        _teilInBar = 0;
     }
     return self;
 }
@@ -457,6 +510,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         [track removeAllMessages];
     }
     self.preparing = YES;
+    self.teilInBar = -1;
     //NSLog(@"Send to Prepare Output: Let's do it!");
     [_padsFeedbackOutput.delegate output:_padsFeedbackOutput didGenerateMessage:[SESequencerMessage messageWithType:messageTypeSystemPrepare andParameters:
                     @{kSequencerPrepareWillStartParameter: kSequencerPrepareWillStartParameter}]];
@@ -475,14 +529,20 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
             @{kSequencerPrepareWillAbortParameter:kSequencerPrepareWillAbortParameter}]];
     }
     [self.systemTimer stop];
+    self.startRecordingTick = 0;
+    self.bar = self.bar + 1;
+    unsigned long stopRecordingTick = (self.bar ? self.bar : 1)
+     * self.timeSignature.upperPart * [SEMusicTimebase ticksPerDuration:self.timeSignature.lowerPart withPPQN:defaultPPQN];
+    NSLog(@"Stop Recording Tick: %lu", stopRecordingTick);
     SESequencerTrack *track = nil;
+    // TODO: remove stopRecordingTimeInterval
     NSTimeInterval stopRecordingTimeInterval = [[NSDate date]
         timeIntervalSinceDate:self.startRecordingDate];
     float singleQuarterPulse = (60/((float)_tempo*defaultPPQN));
     for (id<NSCopying> key in self.mutableTracks) {
         track = self.mutableTracks[key];
         [track quantizeWithPPQNPulseDuration:singleQuarterPulse
-            stopTimeInterval:stopRecordingTimeInterval];
+            stopTick:stopRecordingTick];
     }
 }
 
@@ -530,7 +590,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     self.ticksPerTeil = [SEMusicTimebase ticksPerDuration:
         timeSignature.lowerPart withPPQN:defaultPPQN];
     self.bar = 0;
-    self.teilInBar = -1;
+    self.teilInBar = 0;
 }
 
 #pragma mark Private Methods
@@ -584,6 +644,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         }
         // Write event to stream in Recording mode
         if (self.recording) {
+            if (self.startRecordingTick!=0) {
+                message.PPQNTimeStamp = (unsigned long)self.currentTick - self.startRecordingTick;
+            }
             message.rawTimestamp =[[NSDate date]timeIntervalSinceDate:self.startRecordingDate];
             [track addMessage:message];
         }
@@ -607,26 +670,13 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         }
         self.ticksForLastTeil = self.ticksForLastTeil + self.ticksPerTeil;
         if (self.isClick) {
-            // NSLog(@"Click! Bar: %i Teil: %i", self.bar, self.teilInBar);
+             NSLog(@"Click! Bar: %i Teil: %i", self.bar, self.teilInBar);
             [_metronomeOutput.delegate output:_metronomeOutput
                 didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeClick
                 andParameters:@{@"Bar":@(self.bar), @"Teil":@(self.teilInBar)}]];
                 // Process preparing ticks
                 if (self.isPreparing) {
-                    if (self.timeSignature.upperPart - 1 == self.teilInBar) {
-                            // NSLog(@"Send to Prepare Output: GO!");
-                            [_padsFeedbackOutput.delegate output:_padsFeedbackOutput
-                                didGenerateMessage:[SESequencerMessage
-                                messageWithType:messageTypeSystemPrepare andParameters:
-                                @{kSequencerRecordWillStartParameter:kSequencerRecordWillStartParameter}]];
-                            self.bar = 0;
-                            self.preparing = NO;
-                            self.recording = YES;
-                            self.startRecordingDate = [NSDate date];
-                    }
-                    else {
-                        NSLog(@"Send to Prepare Output: %i", self.timeSignature.upperPart - self.teilInBar - 1);
-                    }
+                    [self processPreparingTime];
                 }
         }
     }
@@ -640,6 +690,35 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     }
 }
 
+- (void) processPreparingTime
+{
+    if (self.isPreparing && self.isRecording) {
+        self.startRecordingDate = [NSDate date];
+        self.startRecordingTick = (unsigned long)self.currentTick;
+        self.preparing = NO;
+    }
+    if (self.timeSignature.upperPart - 1 == self.teilInBar) {
+        // NSLog(@"Send to Prepare Output: GO!");
+        [_padsFeedbackOutput.delegate output:_padsFeedbackOutput
+            didGenerateMessage:[SESequencerMessage
+            messageWithType:messageTypeSystemPrepare andParameters:
+            @{kSequencerRecordWillStartParameter:kSequencerRecordWillStartParameter}]];
+        self.bar = 0;
+        self.teilInBar = -1;
+        self.preparing = YES;
+        self.recording = YES;
+    }
+    else {
+        //NSLog(@"Send to Prepare Output: %i", self.timeSignature.upperPart - self.teilInBar - 1);
+        [_padsFeedbackOutput.delegate output:_padsFeedbackOutput
+                didGenerateMessage:[SESequencerMessage
+                messageWithType:messageTypeSystemPrepare andParameters:
+                @{kSequencerPrepareDidClickWithTeil:
+                @(self.timeSignature.upperPart - self.teilInBar - 1)}]];
+    }
+
+}
+
 - (void) timerDidStop:(SESystemTimer *)timer
 {
     // Reset self-playhead
@@ -648,7 +727,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     self.preparing = NO;
     self.ticksForLastTeil = 0;
     self.bar = 0;
-    self.teilInBar = -1;
+    self.teilInBar = 0;
     // Reset track-playheads
     SESequencerTrack *track = nil;
     for (id<NSCopying> identifier in self.mutableTracks) {

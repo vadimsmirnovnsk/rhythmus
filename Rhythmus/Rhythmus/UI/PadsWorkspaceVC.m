@@ -157,14 +157,6 @@ const CGFloat pwDisabledPadAlpha =  0.3;
         };
         _preparingView.alpha = (CGFloat)0.7;
         [self.view addSubview:_preparingView];
-//        [UIView animateWithDuration:0.5 animations:^{
-//            _preparingView.frame = (CGRect){
-//            5,
-//            0,
-//            310,
-//            310
-//        };
-//        }];
     }
 
 }
@@ -196,7 +188,7 @@ const CGFloat pwDisabledPadAlpha =  0.3;
 
 - (void)hidePrepareSubview
 {
-    [UIView animateWithDuration:0.3 delay:0.0 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
+    [UIView animateWithDuration:0.3 delay:0.1 options:UIViewAnimationOptionAllowAnimatedContent animations:^{
         self.preparingView.alpha = 0.0;
         self.preparingView.frame = (CGRect){
         160,
@@ -235,6 +227,11 @@ const CGFloat pwDisabledPadAlpha =  0.3;
         else if (message.parameters[kSequencerRecordWillStartParameter] ||
                  message.parameters[kSequencerPrepareWillAbortParameter]) {
             [self hidePrepareSubview];
+            NSLog(@"Go!");
+        }
+        else if (message.parameters[kSequencerPrepareDidClickWithTeil]) {
+            NSLog(@"Prepare did click: %i",
+                [message.parameters[kSequencerPrepareDidClickWithTeil]intValue]);
         }
     }
 }
