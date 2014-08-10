@@ -5,6 +5,13 @@
 #import "SERhythmusPattern.h"
 
 
+#pragma mark - SEPad Interface
+
+@interface SEPad : UIButton
+
+@property (nonatomic, copy) NSString *colorName;
+
+@end
 
 @interface PadsWorkspaceVC : UIViewController <SEReceiverDelegate>
 

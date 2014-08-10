@@ -46,6 +46,8 @@ static void *const statusBarContext = (void *)&statusBarContext;
 {
     [self.currentPattern removeObserver:self
         forKeyPath:NSStringFromSelector(@selector(name))];
+    [self.sequencer removeObserver:self
+        forKeyPath:NSStringFromSelector(@selector(timeStampStringValue))];
 }
 
 - (void) tuneForSequencer:(SESequencer *)sequencer withPattern:(SERhythmusPattern *)pattern

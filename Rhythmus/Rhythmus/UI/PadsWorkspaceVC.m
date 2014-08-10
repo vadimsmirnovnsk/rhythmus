@@ -4,17 +4,14 @@
 #import "UIColor+iOS7Colors.h"
 #import "SEReceiverDelegate.h"
 #import "SESequencerMessage.h"
+#import "PadOptionsVC.h"
 
 const CGFloat pwActivePadAlpha =  0.75;
 const CGFloat pwNormalPadAlpha =  1.0;
 const CGFloat pwDisabledPadAlpha =  0.3;
 
+const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
 
-#pragma mark - SEPad Interface
-
-@interface SEPad : UIButton
-
-@end
 
 
 #pragma mark - SEPad Extension
@@ -28,7 +25,7 @@ const CGFloat pwDisabledPadAlpha =  0.3;
 
 #pragma mark - PadsWorkspaceVC Extension
 
-@interface PadsWorkspaceVC () <SEReceiverDelegate>
+@interface PadsWorkspaceVC () <SEReceiverDelegate, PadOptionsVCDelegate>
 
 @property (nonatomic, strong) NSMutableDictionary *inputs;
 @property (nonatomic, strong) NSMutableDictionary *outputs;
@@ -36,6 +33,7 @@ const CGFloat pwDisabledPadAlpha =  0.3;
 @property (nonatomic, strong) NSMutableDictionary *pads;
 
 @property (nonatomic,strong) UIView *preparingView;
+@property (nonatomic, strong) PadOptionsVC *padOptionsVC;
 
 @end
 
@@ -135,6 +133,7 @@ const CGFloat pwDisabledPadAlpha =  0.3;
         s = NSSelectorFromString(message);
         SEPad *newPad = [[SEPad alloc]initWithFrame:
             [[PadsWorkspaceVC sharedPadsLayouts][i]CGRectValue]];
+            
         // Send message to UIColor
         newPad.backgroundColor = objc_msgSend([UIColor class], s);
         newPad.identifier = identifier;
@@ -230,26 +229,33 @@ const CGFloat pwDisabledPadAlpha =  0.3;
 {
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         NSLog(@"Long gesture recognized for view: %@", recognizer.view);
-        UIView *padOptionsView = [[UIView alloc]init];
-        padOptionsView.backgroundColor = [UIColor mineShaftColor];
-        padOptionsView.alpha = 0;
-        padOptionsView.frame = recognizer.view.frame;
+        // Create Options View
+        self.padOptionsVC = [[PadOptionsVC alloc]init];
+        self.padOptionsVC.view.backgroundColor = [UIColor mineShaftColor];
+        self.padOptionsVC.view.alpha = 0;
+        self.padOptionsVC.view.frame = recognizer.view.frame;
+        self.padOptionsVC.delegate = self;
+        self.padOptionsVC.pad = (SEPad *)recognizer.view;
+        
         CGRect finishLayout = self.view.bounds;
         finishLayout.origin.x = finishLayout.origin.x + 5;
         finishLayout.origin.y = finishLayout.origin.y;
         finishLayout.size.height = finishLayout.size.height;
         finishLayout.size.width = finishLayout.size.width - 10;
-        [self.view addSubview:padOptionsView];
+        [self addChildViewController:self.padOptionsVC];
+        [self.view addSubview:self.padOptionsVC.view];
     
+        __typeof (self) __weak blockSelf = self;
         [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.4
             initialSpringVelocity:0.9 options:UIViewAnimationOptionTransitionFlipFromTop
             animations:^{
-                [padOptionsView setAlpha:0.9];
-                [padOptionsView setFrame:finishLayout];
+                [blockSelf.padOptionsVC.view setAlpha:0.9];
+                [blockSelf.padOptionsVC.view setFrame:finishLayout];
             } completion:^(BOOL finished) {
-                [padOptionsView setAlpha:0.9];
-                [padOptionsView setFrame:finishLayout];
+                [blockSelf.padOptionsVC.view setAlpha:0.9];
+                [blockSelf.padOptionsVC.view setFrame:finishLayout];
         }];
+        
         // Animation without spring
 //        [UIView animateWithDuration:0.3 delay:0.0
 //            options:UIViewAnimationOptionAllowAnimatedContent animations:^{
@@ -260,6 +266,23 @@ const CGFloat pwDisabledPadAlpha =  0.3;
 //                [padOptionsView setFrame:finishLayout];
 //            }];
     }
+}
+
+- (void) cancelOptionsView
+{
+    [UIView animateWithDuration:0.3 delay:0.1
+        options:UIViewAnimationOptionAllowAnimatedContent animations:^{
+            self.padOptionsVC.view.alpha = 0.0;
+            self.padOptionsVC.view.frame = (CGRect){
+                5,
+                568,
+                310,
+                310
+            };
+        } completion:^(BOOL finished) {
+            [self.padOptionsVC.view removeFromSuperview];
+            [self.padOptionsVC removeFromParentViewController];
+    }];
 }
 
 - (void)didTapped:(SEPad *)sender
@@ -346,6 +369,12 @@ const CGFloat pwDisabledPadAlpha =  0.3;
                 [message.parameters[kSequencerPrepareDidClickWithTeil]intValue]);
         }
     }
+}
+
+#pragma mark PadOptionsVCDelegate Methods
+- (void)optionsControllerDidCanceled:(PadOptionsVC *)sender
+{
+    [self cancelOptionsView];
 }
 
 @end

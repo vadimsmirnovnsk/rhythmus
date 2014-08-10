@@ -81,6 +81,9 @@
 // CR:  I don't really think this API has to be public.
 - (BOOL) removeTrackWithIdentifier:(NSString *)identifier;
 - (void) removeAllTracks;
+- (void) loadData:(NSArray * /*of SESequencerMessages*/)trackData
+    forTrackIdentifier:(NSString *)identifier;
+- (NSArray */*of SESequencerMessages*/) dataForTrackIdentifier:(NSString *)identifier;
 
 // Info tracks methods
 // CR: What for you provide such a method?

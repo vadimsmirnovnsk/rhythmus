@@ -485,6 +485,25 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     [track registerOutput:output];
 }
 
+// Load new data for track with identifier
+- (void)loadData:(NSArray *)trackData forTrackIdentifier:(NSString *)identifier
+{
+    if (self.mutableTracks[identifier]) {
+        [self.mutableTracks[identifier]setMutableMessages:[trackData mutableCopy]];
+    }
+}
+
+// Get track data for saving in a pattern or processing in the redactor
+- (NSArray *)dataForTrackIdentifier:(NSString *)identifier
+{
+    if (self.mutableTracks[identifier]) {
+        return [self.mutableTracks[identifier]allMessages];
+    }
+    else {
+        return nil;
+    }
+}
+
 #pragma mark Playback Methods
 - (BOOL) startRecording
 {
