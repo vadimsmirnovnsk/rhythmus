@@ -9,8 +9,8 @@ const CGFloat pwActivePadAlpha =  0.75;
 const CGFloat pwNormalPadAlpha =  1.0;
 const CGFloat pwDisabledPadAlpha =  0.3;
 
-#pragma mark - SEPad Interface
 
+#pragma mark - SEPad Interface
 
 @interface SEPad : UIButton
 
@@ -34,7 +34,6 @@ const CGFloat pwDisabledPadAlpha =  0.3;
 @property (nonatomic, strong) NSMutableDictionary *outputs;
 @property (nonatomic, strong) NSMutableDictionary *players;
 @property (nonatomic, strong) NSMutableDictionary *pads;
-@property (nonatomic, weak) SERhythmusPattern *currentPattern;
 
 @property (nonatomic,strong) UIView *preparingView;
 
@@ -171,6 +170,7 @@ const CGFloat pwDisabledPadAlpha =  0.3;
     withContentsOfPattern:(SERhythmusPattern *)currentPattern
 {
     _sequencer = sequencer;
+    _currentPattern = currentPattern;
     NSString *identifier = nil;
     NSString *message = nil;
     SEL s = NULL;
@@ -241,14 +241,24 @@ const CGFloat pwDisabledPadAlpha =  0.3;
         finishLayout.size.width = finishLayout.size.width - 10;
         [self.view addSubview:padOptionsView];
     
-        [UIView animateWithDuration:0.5 delay:0.0
-            options:UIViewAnimationOptionAllowAnimatedContent animations:^{
+        [UIView animateWithDuration:0.5 delay:0.0 usingSpringWithDamping:0.4
+            initialSpringVelocity:0.9 options:UIViewAnimationOptionTransitionFlipFromTop
+            animations:^{
                 [padOptionsView setAlpha:0.9];
                 [padOptionsView setFrame:finishLayout];
             } completion:^(BOOL finished) {
                 [padOptionsView setAlpha:0.9];
                 [padOptionsView setFrame:finishLayout];
-            }];
+        }];
+        // Animation without spring
+//        [UIView animateWithDuration:0.3 delay:0.0
+//            options:UIViewAnimationOptionAllowAnimatedContent animations:^{
+//                [padOptionsView setAlpha:0.9];
+//                [padOptionsView setFrame:finishLayout];
+//            } completion:^(BOOL finished) {
+//                [padOptionsView setAlpha:0.9];
+//                [padOptionsView setFrame:finishLayout];
+//            }];
     }
 }
 
@@ -311,8 +321,16 @@ const CGFloat pwDisabledPadAlpha =  0.3;
 #pragma mark SEReceiverDelegate Protocol Methods
 - (void)output:(SESequencerOutput *)sender didGenerateMessage:(SESequencerMessage *)message
 {
-    if (message.type == messageTypeInputFeedback) {
-        [self.pads[message.parameters[kSequencerPadsFeedbackParameter]] animatePad];
+    if (message.type == messageTypeWorkspaceFeedback) {
+        if (message.parameters[kSequencerDidFifnishRecordingWithLastBar]) {
+            [self.currentPattern setBars:
+                [message.parameters[kSequencerDidFifnishRecordingWithLastBar]intValue]];
+            NSLog(@"Bars = %i", self.currentPattern.bars);
+            NSLog(@"Message bars = %i",[message.parameters[kSequencerDidFifnishRecordingWithLastBar]intValue]);
+        }
+        else {
+            [self.pads[message.parameters[kSequencerPadsFeedbackParameter]] animatePad];
+        }
     }
     else if (message.type == messageTypeSystemPrepare) {
         if (message.parameters[kSequencerPrepareWillStartParameter]) {

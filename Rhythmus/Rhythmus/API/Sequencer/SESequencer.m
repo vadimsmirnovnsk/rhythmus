@@ -116,6 +116,8 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 @property (nonatomic, readwrite, getter = isPlaying) BOOL playing;
 @property (nonatomic, readwrite, getter = isPreparing) BOOL preparing;
 
+@property (nonatomic, copy) NSString *timeStampStringValue;
+
 - (void) processExpectedTick;
 - (unsigned long) tickForNearestEvent;
 
@@ -531,6 +533,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     [self.systemTimer stop];
     self.startRecordingTick = 0;
     self.bar = self.bar + 1;
+    self.teilInBar = - 1;
     unsigned long stopRecordingTick = (self.bar ? self.bar : 1)
      * self.timeSignature.upperPart * [SEMusicTimebase ticksPerDuration:self.timeSignature.lowerPart withPPQN:defaultPPQN];
     NSLog(@"Stop Recording Tick: %lu", stopRecordingTick);
@@ -541,6 +544,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         [track quantizeWithPPQNPulseDuration:singleQuarterPulse
             stopTick:stopRecordingTick];
     }
+    [self.padsFeedbackOutput.delegate output:self.padsFeedbackOutput
+        didGenerateMessage:[SESequencerMessage messageWithType:messageTypeWorkspaceFeedback
+        andParameters:@{kSequencerDidFifnishRecordingWithLastBar:@(self.bar)}]];
 }
 
 /* Play all streams, so what can else say. */
@@ -605,7 +611,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         // ToDo: If isMuted
             if (trackCurrentMessage.type != messageTypePause) {
                 [track sendToOutput:trackCurrentMessage];
-                [_padsFeedbackOutput.delegate output:_padsFeedbackOutput didGenerateMessage:[SESequencerMessage messageWithType:messageTypeInputFeedback andParameters:
+                [_padsFeedbackOutput.delegate output:_padsFeedbackOutput didGenerateMessage:[SESequencerMessage messageWithType:messageTypeWorkspaceFeedback andParameters:
                     @{kSequencerPadsFeedbackParameter: track.identifier}]];
             }
             track.playHeadPosition = track.playHeadPosition + [trackCurrentMessage initialDuration];
@@ -629,6 +635,29 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         }
     }
     return tickForNearestEvent;
+}
+
+- (void)setTimeStampStringValue:(NSString *)timeStampStringValue
+{
+    NSString *barSubstring = nil;
+    NSString *teilSubstring = nil;
+    if (self.teilInBar < 9) {
+        teilSubstring = [NSString stringWithFormat:@"0%i",self.teilInBar + 1];
+    }
+    else {
+        teilSubstring = [NSString stringWithFormat:@"%i",self.teilInBar + 1];
+    }
+    if (self.bar < 10) {
+        barSubstring = [NSString stringWithFormat:@"00%i", self.bar + 1];
+    }
+    else if (self.bar < 100) {
+        barSubstring = [NSString stringWithFormat:@"0%i", self.bar + 1];
+    }
+    else {
+        barSubstring = [NSString stringWithFormat:@"%i",self.bar + 1];
+    }
+    _timeStampStringValue = [NSString stringWithFormat:@"%@:%@",
+        barSubstring, teilSubstring];
 }
 
 #pragma mark SESequencerInputDelegate Methods
@@ -680,6 +709,10 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
                 }
         }
     }
+    // Set actual timestamp
+    if (!self.isPreparing) {
+        [self setTimeStampStringValue:nil];
+    }
     // Process play tracks
     if (!self.isRecording && !self.preparing) {
         // Check for nearest event
@@ -728,6 +761,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     self.ticksForLastTeil = 0;
     self.bar = 0;
     self.teilInBar = 0;
+    [self setTimeStampStringValue:nil];
     // Reset track-playheads
     SESequencerTrack *track = nil;
     for (id<NSCopying> identifier in self.mutableTracks) {

@@ -10,6 +10,7 @@
 
 // Workspace Feedback Parameters
 static NSString *const kSequencerPadsFeedbackParameter = @"Identifier";
+static NSString *const kSequencerDidFifnishRecordingWithLastBar = @"Bar";
 
 // SystemPrepare Paramaters
 static NSString *const kSequencerPrepareWillStartParameter = @"Prepare will start";
@@ -29,7 +30,7 @@ typedef enum {
     messageTypeTrigger = 0,
     messageTypePause = 1,
     messageTypeSample = 2,
-    messageTypeInputFeedback = 3,
+    messageTypeWorkspaceFeedback = 3,
     messageTypeSystemPrepare = 4,
     messageTypeMetronomeClick = 5
 } MessageType;
@@ -45,8 +46,7 @@ typedef enum {
 + (instancetype) defaultMessage;
 + (instancetype) messageWithType:(MessageType)type andParameters:(NSDictionary *)parameters;
 
-#pragma mark -
-#pragma mark Initializers
+#pragma mark - Initializers
 - (instancetype) initWithRawTimestamp:(NSTimeInterval)rawTimestamp
     type:(MessageType)type parameters:(NSDictionary *)parameters;
 

@@ -1,9 +1,13 @@
 
 #import <UIKit/UIKit.h>
 #import "SESequencer.h"
+#import "SERhythmusPattern.h"
+
+
+#pragma mark - StatusBarVC Interface
 
 @interface StatusBarVC : UIViewController
 
-@property (nonatomic, strong) SESequencer *sequencer;
+- (void) tuneForSequencer:(SESequencer *)sequencer withPattern:(SERhythmusPattern *)pattern;
 
 @end

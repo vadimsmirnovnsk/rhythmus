@@ -66,6 +66,7 @@
 @property (nonatomic, strong) SESequencerOutput *metronomeOutput;
 @property (nonatomic, strong) SESequencerOutput *metronomeSyncOutput;
 @property (nonatomic, strong) SESequencerOutput *padsFeedbackOutput;
+@property (nonatomic, copy, readonly) NSString *timeStampStringValue;
 
 
 #pragma mark Track Methods
