@@ -1,13 +1,29 @@
-//
-//  SERhythmusPattern.h
-//  TestSingleViewApp
-//
-//  Created by Wadim on 7/25/14.
-//  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
+#import "SEMusicTimebase.h"
+
+
+#pragma mark SEPadSetting Inteface
+
+@interface SEPadSetting : NSObject
+
+@property (nonatomic, copy) NSString *colorName;
+@property (nonatomic, copy) NSURL *sampleURL;
+@property (nonatomic, strong) NSArray *track;
+
+@end
+
+
+#pragma mark SERhythmusPattern Interface
 
 @interface SERhythmusPattern : NSObject
+
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, readwrite) NSInteger bpm;
+@property (nonatomic, readwrite) SETimeSignature timeSignature;
+@property (nonatomic, readwrite) NSInteger bars;
+@property (nonatomic, strong) NSArray /*of SEPadSetting's*/ *padSettings;
+
++ (SERhythmusPattern *)defaultPattern;
 
 @end

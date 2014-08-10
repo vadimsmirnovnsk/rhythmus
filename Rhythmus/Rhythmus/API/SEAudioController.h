@@ -1,13 +1,9 @@
-//
-//  SEAudioController.h
-//  Rhythmus
-//
-//  Created by Wadim on 7/31/14.
-//  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import "SEReceiverDelegate.h"
+
+
+#pragma mark SESamplePlayer Inteface
 
 @interface SESamplePlayer : NSObject <SEReceiverDelegate>
 
@@ -16,6 +12,9 @@
 - (void) play;
 
 @end
+
+
+#pragma mark - SEAudioController Interface
 
 @interface SEAudioController : NSObject
 

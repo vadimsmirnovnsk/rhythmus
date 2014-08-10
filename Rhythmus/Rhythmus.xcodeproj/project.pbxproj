@@ -46,6 +46,8 @@
 		CED77FFD1994E8AE0014449A /* playButtonPlaying.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FF51994E8AE0014449A /* playButtonPlaying.png */; };
 		CED77FFE1994E8AE0014449A /* playButtonPlaying@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CED77FF61994E8AE0014449A /* playButtonPlaying@2x.png */; };
 		CED7800219953F450014449A /* drumstick.wav in Resources */ = {isa = PBXBuildFile; fileRef = CED7800119953F450014449A /* drumstick.wav */; };
+		CED7800919967B430014449A /* StatusBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CED7800719967B430014449A /* StatusBarVC.m */; };
+		CED7800A19967B430014449A /* StatusBarVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CED7800819967B430014449A /* StatusBarVC.xib */; };
 		CEE7662E198CF499002A3E93 /* fileCabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE76628198CF499002A3E93 /* fileCabinet.png */; };
 		CEE7662F198CF499002A3E93 /* fileCabinet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE76629198CF499002A3E93 /* fileCabinet@2x.png */; };
 		CEE76630198CF499002A3E93 /* padViewTabIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE7662A198CF499002A3E93 /* padViewTabIcon.png */; };
@@ -129,6 +131,9 @@
 		CED77FF51994E8AE0014449A /* playButtonPlaying.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playButtonPlaying.png; path = Pics/playButtonPlaying.png; sourceTree = "<group>"; };
 		CED77FF61994E8AE0014449A /* playButtonPlaying@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "playButtonPlaying@2x.png"; path = "Pics/playButtonPlaying@2x.png"; sourceTree = "<group>"; };
 		CED7800119953F450014449A /* drumstick.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = drumstick.wav; path = Sounds/drumstick.wav; sourceTree = "<group>"; };
+		CED7800619967B430014449A /* StatusBarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusBarVC.h; path = Rhythmus/UI/StatusBarVC.h; sourceTree = "<group>"; };
+		CED7800719967B430014449A /* StatusBarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusBarVC.m; path = Rhythmus/UI/StatusBarVC.m; sourceTree = "<group>"; };
+		CED7800819967B430014449A /* StatusBarVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StatusBarVC.xib; path = Rhythmus/UI/StatusBarVC.xib; sourceTree = "<group>"; };
 		CEE76628198CF499002A3E93 /* fileCabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fileCabinet.png; path = Pics/fileCabinet.png; sourceTree = "<group>"; };
 		CEE76629198CF499002A3E93 /* fileCabinet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fileCabinet@2x.png"; path = "Pics/fileCabinet@2x.png"; sourceTree = "<group>"; };
 		CEE7662A198CF499002A3E93 /* padViewTabIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = padViewTabIcon.png; path = Pics/padViewTabIcon.png; sourceTree = "<group>"; };
@@ -318,6 +323,9 @@
 		CED77FD51993F53B0014449A /* PadsView */ = {
 			isa = PBXGroup;
 			children = (
+				CED7800619967B430014449A /* StatusBarVC.h */,
+				CED7800719967B430014449A /* StatusBarVC.m */,
+				CED7800819967B430014449A /* StatusBarVC.xib */,
 				CED77FE01994D3800014449A /* PlaybackVC.h */,
 				CED77FE11994D3800014449A /* PlaybackVC.m */,
 				CED77FD61993F59D0014449A /* PadsWorkspaceVC.h */,
@@ -453,6 +461,7 @@
 				CEE7662E198CF499002A3E93 /* fileCabinet.png in Resources */,
 				CE6F973D198FE9FA009CED03 /* clap.aif in Resources */,
 				CED77FFA1994E8AE0014449A /* playButtonDisactive@2x.png in Resources */,
+				CED7800A19967B430014449A /* StatusBarVC.xib in Resources */,
 				CEE7664D198CFE30002A3E93 /* SEPadsVC.xib in Resources */,
 				CED77FEC1994E4EC0014449A /* recButtonActive@2x.png in Resources */,
 				CED77FFE1994E8AE0014449A /* playButtonPlaying@2x.png in Resources */,
@@ -505,6 +514,7 @@
 				CEE76651198CFE4C002A3E93 /* SERedactorVC.m in Sources */,
 				CED77FD41993E99A0014449A /* UIColor+iOS7Colors.m in Sources */,
 				CEA991D8198640F200CAB5AC /* main.m in Sources */,
+				CED7800919967B430014449A /* StatusBarVC.m in Sources */,
 				CEE76636198CF509002A3E93 /* UIColor+ColorFromHexString.m in Sources */,
 				CEA991DF198640F200CAB5AC /* Rhythmus.xcdatamodeld in Sources */,
 				CED77FD1199375D90014449A /* SEMusicTimebase.m in Sources */,

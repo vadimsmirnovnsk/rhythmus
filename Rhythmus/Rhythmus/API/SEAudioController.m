@@ -1,10 +1,3 @@
-//
-//  SEAudioController.m
-//  Rhythmus
-//
-//  Created by Wadim on 7/31/14.
-//  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
-//
 
 #import "SEAudioController.h"
 #import "SESequencerMessage.h"
@@ -12,6 +5,7 @@
 
 /* Set Default max number of players in pool. */
 #define DEFAULT_PLAYER_POOL_CAPACITY 10;
+
 
 #pragma mark - SamplePlayer Extension
 
@@ -106,7 +100,7 @@
     [self play];
 }
 
-#pragma mark - AVAudioPlayerDelegate methods
+#pragma mark AVAudioPlayerDelegate methods
 
 - (void) audioPlayerBeginInterruption: (AVAudioPlayer *) player
 {

@@ -535,9 +535,6 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
      * self.timeSignature.upperPart * [SEMusicTimebase ticksPerDuration:self.timeSignature.lowerPart withPPQN:defaultPPQN];
     NSLog(@"Stop Recording Tick: %lu", stopRecordingTick);
     SESequencerTrack *track = nil;
-    // TODO: remove stopRecordingTimeInterval
-    NSTimeInterval stopRecordingTimeInterval = [[NSDate date]
-        timeIntervalSinceDate:self.startRecordingDate];
     float singleQuarterPulse = (60/((float)_tempo*defaultPPQN));
     for (id<NSCopying> key in self.mutableTracks) {
         track = self.mutableTracks[key];
@@ -565,6 +562,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     self.expectedTick = 0;
     // Process start tick
     [self processExpectedTick];
+    [_metronomeOutput.delegate output:_metronomeOutput
+                didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeClick
+                andParameters:@{@"Bar":@(self.bar), @"Teil":@(self.teilInBar)}]];
     [self.systemTimer startWithPulsePeriod:(long)
         (defaultBPMtoPPQNTickConstant/_tempo)*1000];
 #ifdef DEBUG_NSLOG
