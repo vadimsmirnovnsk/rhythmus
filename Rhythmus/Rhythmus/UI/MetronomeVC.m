@@ -2,11 +2,11 @@
 #import "MetronomeVC.h"
 #import "UIColor+iOS7Colors.h"
 
-#define METRONOME_FPS 25;
+#define METRONOME_FPS 25.0;
 #define METRONOME_MAX_TEMPO 280;
 #define METRONOME_MIN_TEMPO 40;
 
-static const NSInteger mFrameUpdatePeriod = 1/METRONOME_FPS;
+static const float mFPS = METRONOME_FPS;
 static const NSInteger mMaxTempo = METRONOME_MAX_TEMPO;
 static const NSInteger mMinTempo = METRONOME_MIN_TEMPO;
 
@@ -93,7 +93,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
 {
     _delegate = delegate;
     self.period = 1;
-    self.elementaryDeflection = mFrameUpdatePeriod/self.period;
+    self.elementaryDeflection = (1/mFPS)/self.period;
 }
 
 - (void)setTempo:(NSInteger)tempo
@@ -104,11 +104,11 @@ static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
 
 - (void)start
 {
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:mFrameUpdatePeriod
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1/mFPS
         target:self selector:@selector(changeDeflection) userInfo:nil repeats:YES];
-    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
+     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:mFrameUpdatePeriod
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1/mFPS
         target:self selector:@selector(changeDeflection) userInfo:nil repeats:YES];
 }
 
@@ -130,7 +130,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
     if([self.timer isValid]){
         [self.timer invalidate];
     }
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:mFrameUpdatePeriod target:self selector:@selector(changeDeflection) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1/mFPS target:self selector:@selector(changeDeflection) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     [self.delegate metronome:self didChangeDeflection: self.deflection];
 }
@@ -156,7 +156,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
         }
         NSTimeInterval currentInterval = [[NSDate date] timeIntervalSinceDate:self.lastDate];
         self.currentTempo = (int)(60*self.times/currentInterval);
-        NSLog(@"%@",[NSString stringWithFormat:@"Tempo is: %i bpm",self.currentTempo]);
+        // NSLog(@"%@",[NSString stringWithFormat:@"Tempo is: %i bpm",self.currentTempo]);
         self.times += 1;
     }
     else {
@@ -250,7 +250,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
 {
     for(int i=0;i<14;i++){
         ((UIView*)[self.diodes objectAtIndex:i]).backgroundColor =
-            [UIColor colorWithWhite:MAX(pow(1.8, -ABS(i-index)), 0.1) alpha:1];
+            [UIColor colorWithWhite:MAX(pow(1.8, -ABS(i-index)), 0.15) alpha:1];
     }
 }
 

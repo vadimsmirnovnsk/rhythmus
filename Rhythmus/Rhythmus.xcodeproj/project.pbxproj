@@ -194,6 +194,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE10E32519995C40000BFD88 /* LibraryView */ = {
+			isa = PBXGroup;
+			children = (
+				CEE76641198CFDEB002A3E93 /* SELibraryVC.h */,
+				CEE76642198CFDEB002A3E93 /* SELibraryVC.m */,
+				CEE76643198CFDEB002A3E93 /* SELibraryVC.xib */,
+			);
+			name = LibraryView;
+			sourceTree = "<group>";
+		};
+		CE10E32619995C4C000BFD88 /* RedactorView */ = {
+			isa = PBXGroup;
+			children = (
+				CEE7664E198CFE4C002A3E93 /* SERedactorVC.h */,
+				CEE7664F198CFE4C002A3E93 /* SERedactorVC.m */,
+				CEE76650198CFE4C002A3E93 /* SERedactorVC.xib */,
+			);
+			name = RedactorView;
+			sourceTree = "<group>";
+		};
 		CE6F974519914248009CED03 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -295,13 +315,9 @@
 		CEA991FF1986459600CAB5AC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				CE10E32619995C4C000BFD88 /* RedactorView */,
+				CE10E32519995C40000BFD88 /* LibraryView */,
 				CED77FD51993F53B0014449A /* PadsView */,
-				CEE76641198CFDEB002A3E93 /* SELibraryVC.h */,
-				CEE76642198CFDEB002A3E93 /* SELibraryVC.m */,
-				CEE76643198CFDEB002A3E93 /* SELibraryVC.xib */,
-				CEE7664E198CFE4C002A3E93 /* SERedactorVC.h */,
-				CEE7664F198CFE4C002A3E93 /* SERedactorVC.m */,
-				CEE76650198CFE4C002A3E93 /* SERedactorVC.xib */,
 				CEE76635198CF509002A3E93 /* UIColor+ColorFromHexString.h */,
 				CEE76634198CF509002A3E93 /* UIColor+ColorFromHexString.m */,
 				CED77FD21993E99A0014449A /* UIColor+iOS7Colors.h */,
