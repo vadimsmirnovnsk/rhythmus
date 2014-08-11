@@ -5,19 +5,19 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>3F7C87C5-3F19-4D3A-9921-CCB72C618740</string>
+	<string>FBF2B844-21F2-467B-9B00-557849B98E43</string>
 	<key>IDESourceControlProjectName</key>
 	<string>Rhythmus</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>7CDF5F9C-969B-465A-8303-BD05B332862E</key>
+		<key>E71EC28B-A2FA-4CDB-982D-BDF8F3BA2F21</key>
 		<string>https://github.com/vadimsmirnovnsk/rhythmus.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>Rhythmus/Rhythmus.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>7CDF5F9C-969B-465A-8303-BD05B332862E</key>
+		<key>E71EC28B-A2FA-4CDB-982D-BDF8F3BA2F21</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
@@ -25,14 +25,14 @@
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>7CDF5F9C-969B-465A-8303-BD05B332862E</string>
+	<string>E71EC28B-A2FA-4CDB-982D-BDF8F3BA2F21</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>7CDF5F9C-969B-465A-8303-BD05B332862E</string>
+			<string>E71EC28B-A2FA-4CDB-982D-BDF8F3BA2F21</string>
 			<key>IDESourceControlWCCName</key>
 			<string>rhythmus</string>
 		</dict>

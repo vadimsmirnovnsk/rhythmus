@@ -10,7 +10,6 @@
 		CEA991CA198640F200CAB5AC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991C9198640F200CAB5AC /* Foundation.framework */; };
 		CEA991CC198640F200CAB5AC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991CB198640F200CAB5AC /* CoreGraphics.framework */; };
 		CEA991CE198640F200CAB5AC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991CD198640F200CAB5AC /* UIKit.framework */; };
-		CEA991D0198640F200CAB5AC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991CF198640F200CAB5AC /* CoreData.framework */; };
 		CEA991D6198640F200CAB5AC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEA991D4198640F200CAB5AC /* InfoPlist.strings */; };
 		CEA991D8198640F200CAB5AC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA991D7198640F200CAB5AC /* main.m */; };
 		CEA991DC198640F200CAB5AC /* SEAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA991DB198640F200CAB5AC /* SEAppDelegate.m */; };
@@ -19,9 +18,55 @@
 		CEA991E8198640F200CAB5AC /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991E7198640F200CAB5AC /* XCTest.framework */; };
 		CEA991E9198640F200CAB5AC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991C9198640F200CAB5AC /* Foundation.framework */; };
 		CEA991EA198640F200CAB5AC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991CD198640F200CAB5AC /* UIKit.framework */; };
-		CEA991EB198640F200CAB5AC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991CF198640F200CAB5AC /* CoreData.framework */; };
 		CEA991F3198640F200CAB5AC /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CEA991F1198640F200CAB5AC /* InfoPlist.strings */; };
 		CEA991F5198640F200CAB5AC /* RhythmusTests.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA991F4198640F200CAB5AC /* RhythmusTests.m */; };
+		CEA992201986466800CAB5AC /* SERhythmusPattern.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA9921B1986466800CAB5AC /* SERhythmusPattern.m */; };
+		CEA9928319878E3700CAB5AC /* SESequencer.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA9928219878E3700CAB5AC /* SESequencer.m */; };
+		CEA9928C19878EA900CAB5AC /* SESystemTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA9928B19878EA900CAB5AC /* SESystemTimer.m */; };
+		CEA992941987934F00CAB5AC /* SESequencerMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA992931987934F00CAB5AC /* SESequencerMessage.m */; };
+		CEA992A2198A85FE00CAB5AC /* SEAudioController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEA992A1198A85FE00CAB5AC /* SEAudioController.m */; };
+		CEA992A6198A892200CAB5AC /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA992A5198A892200CAB5AC /* AudioToolbox.framework */; };
+		CED77FD1199375D90014449A /* SEMusicTimebase.m in Sources */ = {isa = PBXBuildFile; fileRef = CED77FD0199375D90014449A /* SEMusicTimebase.m */; };
+		CED77FD41993E99A0014449A /* UIColor+iOS7Colors.m in Sources */ = {isa = PBXBuildFile; fileRef = CED77FD31993E99A0014449A /* UIColor+iOS7Colors.m */; };
+		CED77FD81993F59D0014449A /* PadsWorkspaceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CED77FD71993F59D0014449A /* PadsWorkspaceVC.m */; };
+		CED77FE21994D3800014449A /* PlaybackVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CED77FE11994D3800014449A /* PlaybackVC.m */; };
+		CED7800919967B430014449A /* StatusBarVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CED7800719967B430014449A /* StatusBarVC.m */; };
+		CED7800A19967B430014449A /* StatusBarVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CED7800819967B430014449A /* StatusBarVC.xib */; };
+		CED78013199779F50014449A /* PadOptionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CED78011199779F50014449A /* PadOptionsVC.m */; };
+		CED78014199779F50014449A /* PadOptionsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CED78012199779F50014449A /* PadOptionsVC.xib */; };
+		CEDD80761998B0AF0018088E /* RootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDD80751998B0AF0018088E /* RootVC.m */; };
+		CEDD807C1998C16F0018088E /* drumstick.wav in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80771998C16F0018088E /* drumstick.wav */; };
+		CEDD807D1998C16F0018088E /* clap.aif in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80781998C16F0018088E /* clap.aif */; };
+		CEDD807E1998C16F0018088E /* snare.aif in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80791998C16F0018088E /* snare.aif */; };
+		CEDD807F1998C16F0018088E /* bassdrum.aif in Resources */ = {isa = PBXBuildFile; fileRef = CEDD807A1998C16F0018088E /* bassdrum.aif */; };
+		CEDD80801998C16F0018088E /* hihat.aif in Resources */ = {isa = PBXBuildFile; fileRef = CEDD807B1998C16F0018088E /* hihat.aif */; };
+		CEDD80961998C1840018088E /* tapBarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80811998C1840018088E /* tapBarBackground.png */; };
+		CEDD80971998C1840018088E /* playButtonPlaying@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80821998C1840018088E /* playButtonPlaying@2x.png */; };
+		CEDD80981998C1840018088E /* playButtonPlaying.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80831998C1840018088E /* playButtonPlaying.png */; };
+		CEDD80991998C1840018088E /* playButtonActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80841998C1840018088E /* playButtonActive@2x.png */; };
+		CEDD809A1998C1840018088E /* playButtonActive.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80851998C1840018088E /* playButtonActive.png */; };
+		CEDD809B1998C1840018088E /* playButtonDisactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80861998C1840018088E /* playButtonDisactive@2x.png */; };
+		CEDD809C1998C1840018088E /* playButtonDisactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80871998C1840018088E /* playButtonDisactive.png */; };
+		CEDD809D1998C1840018088E /* recButtonRecording@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80881998C1840018088E /* recButtonRecording@2x.png */; };
+		CEDD809E1998C1840018088E /* recButtonRecording.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80891998C1840018088E /* recButtonRecording.png */; };
+		CEDD809F1998C1840018088E /* recButtonDisactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD808A1998C1840018088E /* recButtonDisactive@2x.png */; };
+		CEDD80A11998C1840018088E /* recButtonDisactive.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD808C1998C1840018088E /* recButtonDisactive.png */; };
+		CEDD80A21998C1840018088E /* recButtonActive.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD808D1998C1840018088E /* recButtonActive.png */; };
+		CEDD80A31998C1840018088E /* recButtonActive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD808E1998C1840018088E /* recButtonActive@2x.png */; };
+		CEDD80A41998C1840018088E /* fileCabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD808F1998C1840018088E /* fileCabinet.png */; };
+		CEDD80A51998C1840018088E /* fileCabinet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80901998C1840018088E /* fileCabinet@2x.png */; };
+		CEDD80A61998C1840018088E /* padViewTabIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80911998C1840018088E /* padViewTabIcon.png */; };
+		CEDD80A71998C1840018088E /* padViewTabIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80921998C1840018088E /* padViewTabIcon@2x.png */; };
+		CEDD80A81998C1840018088E /* pencil.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80931998C1840018088E /* pencil.png */; };
+		CEDD80A91998C1840018088E /* pencil@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80941998C1840018088E /* pencil@2x.png */; };
+		CEDD80AA1998C1840018088E /* tapBarBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEDD80951998C1840018088E /* tapBarBackground@2x.png */; };
+		CEE76636198CF509002A3E93 /* UIColor+ColorFromHexString.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE76634198CF509002A3E93 /* UIColor+ColorFromHexString.m */; };
+		CEE76644198CFDEB002A3E93 /* SELibraryVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE76642198CFDEB002A3E93 /* SELibraryVC.m */; };
+		CEE76645198CFDEB002A3E93 /* SELibraryVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE76643198CFDEB002A3E93 /* SELibraryVC.xib */; };
+		CEE7664C198CFE30002A3E93 /* SEPadsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7664A198CFE30002A3E93 /* SEPadsVC.m */; };
+		CEE7664D198CFE30002A3E93 /* SEPadsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE7664B198CFE30002A3E93 /* SEPadsVC.xib */; };
+		CEE76651198CFE4C002A3E93 /* SERedactorVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CEE7664F198CFE4C002A3E93 /* SERedactorVC.m */; };
+		CEE76652198CFE4C002A3E93 /* SERedactorVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CEE76650198CFE4C002A3E93 /* SERedactorVC.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,7 +84,6 @@
 		CEA991C9198640F200CAB5AC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEA991CB198640F200CAB5AC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		CEA991CD198640F200CAB5AC /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		CEA991CF198640F200CAB5AC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		CEA991D3198640F200CAB5AC /* Rhythmus-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Rhythmus-Info.plist"; sourceTree = "<group>"; };
 		CEA991D5198640F200CAB5AC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CEA991D7198640F200CAB5AC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -53,6 +97,71 @@
 		CEA991F0198640F200CAB5AC /* RhythmusTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "RhythmusTests-Info.plist"; sourceTree = "<group>"; };
 		CEA991F2198640F200CAB5AC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CEA991F4198640F200CAB5AC /* RhythmusTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RhythmusTests.m; sourceTree = "<group>"; };
+		CEA9921A1986466800CAB5AC /* SERhythmusPattern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SERhythmusPattern.h; path = Rhythmus/API/Sequencer/SERhythmusPattern.h; sourceTree = "<group>"; };
+		CEA9921B1986466800CAB5AC /* SERhythmusPattern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SERhythmusPattern.m; path = Rhythmus/API/Sequencer/SERhythmusPattern.m; sourceTree = "<group>"; };
+		CEA9928119878E3700CAB5AC /* SESequencer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESequencer.h; path = Rhythmus/API/Sequencer/SESequencer.h; sourceTree = "<group>"; };
+		CEA9928219878E3700CAB5AC /* SESequencer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESequencer.m; path = Rhythmus/API/Sequencer/SESequencer.m; sourceTree = "<group>"; };
+		CEA9928A19878EA900CAB5AC /* SESystemTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESystemTimer.h; path = Rhythmus/API/Sequencer/SESystemTimer.h; sourceTree = "<group>"; };
+		CEA9928B19878EA900CAB5AC /* SESystemTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESystemTimer.m; path = Rhythmus/API/Sequencer/SESystemTimer.m; sourceTree = "<group>"; };
+		CEA992921987934F00CAB5AC /* SESequencerMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SESequencerMessage.h; path = Rhythmus/API/Sequencer/SESequencerMessage.h; sourceTree = "<group>"; };
+		CEA992931987934F00CAB5AC /* SESequencerMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SESequencerMessage.m; path = Rhythmus/API/Sequencer/SESequencerMessage.m; sourceTree = "<group>"; };
+		CEA992971988F00E00CAB5AC /* SEReceiverDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SEReceiverDelegate.h; path = Rhythmus/API/Sequencer/SEReceiverDelegate.h; sourceTree = "<group>"; };
+		CEA992A0198A85FE00CAB5AC /* SEAudioController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SEAudioController.h; path = Rhythmus/API/SEAudioController.h; sourceTree = "<group>"; };
+		CEA992A1198A85FE00CAB5AC /* SEAudioController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SEAudioController.m; path = Rhythmus/API/SEAudioController.m; sourceTree = "<group>"; };
+		CEA992A3198A88BA00CAB5AC /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		CEA992A5198A892200CAB5AC /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		CED77FCF199375D90014449A /* SEMusicTimebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SEMusicTimebase.h; path = Rhythmus/API/Sequencer/SEMusicTimebase.h; sourceTree = "<group>"; };
+		CED77FD0199375D90014449A /* SEMusicTimebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SEMusicTimebase.m; path = Rhythmus/API/Sequencer/SEMusicTimebase.m; sourceTree = "<group>"; };
+		CED77FD21993E99A0014449A /* UIColor+iOS7Colors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+iOS7Colors.h"; path = "Rhythmus/UI/UIColor+iOS7Colors.h"; sourceTree = "<group>"; };
+		CED77FD31993E99A0014449A /* UIColor+iOS7Colors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+iOS7Colors.m"; path = "Rhythmus/UI/UIColor+iOS7Colors.m"; sourceTree = "<group>"; };
+		CED77FD61993F59D0014449A /* PadsWorkspaceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PadsWorkspaceVC.h; path = Rhythmus/UI/PadsWorkspaceVC.h; sourceTree = "<group>"; };
+		CED77FD71993F59D0014449A /* PadsWorkspaceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PadsWorkspaceVC.m; path = Rhythmus/UI/PadsWorkspaceVC.m; sourceTree = "<group>"; };
+		CED77FE01994D3800014449A /* PlaybackVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlaybackVC.h; path = Rhythmus/UI/PlaybackVC.h; sourceTree = "<group>"; };
+		CED77FE11994D3800014449A /* PlaybackVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlaybackVC.m; path = Rhythmus/UI/PlaybackVC.m; sourceTree = "<group>"; };
+		CED7800619967B430014449A /* StatusBarVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusBarVC.h; path = Rhythmus/UI/StatusBarVC.h; sourceTree = "<group>"; };
+		CED7800719967B430014449A /* StatusBarVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusBarVC.m; path = Rhythmus/UI/StatusBarVC.m; sourceTree = "<group>"; };
+		CED7800819967B430014449A /* StatusBarVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = StatusBarVC.xib; path = Rhythmus/UI/StatusBarVC.xib; sourceTree = "<group>"; };
+		CED78010199779F50014449A /* PadOptionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PadOptionsVC.h; path = Rhythmus/UI/PadOptionsVC.h; sourceTree = "<group>"; };
+		CED78011199779F50014449A /* PadOptionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PadOptionsVC.m; path = Rhythmus/UI/PadOptionsVC.m; sourceTree = "<group>"; };
+		CED78012199779F50014449A /* PadOptionsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PadOptionsVC.xib; path = Rhythmus/UI/PadOptionsVC.xib; sourceTree = "<group>"; };
+		CEDD80741998B0AF0018088E /* RootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootVC.h; path = Rhythmus/UI/RootVC.h; sourceTree = "<group>"; };
+		CEDD80751998B0AF0018088E /* RootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootVC.m; path = Rhythmus/UI/RootVC.m; sourceTree = "<group>"; };
+		CEDD80771998C16F0018088E /* drumstick.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = drumstick.wav; path = Resources/Sounds/drumstick.wav; sourceTree = "<group>"; };
+		CEDD80781998C16F0018088E /* clap.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = clap.aif; path = Resources/Sounds/clap.aif; sourceTree = "<group>"; };
+		CEDD80791998C16F0018088E /* snare.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = snare.aif; path = Resources/Sounds/snare.aif; sourceTree = "<group>"; };
+		CEDD807A1998C16F0018088E /* bassdrum.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = bassdrum.aif; path = Resources/Sounds/bassdrum.aif; sourceTree = "<group>"; };
+		CEDD807B1998C16F0018088E /* hihat.aif */ = {isa = PBXFileReference; lastKnownFileType = file; name = hihat.aif; path = Resources/Sounds/hihat.aif; sourceTree = "<group>"; };
+		CEDD80811998C1840018088E /* tapBarBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = tapBarBackground.png; path = Resources/Images/tapBarBackground.png; sourceTree = "<group>"; };
+		CEDD80821998C1840018088E /* playButtonPlaying@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "playButtonPlaying@2x.png"; path = "Resources/Images/playButtonPlaying@2x.png"; sourceTree = "<group>"; };
+		CEDD80831998C1840018088E /* playButtonPlaying.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playButtonPlaying.png; path = Resources/Images/playButtonPlaying.png; sourceTree = "<group>"; };
+		CEDD80841998C1840018088E /* playButtonActive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "playButtonActive@2x.png"; path = "Resources/Images/playButtonActive@2x.png"; sourceTree = "<group>"; };
+		CEDD80851998C1840018088E /* playButtonActive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playButtonActive.png; path = Resources/Images/playButtonActive.png; sourceTree = "<group>"; };
+		CEDD80861998C1840018088E /* playButtonDisactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "playButtonDisactive@2x.png"; path = "Resources/Images/playButtonDisactive@2x.png"; sourceTree = "<group>"; };
+		CEDD80871998C1840018088E /* playButtonDisactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = playButtonDisactive.png; path = Resources/Images/playButtonDisactive.png; sourceTree = "<group>"; };
+		CEDD80881998C1840018088E /* recButtonRecording@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "recButtonRecording@2x.png"; path = "Resources/Images/recButtonRecording@2x.png"; sourceTree = "<group>"; };
+		CEDD80891998C1840018088E /* recButtonRecording.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recButtonRecording.png; path = Resources/Images/recButtonRecording.png; sourceTree = "<group>"; };
+		CEDD808A1998C1840018088E /* recButtonDisactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "recButtonDisactive@2x.png"; path = "Resources/Images/recButtonDisactive@2x.png"; sourceTree = "<group>"; };
+		CEDD808C1998C1840018088E /* recButtonDisactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recButtonDisactive.png; path = Resources/Images/recButtonDisactive.png; sourceTree = "<group>"; };
+		CEDD808D1998C1840018088E /* recButtonActive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = recButtonActive.png; path = Resources/Images/recButtonActive.png; sourceTree = "<group>"; };
+		CEDD808E1998C1840018088E /* recButtonActive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "recButtonActive@2x.png"; path = "Resources/Images/recButtonActive@2x.png"; sourceTree = "<group>"; };
+		CEDD808F1998C1840018088E /* fileCabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fileCabinet.png; path = Resources/Images/fileCabinet.png; sourceTree = "<group>"; };
+		CEDD80901998C1840018088E /* fileCabinet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fileCabinet@2x.png"; path = "Resources/Images/fileCabinet@2x.png"; sourceTree = "<group>"; };
+		CEDD80911998C1840018088E /* padViewTabIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = padViewTabIcon.png; path = Resources/Images/padViewTabIcon.png; sourceTree = "<group>"; };
+		CEDD80921998C1840018088E /* padViewTabIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "padViewTabIcon@2x.png"; path = "Resources/Images/padViewTabIcon@2x.png"; sourceTree = "<group>"; };
+		CEDD80931998C1840018088E /* pencil.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pencil.png; path = Resources/Images/pencil.png; sourceTree = "<group>"; };
+		CEDD80941998C1840018088E /* pencil@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pencil@2x.png"; path = "Resources/Images/pencil@2x.png"; sourceTree = "<group>"; };
+		CEDD80951998C1840018088E /* tapBarBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tapBarBackground@2x.png"; path = "Resources/Images/tapBarBackground@2x.png"; sourceTree = "<group>"; };
+		CEE76634198CF509002A3E93 /* UIColor+ColorFromHexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+ColorFromHexString.m"; path = "Rhythmus/UI/UIColor+ColorFromHexString.m"; sourceTree = "<group>"; };
+		CEE76635198CF509002A3E93 /* UIColor+ColorFromHexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+ColorFromHexString.h"; path = "Rhythmus/UI/UIColor+ColorFromHexString.h"; sourceTree = "<group>"; };
+		CEE76641198CFDEB002A3E93 /* SELibraryVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SELibraryVC.h; path = Rhythmus/UI/SELibraryVC.h; sourceTree = "<group>"; };
+		CEE76642198CFDEB002A3E93 /* SELibraryVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SELibraryVC.m; path = Rhythmus/UI/SELibraryVC.m; sourceTree = "<group>"; };
+		CEE76643198CFDEB002A3E93 /* SELibraryVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SELibraryVC.xib; path = Rhythmus/UI/SELibraryVC.xib; sourceTree = "<group>"; };
+		CEE76649198CFE30002A3E93 /* SEPadsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SEPadsVC.h; path = Rhythmus/UI/SEPadsVC.h; sourceTree = "<group>"; };
+		CEE7664A198CFE30002A3E93 /* SEPadsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SEPadsVC.m; path = Rhythmus/UI/SEPadsVC.m; sourceTree = "<group>"; };
+		CEE7664B198CFE30002A3E93 /* SEPadsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SEPadsVC.xib; path = Rhythmus/UI/SEPadsVC.xib; sourceTree = "<group>"; };
+		CEE7664E198CFE4C002A3E93 /* SERedactorVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SERedactorVC.h; path = Rhythmus/UI/SERedactorVC.h; sourceTree = "<group>"; };
+		CEE7664F198CFE4C002A3E93 /* SERedactorVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SERedactorVC.m; path = Rhythmus/UI/SERedactorVC.m; sourceTree = "<group>"; };
+		CEE76650198CFE4C002A3E93 /* SERedactorVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SERedactorVC.xib; path = Rhythmus/UI/SERedactorVC.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,8 +169,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEA992A6198A892200CAB5AC /* AudioToolbox.framework in Frameworks */,
 				CEA991CC198640F200CAB5AC /* CoreGraphics.framework in Frameworks */,
-				CEA991D0198640F200CAB5AC /* CoreData.framework in Frameworks */,
 				CEA991CE198640F200CAB5AC /* UIKit.framework in Frameworks */,
 				CEA991CA198640F200CAB5AC /* Foundation.framework in Frameworks */,
 			);
@@ -72,7 +181,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEA991E8198640F200CAB5AC /* XCTest.framework in Frameworks */,
-				CEA991EB198640F200CAB5AC /* CoreData.framework in Frameworks */,
 				CEA991EA198640F200CAB5AC /* UIKit.framework in Frameworks */,
 				CEA991E9198640F200CAB5AC /* Foundation.framework in Frameworks */,
 			);
@@ -81,48 +189,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CE6F974019914145009CED03 /* Resources */ = {
+		CE6F974519914248009CED03 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				CE6F974219914174009CED03 /* Audio */,
-				CE6F97411991415F009CED03 /* Images */,
+				CEE0A48D198CEB8E00232745 /* Audio */,
+				CEE7661B198CF407002A3E93 /* Images */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		CE6F97411991415F009CED03 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Images;
-			sourceTree = "<group>";
-		};
-		CE6F974219914174009CED03 /* Audio */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Audio;
-			sourceTree = "<group>";
-		};
-		CE6F974319914190009CED03 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = UI;
-			sourceTree = "<group>";
-		};
-		CE6F97441991419F009CED03 /* API */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = API;
 			sourceTree = "<group>";
 		};
 		CEA991BD198640F200CAB5AC = {
 			isa = PBXGroup;
 			children = (
-				CE6F97441991419F009CED03 /* API */,
-				CE6F974319914190009CED03 /* UI */,
+				CEA991FF1986459600CAB5AC /* UI */,
+				CEA991FE1986458400CAB5AC /* API */,
 				CEA991D1198640F200CAB5AC /* Rhythmus */,
 				CEA991EE198640F200CAB5AC /* RhythmusTests */,
 				CEA991C8198640F200CAB5AC /* Frameworks */,
@@ -142,10 +222,11 @@
 		CEA991C8198640F200CAB5AC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				CEA992A5198A892200CAB5AC /* AudioToolbox.framework */,
+				CEA992A3198A88BA00CAB5AC /* CoreAudio.framework */,
 				CEA991C9198640F200CAB5AC /* Foundation.framework */,
 				CEA991CB198640F200CAB5AC /* CoreGraphics.framework */,
 				CEA991CD198640F200CAB5AC /* UIKit.framework */,
-				CEA991CF198640F200CAB5AC /* CoreData.framework */,
 				CEA991E7198640F200CAB5AC /* XCTest.framework */,
 			);
 			name = Frameworks;
@@ -154,6 +235,7 @@
 		CEA991D1198640F200CAB5AC /* Rhythmus */ = {
 			isa = PBXGroup;
 			children = (
+				CE6F974519914248009CED03 /* Resources */,
 				CEA991DA198640F200CAB5AC /* SEAppDelegate.h */,
 				CEA991DB198640F200CAB5AC /* SEAppDelegate.m */,
 				CEA991E0198640F200CAB5AC /* Images.xcassets */,
@@ -191,6 +273,121 @@
 				CEA991F1198640F200CAB5AC /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		CEA991FE1986458400CAB5AC /* API */ = {
+			isa = PBXGroup;
+			children = (
+				CEA99200198645AA00CAB5AC /* Sequencer */,
+				CEA9921A1986466800CAB5AC /* SERhythmusPattern.h */,
+				CEA9921B1986466800CAB5AC /* SERhythmusPattern.m */,
+				CEA992A0198A85FE00CAB5AC /* SEAudioController.h */,
+				CEA992A1198A85FE00CAB5AC /* SEAudioController.m */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		CEA991FF1986459600CAB5AC /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				CED77FD51993F53B0014449A /* PadsView */,
+				CEE76641198CFDEB002A3E93 /* SELibraryVC.h */,
+				CEE76642198CFDEB002A3E93 /* SELibraryVC.m */,
+				CEE76643198CFDEB002A3E93 /* SELibraryVC.xib */,
+				CEE7664E198CFE4C002A3E93 /* SERedactorVC.h */,
+				CEE7664F198CFE4C002A3E93 /* SERedactorVC.m */,
+				CEE76650198CFE4C002A3E93 /* SERedactorVC.xib */,
+				CEE76635198CF509002A3E93 /* UIColor+ColorFromHexString.h */,
+				CEE76634198CF509002A3E93 /* UIColor+ColorFromHexString.m */,
+				CED77FD21993E99A0014449A /* UIColor+iOS7Colors.h */,
+				CED77FD31993E99A0014449A /* UIColor+iOS7Colors.m */,
+				CEDD80741998B0AF0018088E /* RootVC.h */,
+				CEDD80751998B0AF0018088E /* RootVC.m */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		CEA99200198645AA00CAB5AC /* Sequencer */ = {
+			isa = PBXGroup;
+			children = (
+				CEA992211986467100CAB5AC /* Sequencer Protocols */,
+				CEA9928A19878EA900CAB5AC /* SESystemTimer.h */,
+				CEA9928B19878EA900CAB5AC /* SESystemTimer.m */,
+				CEA9928119878E3700CAB5AC /* SESequencer.h */,
+				CEA9928219878E3700CAB5AC /* SESequencer.m */,
+				CEA992921987934F00CAB5AC /* SESequencerMessage.h */,
+				CEA992931987934F00CAB5AC /* SESequencerMessage.m */,
+				CED77FCF199375D90014449A /* SEMusicTimebase.h */,
+				CED77FD0199375D90014449A /* SEMusicTimebase.m */,
+			);
+			name = Sequencer;
+			sourceTree = "<group>";
+		};
+		CEA992211986467100CAB5AC /* Sequencer Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				CEA992971988F00E00CAB5AC /* SEReceiverDelegate.h */,
+			);
+			name = "Sequencer Protocols";
+			sourceTree = "<group>";
+		};
+		CED77FD51993F53B0014449A /* PadsView */ = {
+			isa = PBXGroup;
+			children = (
+				CED78010199779F50014449A /* PadOptionsVC.h */,
+				CED78011199779F50014449A /* PadOptionsVC.m */,
+				CED78012199779F50014449A /* PadOptionsVC.xib */,
+				CED7800619967B430014449A /* StatusBarVC.h */,
+				CED7800719967B430014449A /* StatusBarVC.m */,
+				CED7800819967B430014449A /* StatusBarVC.xib */,
+				CED77FE01994D3800014449A /* PlaybackVC.h */,
+				CED77FE11994D3800014449A /* PlaybackVC.m */,
+				CED77FD61993F59D0014449A /* PadsWorkspaceVC.h */,
+				CED77FD71993F59D0014449A /* PadsWorkspaceVC.m */,
+				CEE76649198CFE30002A3E93 /* SEPadsVC.h */,
+				CEE7664A198CFE30002A3E93 /* SEPadsVC.m */,
+				CEE7664B198CFE30002A3E93 /* SEPadsVC.xib */,
+			);
+			name = PadsView;
+			sourceTree = "<group>";
+		};
+		CEE0A48D198CEB8E00232745 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				CEDD80771998C16F0018088E /* drumstick.wav */,
+				CEDD80781998C16F0018088E /* clap.aif */,
+				CEDD80791998C16F0018088E /* snare.aif */,
+				CEDD807A1998C16F0018088E /* bassdrum.aif */,
+				CEDD807B1998C16F0018088E /* hihat.aif */,
+			);
+			name = Audio;
+			sourceTree = "<group>";
+		};
+		CEE7661B198CF407002A3E93 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				CEDD80811998C1840018088E /* tapBarBackground.png */,
+				CEDD80821998C1840018088E /* playButtonPlaying@2x.png */,
+				CEDD80831998C1840018088E /* playButtonPlaying.png */,
+				CEDD80841998C1840018088E /* playButtonActive@2x.png */,
+				CEDD80851998C1840018088E /* playButtonActive.png */,
+				CEDD80861998C1840018088E /* playButtonDisactive@2x.png */,
+				CEDD80871998C1840018088E /* playButtonDisactive.png */,
+				CEDD80881998C1840018088E /* recButtonRecording@2x.png */,
+				CEDD80891998C1840018088E /* recButtonRecording.png */,
+				CEDD808A1998C1840018088E /* recButtonDisactive@2x.png */,
+				CEDD808C1998C1840018088E /* recButtonDisactive.png */,
+				CEDD808D1998C1840018088E /* recButtonActive.png */,
+				CEDD808E1998C1840018088E /* recButtonActive@2x.png */,
+				CEDD808F1998C1840018088E /* fileCabinet.png */,
+				CEDD80901998C1840018088E /* fileCabinet@2x.png */,
+				CEDD80911998C1840018088E /* padViewTabIcon.png */,
+				CEDD80921998C1840018088E /* padViewTabIcon@2x.png */,
+				CEDD80931998C1840018088E /* pencil.png */,
+				CEDD80941998C1840018088E /* pencil@2x.png */,
+				CEDD80951998C1840018088E /* tapBarBackground@2x.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -269,8 +466,38 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEDD809A1998C1840018088E /* playButtonActive.png in Resources */,
+				CEDD809D1998C1840018088E /* recButtonRecording@2x.png in Resources */,
+				CEDD809B1998C1840018088E /* playButtonDisactive@2x.png in Resources */,
+				CEDD80961998C1840018088E /* tapBarBackground.png in Resources */,
+				CEDD809F1998C1840018088E /* recButtonDisactive@2x.png in Resources */,
+				CEDD80A91998C1840018088E /* pencil@2x.png in Resources */,
+				CEDD807E1998C16F0018088E /* snare.aif in Resources */,
+				CEDD80991998C1840018088E /* playButtonActive@2x.png in Resources */,
+				CEDD809E1998C1840018088E /* recButtonRecording.png in Resources */,
+				CEDD80A31998C1840018088E /* recButtonActive@2x.png in Resources */,
+				CED7800A19967B430014449A /* StatusBarVC.xib in Resources */,
+				CEDD80A81998C1840018088E /* pencil.png in Resources */,
+				CEDD80A21998C1840018088E /* recButtonActive.png in Resources */,
+				CEDD809C1998C1840018088E /* playButtonDisactive.png in Resources */,
+				CEDD80A11998C1840018088E /* recButtonDisactive.png in Resources */,
+				CEDD80981998C1840018088E /* playButtonPlaying.png in Resources */,
+				CEE7664D198CFE30002A3E93 /* SEPadsVC.xib in Resources */,
 				CEA991D6198640F200CAB5AC /* InfoPlist.strings in Resources */,
+				CEDD80A51998C1840018088E /* fileCabinet@2x.png in Resources */,
 				CEA991E1198640F200CAB5AC /* Images.xcassets in Resources */,
+				CEDD807C1998C16F0018088E /* drumstick.wav in Resources */,
+				CEDD80A71998C1840018088E /* padViewTabIcon@2x.png in Resources */,
+				CEDD80801998C16F0018088E /* hihat.aif in Resources */,
+				CEDD807F1998C16F0018088E /* bassdrum.aif in Resources */,
+				CEE76645198CFDEB002A3E93 /* SELibraryVC.xib in Resources */,
+				CED78014199779F50014449A /* PadOptionsVC.xib in Resources */,
+				CEDD80AA1998C1840018088E /* tapBarBackground@2x.png in Resources */,
+				CEDD80971998C1840018088E /* playButtonPlaying@2x.png in Resources */,
+				CEDD807D1998C16F0018088E /* clap.aif in Resources */,
+				CEE76652198CFE4C002A3E93 /* SERedactorVC.xib in Resources */,
+				CEDD80A61998C1840018088E /* padViewTabIcon.png in Resources */,
+				CEDD80A41998C1840018088E /* fileCabinet.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,9 +516,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEA992A2198A85FE00CAB5AC /* SEAudioController.m in Sources */,
+				CEDD80761998B0AF0018088E /* RootVC.m in Sources */,
+				CEA992941987934F00CAB5AC /* SESequencerMessage.m in Sources */,
+				CEA9928C19878EA900CAB5AC /* SESystemTimer.m in Sources */,
+				CEA9928319878E3700CAB5AC /* SESequencer.m in Sources */,
+				CEA992201986466800CAB5AC /* SERhythmusPattern.m in Sources */,
+				CED78013199779F50014449A /* PadOptionsVC.m in Sources */,
+				CEE7664C198CFE30002A3E93 /* SEPadsVC.m in Sources */,
+				CEE76644198CFDEB002A3E93 /* SELibraryVC.m in Sources */,
+				CED77FE21994D3800014449A /* PlaybackVC.m in Sources */,
+				CED77FD81993F59D0014449A /* PadsWorkspaceVC.m in Sources */,
 				CEA991DC198640F200CAB5AC /* SEAppDelegate.m in Sources */,
+				CEE76651198CFE4C002A3E93 /* SERedactorVC.m in Sources */,
+				CED77FD41993E99A0014449A /* UIColor+iOS7Colors.m in Sources */,
 				CEA991D8198640F200CAB5AC /* main.m in Sources */,
+				CED7800919967B430014449A /* StatusBarVC.m in Sources */,
+				CEE76636198CF509002A3E93 /* UIColor+ColorFromHexString.m in Sources */,
 				CEA991DF198640F200CAB5AC /* Rhythmus.xcdatamodeld in Sources */,
+				CED77FD1199375D90014449A /* SEMusicTimebase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
