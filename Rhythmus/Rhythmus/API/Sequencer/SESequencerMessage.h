@@ -36,14 +36,17 @@ typedef enum {
 } MessageType;
 
 @property (nonatomic, readwrite) MessageType type;
+// CR: You'd better use 'copy' instead of 'strong'.
 @property (nonatomic, strong) NSData /*with raw MIDI message data*/ *data;
 @property (nonatomic, readwrite) unsigned long PPQNTimeStamp;
 @property (nonatomic, readwrite) NSInteger initialDuration; // Non-music-quantized duration - in PPQN.
 @property (nonatomic, readwrite) NSTimeInterval rawTimestamp;
+// CR: You'd better use 'copy' instead of 'strong'.
 @property (nonatomic, strong) NSDictionary *parameters;
 
 #pragma mark Class Methods
 + (instancetype) defaultMessage;
+// CR:  'and' is redundant.
 + (instancetype) messageWithType:(MessageType)type andParameters:(NSDictionary *)parameters;
 
 #pragma mark - Initializers

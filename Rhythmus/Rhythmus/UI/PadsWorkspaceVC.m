@@ -129,6 +129,7 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         [newOutput setDelegate: newPlayer];
         
         // Prapare message for UIColor class
+        // CR:  Wow-wow-wow! What are you doing? This looks to me like a magic =(
         message = [UIColor sharedColorNames][arc4random() % [[UIColor sharedColorNames] count]];
         s = NSSelectorFromString(message);
         SEPad *newPad = [[SEPad alloc]initWithFrame:
@@ -138,6 +139,7 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         newPad.backgroundColor = objc_msgSend([UIColor class], s);
         newPad.identifier = identifier;
         newPad.alpha = pwNormalPadAlpha;
+        // CR:  Who or what 'didTapped'?
         [newPad addTarget:self action:@selector(didTapped:) forControlEvents:UIControlEventTouchDown];
         [self.view addSubview:newPad];
         

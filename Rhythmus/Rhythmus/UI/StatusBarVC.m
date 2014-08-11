@@ -24,6 +24,12 @@ static void *const statusBarContext = (void *)&statusBarContext;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        // CR:  A very rude mistake! Never ever access a view controller's view
+        //      form within an intializer; it's not time yet! Your view controller
+        //      may appear on the screen much later while it has already consumed
+        //      an extra memory.
+        //
+        //      Move this stuff into the -viewDidLoad.
         self.view.backgroundColor = [UIColor rhythmusTapBarColor];
         self.patternNameLabel.textColor = [UIColor mineShaftColor];
         self.patternNameLabel.text = @"Pattern";
@@ -41,6 +47,8 @@ static void *const statusBarContext = (void *)&statusBarContext;
 
 - (void)viewDidUnload
 {
+    // CR:  Try to avoid using the deprecated API. FYI, this method is no longer invoked (since iOS 6).
+    //      BTW, don't you forget to call the super's implentation?
     [self.currentPattern removeObserver:self
         forKeyPath:NSStringFromSelector(@selector(name))];
 }

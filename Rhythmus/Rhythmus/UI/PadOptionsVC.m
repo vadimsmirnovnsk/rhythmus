@@ -39,6 +39,7 @@
     [self.delegate optionsControllerDidCanceled:self];
 }
 
+// CR: Why don't you use the view controller's layouting features?
 - (void)layoutSubviews {
   [UIView animateWithDuration:0.5 animations:^{
       self.heightConstraint.constant = 150;
