@@ -5,7 +5,6 @@
 
 @interface PlaybackVC : UIViewController
 
-@property (nonatomic, strong) SESequencer *sequencer;
-
+@property (nonatomic, weak) SESequencer *sequencer;
 
 @end

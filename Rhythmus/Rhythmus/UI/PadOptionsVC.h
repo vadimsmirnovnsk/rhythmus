@@ -17,7 +17,7 @@
 
 @interface PadOptionsVC : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) id<PadOptionsVCDelegate> delegate;
+@property (nonatomic, weak) id<PadOptionsVCDelegate> delegate;
 @property (nonatomic, weak) SEPad *pad;
 
 @end

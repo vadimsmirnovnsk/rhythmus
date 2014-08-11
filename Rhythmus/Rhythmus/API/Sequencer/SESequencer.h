@@ -1,10 +1,3 @@
-//
-//  SESequencer.h
-//  Rhythmus_new
-//
-//  Created by Wadim on 7/29/14.
-//  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 #import "SEReceiverDelegate.h"
@@ -70,15 +63,9 @@
 
 
 #pragma mark Track Methods
-// Creating tracks methods
-// CR:  You can't simply add a track; you should ask for an identifier.
-//      I also think it's not really good to assign a track from the outside.
-//      Could you please explain how a hardware sequencer "implements" such
-//      a feature?
-- (void) addExistingTrack:(SESequencerTrack *)track;
-
 // Removing tracks methods
 // CR:  I don't really think this API has to be public.
+// I think that it can be usable by Redactor
 - (BOOL) removeTrackWithIdentifier:(NSString *)identifier;
 - (void) removeAllTracks;
 - (void) loadData:(NSArray * /*of SESequencerMessages*/)trackData
@@ -87,6 +74,7 @@
 
 // Info tracks methods
 // CR: What for you provide such a method?
+// For getting list of track identifiers, for processing in the Redactor, for example.
 - (NSArray *)trackIdentifiers;
 
 // Registering inputs and outputs methods

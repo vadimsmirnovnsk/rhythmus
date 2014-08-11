@@ -1,10 +1,3 @@
-//
-//  SESequencerMessage.m
-//  Rhythmus_new
-//
-//  Created by Wadim on 7/29/14.
-//  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
-//
 
 #import "SESequencerMessage.h"
 
@@ -18,7 +11,7 @@
     return ([[SESequencerMessage alloc]init]);
 }
 
-+ (instancetype) messageWithType:(MessageType)type andParameters:(NSDictionary *)parameters
++ (instancetype) messageWithType:(MessageType)type parameters:(NSDictionary *)parameters
 {
     double empty_time_interval = SEQUENCE_MESSAGE_NULL_TIMESTAMP;
     return [[SESequencerMessage alloc]initWithRawTimestamp:empty_time_interval
@@ -52,9 +45,11 @@
 {
     SESequencerMessage *newMessage = [[[self class]allocWithZone:zone]init];
     newMessage.type = self.type;
-
-    // CR:  Do NOT access ivars directly.
-    newMessage.data = [NSData dataWithBytes:[_data bytes] length:[_data length]];
+    newMessage.PPQNTimeStamp = self.PPQNTimeStamp;
+    newMessage.initialDuration = self.initialDuration;
+    newMessage.rawTimestamp = self.rawTimestamp;
+    newMessage.parameters = [self.parameters copy];
+    newMessage.data = [NSData dataWithBytes:[self.data bytes] length:[self.data length]];
     return newMessage;
 }
 

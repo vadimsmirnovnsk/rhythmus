@@ -1,12 +1,8 @@
-//
-//  SESystemTimer.h
-//  Rhythmus_new
-//
-//  Created by Wadim on 7/29/14.
-//  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
+
+
+#pragma mark SESystemTimerDelegate Protocol
 
 @class SESystemTimer;
 @protocol SESystemTimerDelegate <NSObject>
@@ -26,12 +22,15 @@
 
 @end
 
+
+#pragma mark SESystemTimer Interface
+
 @interface SESystemTimer : NSObject
 
 @property (nonatomic, weak) id<SESystemTimerDelegate> delegate;
 
 - (void) startWithPulsePeriod:(unsigned long)usecPeriod;
-- (BOOL) start; // With current options
+- (BOOL) start; // Start with current options
 - (void) stop;
 - (void) reset;
 

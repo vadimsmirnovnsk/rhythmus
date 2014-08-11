@@ -7,8 +7,8 @@
 
 @interface PadOptionsVC ()
 
-@property (nonatomic, strong) IBOutlet UITableView *colorTableView;
-@property (nonatomic, strong) IBOutlet NSLayoutConstraint *heightConstraint;
+@property (nonatomic, weak) IBOutlet UITableView *colorTableView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *heightConstraint;
 
 - (IBAction)processCancel:(UIButton *)sender;
 
@@ -40,20 +40,14 @@
 }
 
 // CR: Why don't you use the view controller's layouting features?
+// Will make it some later)
+// TODO: Use the view controller's layouting features
 - (void)layoutSubviews {
   [UIView animateWithDuration:0.5 animations:^{
       self.heightConstraint.constant = 150;
       [self.colorTableView setNeedsLayout];
       [self.colorTableView layoutIfNeeded];
   }];
-//  self.heightConstraint.constant = self.colorTableView.contentSize.height;
-}
-
-- (void)unlayoutSubviews {
-  self.heightConstraint.constant = 420;
-  [self.colorTableView setNeedsLayout];
-  [self.colorTableView layoutIfNeeded];
-//  self.heightConstraint.constant = self.colorTableView.contentSize.height;
 }
 
 
@@ -71,7 +65,7 @@
                                                reuseIdentifier:REUSABLE_CELL_ID];
     }
     tableViewCell.textLabel.text = @"";
-           // Prapare message for UIColor class
+    // Prapare message for UIColor class
     NSString *message = [UIColor sharedColorNames][indexPath.row];
     SEL s = NSSelectorFromString(message);
     // Send message to UIColor
@@ -94,11 +88,6 @@
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    NSLog(@"Text is: %@",[tableView cellForRowAtIndexPath:indexPath].textLabel.text);
-//    if ([[tableView cellForRowAtIndexPath:indexPath].textLabel.text isEqualToString:@"Selected"]) {
-//        [self unlayoutSubviews];
-//    }
-    //[tableView cellForRowAtIndexPath:indexPath].textLabel.text = @"Selected";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.pad.backgroundColor = [tableView cellForRowAtIndexPath:indexPath].backgroundColor;
     [self layoutSubviews];

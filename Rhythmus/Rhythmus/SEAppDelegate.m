@@ -1,28 +1,11 @@
-//
-//  SEAppDelegate.m
-//  Rhythmus
-//
-//  Created by Wadim on 7/28/14.
-//  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
-//
+
 
 #import "SEAppDelegate.h"
-#import "SEAudioController.h"
-#import "UIColor+ColorFromHexString.h"
-#import "SELibraryVC.h"
-#import "SEPadsVC.h"
-#import "SERedactorVC.h"
+#import "RootVC.h"
 
 @interface SEAppDelegate ()
 
-// CR: I'd create a dedicated VC to handle all this stuff.
-@property (nonatomic, strong) SEAudioController *audioController;
-@property (nonatomic, strong) SESamplePlayer *player;
-@property (nonatomic, strong) UITabBarController *rootTabBarController;
-@property (nonatomic, strong) UINavigationController *libraryNC;
-@property (nonatomic, strong) SELibraryVC *libraryVC;
-@property (nonatomic, strong) SEPadsVC *padsVC;
-@property (nonatomic, strong) SERedactorVC *redactorVC;
+@property (nonatomic, strong) RootVC *rootVC;
 
 @end
 
@@ -31,41 +14,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.rootTabBarController = [[UITabBarController alloc]init];
-    [self.window setRootViewController:_rootTabBarController];
-    
-    [self.rootTabBarController.tabBar setBackgroundImage:
-        [UIImage imageNamed:@"tapBarBackground"]];
-    
-    self.libraryVC = [[SELibraryVC alloc]init];
-    self.libraryNC = [[UINavigationController alloc]initWithRootViewController:self.libraryVC];
-    [self.libraryNC.tabBarItem setImage:[UIImage imageNamed:@"fileCabinet"]];
-    self.libraryNC.tabBarItem.imageInsets = (UIEdgeInsets) {
-        5, 0, -5, 0
-    };
-    
-    self.padsVC = [[SEPadsVC alloc]init];
-    [self.padsVC.tabBarItem setImage:[UIImage imageNamed:@"padViewTabIcon"]];
-    self.padsVC.tabBarItem.imageInsets = (UIEdgeInsets) {
-    5, 0, -5, 0
-    };
-    self.redactorVC = [[SERedactorVC alloc]init];
-    [self.redactorVC.tabBarItem setImage:[UIImage imageNamed:@"pencil"]];
-    self.redactorVC.tabBarItem.imageInsets = (UIEdgeInsets) {
-        5, 0, -5, 0
-    };
-    
-    [self.rootTabBarController setViewControllers:@[self.libraryNC, self.padsVC,
-        self.redactorVC]];
-    [self.rootTabBarController setSelectedIndex:1];
-    
-    self.audioController = [[SEAudioController alloc]init];
-//    NSString *samplePath = [[NSBundle mainBundle]pathForResource:@"snare" ofType:@"aif"];
-//    NSURL *sampleURL = [NSURL fileURLWithPath:samplePath];
-//    self.player = [SEAudioController playerWithSample:sampleURL];
-//    [self.player play];
-
+    _rootVC = [[RootVC alloc]init];
+    [self.window setRootViewController:_rootVC];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;

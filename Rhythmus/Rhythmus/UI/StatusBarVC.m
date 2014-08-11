@@ -23,18 +23,7 @@ static void *const statusBarContext = (void *)&statusBarContext;
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
-        // CR:  A very rude mistake! Never ever access a view controller's view
-        //      form within an intializer; it's not time yet! Your view controller
-        //      may appear on the screen much later while it has already consumed
-        //      an extra memory.
-        //
-        //      Move this stuff into the -viewDidLoad.
-        self.view.backgroundColor = [UIColor rhythmusTapBarColor];
-        self.patternNameLabel.textColor = [UIColor mineShaftColor];
-        self.patternNameLabel.text = @"Pattern";
-        self.patternDescriptionLabel.textColor = [UIColor darkGrayColor];
-        self.sequencerTimestampLabel.textColor = [UIColor darkGrayColor];
+
     }
     return self;
 }
@@ -42,15 +31,11 @@ static void *const statusBarContext = (void *)&statusBarContext;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)viewDidUnload
-{
-    // CR:  Try to avoid using the deprecated API. FYI, this method is no longer invoked (since iOS 6).
-    //      BTW, don't you forget to call the super's implentation?
-    [self.currentPattern removeObserver:self
-        forKeyPath:NSStringFromSelector(@selector(name))];
+    self.view.backgroundColor = [UIColor rhythmusTapBarColor];
+    self.patternNameLabel.textColor = [UIColor mineShaftColor];
+    self.patternNameLabel.text = @"Pattern";
+    self.patternDescriptionLabel.textColor = [UIColor darkGrayColor];
+    self.sequencerTimestampLabel.textColor = [UIColor darkGrayColor];
 }
 
 - (void)setSequencer:(SESequencer *)sequencer
@@ -58,20 +43,19 @@ static void *const statusBarContext = (void *)&statusBarContext;
     [_sequencer removeObserver:self
         forKeyPath:NSStringFromSelector(@selector(timeStampStringValue))];
     _sequencer = sequencer;
-    // Create observer for sequencer.timeStampStringValue
     [_sequencer addObserver:self
         forKeyPath:NSStringFromSelector(@selector(timeStampStringValue))
         options:0
         context:statusBarContext];
 }
 
-- (void) tuneForSequencer:(SESequencer *)sequencer withPattern:(SERhythmusPattern *)pattern
+- (void)setCurrentPattern:(SERhythmusPattern *)currentPattern
 {
-    // _sequencer = sequencer;
-    self.currentPattern = pattern;
+    [self.currentPattern removeObserver:self
+        forKeyPath:NSStringFromSelector(@selector(name))];
+    _currentPattern = currentPattern;
     self.patternNameLabel.text = self.currentPattern.name;
     self.patternDescriptionLabel.text = self.currentPattern.patternDescription;
-    // Create observer for currentPattern.patternDescription
     [self.currentPattern addObserver:self
         forKeyPath:NSStringFromSelector(@selector(patternDescription))
         options:0

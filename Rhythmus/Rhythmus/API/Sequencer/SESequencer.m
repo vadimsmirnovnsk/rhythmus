@@ -211,8 +211,12 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 }
 
 - (SESequencerMessage *)currentMessage {
-    // CR: It seems the method will crash the app if the mutableMessage is empty.
-    return self.mutableMessages[self.messageCounter];
+    if (self.messageCounter<[self.mutableMessages count]) {
+        return self.mutableMessages[self.messageCounter];
+    }
+    else {
+        return nil;
+    }
 }
 
 - (void) sendToOutput:(SESequencerMessage *)message
@@ -294,6 +298,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         else {
             // CR:  The -indexOfObject may return NSNotFound; once it happens you app crashes.
             //      You'd better know for sure what you're doing.
+            // In this else-block index can't be <= 0)
             previousMessage = [self.mutableMessages objectAtIndex:
                 [self.mutableMessages indexOfObject:message]-1];
             message.type = messageTypeSample;
@@ -368,9 +373,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 - (void) registerOutput:(SESequencerOutput *)output
 {
     self.output = output;
-
-    // CR:  This looks like a magic to me.
-    [output addObserver:self forKeyPath:@"delegate"
+    [output addObserver:self forKeyPath:NSStringFromSelector(@selector(delegate))
         options:NSKeyValueObservingOptionNew context:nil];
 }
 
@@ -378,7 +381,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object
     change:(NSDictionary *)change context:(void *)context
 {
-    if ([keyPath isEqualToString:@"delegate"]) {
+    if ([keyPath isEqualToString:NSStringFromSelector(@selector(delegate))]) {
         if (![self.output delegate]) {
             [self unregisterOutput];
         }
@@ -389,7 +392,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 #pragma mark Private Methods
 - (void) unregisterOutput
 {
-    [self.output removeObserver:self forKeyPath:@"delegate"];
+    [self.output removeObserver:self forKeyPath:NSStringFromSelector(@selector(delegate))];
     self.output = nil;
 }
 
@@ -397,11 +400,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 - (id) copyWithZone:(NSZone *)zone
 {
     SESequencerTrack *newTrack = [[[self class]allocWithZone:zone]init];
-
-    //  CR:
-    //  mutableMessages (keyword is 'mutable') vs. [self.mutableMessages copy] (keyword is 'immutable').
-    //  How do you think will you app crash? I'm pretty sure it will.
-    newTrack.mutableMessages = [self.mutableMessages copy];
+    newTrack.mutableMessages = [self.mutableMessages mutableCopy];
     newTrack.identifier = [NSString stringWithFormat:@"%@ copy",self.identifier];
     newTrack.output = self.output;
     newTrack.messageCounter = self.messageCounter;
@@ -428,6 +427,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         // CR:  Be careful accessing an ivar via self from within an initializer.
         //      You'd better know what you're doing. Whatever... it's just
         //      a reminder.
+        // Yes, in this case this is what I need)
         self.timeSignature = (SETimeSignature){defaultTimeSignatureUpperPart,
             defaultTimeSignatureLowerPart};
 
@@ -445,22 +445,14 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 
 
 #pragma mark Tracks Methods
-- (void) addExistingTrack:(SESequencerTrack *)track
-{
-    // CR:  It's not a sequencer's responsibility to provide an identifier for track.
-    //      We've already discussed it.
-    if ([track identifier]) {
-        [self.mutableTracks setObject:track forKey:[track identifier]];
-    }
-}
-
 // Removing tracks methods
 - (BOOL) removeTrackWithIdentifier:(NSString *)identifier
 {
-    // CR:  It doesn't make sense to return a value from this method due to
-    //      @b YES is always returned.
-    [self.mutableTracks setValue:nil forKey:identifier];
-    return YES;
+    if (self.mutableTracks[identifier]) {
+        [self.mutableTracks setValue:nil forKey:identifier];
+        return YES;
+    }
+    return NO;
 }
 
 - (void) removeAllTracks
@@ -547,8 +539,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     self.preparing = YES;
     self.teilInBar = -1;
     //NSLog(@"Send to Prepare Output: Let's do it!");
-    // CR: Again accessing ivars directly?
-    [_padsFeedbackOutput.delegate output:_padsFeedbackOutput didGenerateMessage:[SESequencerMessage messageWithType:messageTypeSystemPrepare andParameters:
+    [self.padsFeedbackOutput.delegate output:self.padsFeedbackOutput didGenerateMessage:[SESequencerMessage messageWithType:messageTypeSystemPrepare parameters:
                     @{kSequencerPrepareWillStartParameter: kSequencerPrepareWillStartParameter}]];
     [self.systemTimer startWithPulsePeriod:(long)
         (defaultBPMtoPPQNTickConstant/_tempo)*1000];
@@ -559,9 +550,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 - (void) stopRecording
 {
     if (self.isPreparing) {
-        [_padsFeedbackOutput.delegate output:_padsFeedbackOutput
+        [self.padsFeedbackOutput.delegate output:self.padsFeedbackOutput
             didGenerateMessage:[SESequencerMessage
-            messageWithType:messageTypeSystemPrepare andParameters:
+            messageWithType:messageTypeSystemPrepare parameters:
             @{kSequencerPrepareWillAbortParameter:kSequencerPrepareWillAbortParameter}]];
     }
     [self.systemTimer stop];
@@ -569,7 +560,8 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     self.bar = self.bar + 1;
     self.teilInBar = - 1;
     unsigned long stopRecordingTick = (self.bar ? self.bar : 1)
-     * self.timeSignature.upperPart * [SEMusicTimebase ticksPerDuration:self.timeSignature.lowerPart withPPQN:defaultPPQN];
+     * self.timeSignature.upperPart *
+     [SEMusicTimebase ticksPerDuration:self.timeSignature.lowerPart withPPQN:defaultPPQN];
     NSLog(@"Stop Recording Tick: %lu", stopRecordingTick);
     SESequencerTrack *track = nil;
     float singleQuarterPulse = (60/((float)_tempo*defaultPPQN));
@@ -580,7 +572,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     }
     [self.padsFeedbackOutput.delegate output:self.padsFeedbackOutput
         didGenerateMessage:[SESequencerMessage messageWithType:messageTypeWorkspaceFeedback
-        andParameters:@{kSequencerDidFifnishRecordingWithLastBar:@(self.bar)}]];
+        parameters:@{kSequencerDidFifnishRecordingWithLastBar:@(self.bar)}]];
 }
 
 /* Play all streams, so what can else say. */
@@ -604,7 +596,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     [self processExpectedTick];
     [_metronomeOutput.delegate output:_metronomeOutput
                 didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeClick
-                andParameters:@{@"Bar":@(self.bar), @"Teil":@(self.teilInBar)}]];
+                parameters:@{@"Bar":@(self.bar), @"Teil":@(self.teilInBar)}]];
     [self.systemTimer startWithPulsePeriod:(long)
         (defaultBPMtoPPQNTickConstant/_tempo)*1000];
 #ifdef DEBUG_NSLOG
@@ -645,7 +637,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         // ToDo: If isMuted
             if (trackCurrentMessage.type != messageTypePause) {
                 [track sendToOutput:trackCurrentMessage];
-                [_padsFeedbackOutput.delegate output:_padsFeedbackOutput didGenerateMessage:[SESequencerMessage messageWithType:messageTypeWorkspaceFeedback andParameters:
+                [self.padsFeedbackOutput.delegate output:self.padsFeedbackOutput didGenerateMessage:[SESequencerMessage messageWithType:messageTypeWorkspaceFeedback parameters:
                     @{kSequencerPadsFeedbackParameter: track.identifier}]];
             }
             track.playHeadPosition = track.playHeadPosition + [trackCurrentMessage initialDuration];
@@ -699,8 +691,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
  * Else create event with raw timestamp and write to stream and try to send event to destination */
 - (BOOL) input:(id)sender didGenerateMessage:(SESequencerMessage *)message
 {
-    // CR: What for have you marked the track as weak?
-    SESequencerTrack *const __weak track = [sender track];
+    SESequencerTrack *const track = [sender track];
     if (!!track) {
         if (message == nil) {
             message = [[SESequencerMessage alloc]initWithRawTimestamp:[[NSDate date]
@@ -735,9 +726,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         self.ticksForLastTeil = self.ticksForLastTeil + self.ticksPerTeil;
         if (self.isClick) {
              NSLog(@"Click! Bar: %i Teil: %i", self.bar, self.teilInBar);
-            [_metronomeOutput.delegate output:_metronomeOutput
+            [self.metronomeOutput.delegate output:self.metronomeOutput
                 didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeClick
-                andParameters:@{@"Bar":@(self.bar), @"Teil":@(self.teilInBar)}]];
+                parameters:@{@"Bar":@(self.bar), @"Teil":@(self.teilInBar)}]];
                 // Process preparing ticks
                 if (self.isPreparing) {
                     [self processPreparingTime];
@@ -767,9 +758,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     }
     if (self.timeSignature.upperPart - 1 == self.teilInBar) {
         // NSLog(@"Send to Prepare Output: GO!");
-        [_padsFeedbackOutput.delegate output:_padsFeedbackOutput
+        [self.padsFeedbackOutput.delegate output:self.padsFeedbackOutput
             didGenerateMessage:[SESequencerMessage
-            messageWithType:messageTypeSystemPrepare andParameters:
+            messageWithType:messageTypeSystemPrepare parameters:
             @{kSequencerRecordWillStartParameter:kSequencerRecordWillStartParameter}]];
         self.bar = 0;
         self.teilInBar = -1;
@@ -778,9 +769,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     }
     else {
         //NSLog(@"Send to Prepare Output: %i", self.timeSignature.upperPart - self.teilInBar - 1);
-        [_padsFeedbackOutput.delegate output:_padsFeedbackOutput
+        [self.padsFeedbackOutput.delegate output:self.padsFeedbackOutput
                 didGenerateMessage:[SESequencerMessage
-                messageWithType:messageTypeSystemPrepare andParameters:
+                messageWithType:messageTypeSystemPrepare parameters:
                 @{kSequencerPrepareDidClickWithTeil:
                 @(self.timeSignature.upperPart - self.teilInBar - 1)}]];
     }

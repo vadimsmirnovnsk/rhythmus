@@ -1,10 +1,3 @@
-//
-//  SESequencerMessage.h
-//  Rhythmus_new
-//
-//  Created by Wadim on 7/29/14.
-//  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
 
@@ -36,18 +29,15 @@ typedef enum {
 } MessageType;
 
 @property (nonatomic, readwrite) MessageType type;
-// CR: You'd better use 'copy' instead of 'strong'.
-@property (nonatomic, strong) NSData /*with raw MIDI message data*/ *data;
+@property (nonatomic, copy) NSData /*with raw MIDI message data*/ *data;
 @property (nonatomic, readwrite) unsigned long PPQNTimeStamp;
 @property (nonatomic, readwrite) NSInteger initialDuration; // Non-music-quantized duration - in PPQN.
 @property (nonatomic, readwrite) NSTimeInterval rawTimestamp;
-// CR: You'd better use 'copy' instead of 'strong'.
-@property (nonatomic, strong) NSDictionary *parameters;
+@property (nonatomic, copy) NSDictionary *parameters;
 
 #pragma mark Class Methods
 + (instancetype) defaultMessage;
-// CR:  'and' is redundant.
-+ (instancetype) messageWithType:(MessageType)type andParameters:(NSDictionary *)parameters;
++ (instancetype) messageWithType:(MessageType)type parameters:(NSDictionary *)parameters;
 
 #pragma mark - Initializers
 - (instancetype) initWithRawTimestamp:(NSTimeInterval)rawTimestamp

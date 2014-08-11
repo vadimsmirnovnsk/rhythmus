@@ -105,7 +105,7 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
 
 - (void)tuneForSequencer:(SESequencer *)sequencer
 {
-    _sequencer = sequencer;
+    self.sequencer = sequencer;
     NSString *samplePath = nil;
     NSString *identifier = nil;
     NSURL *sampleURL = nil;
@@ -116,7 +116,7 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         identifier = [NSString stringWithFormat:@"%i",i];
         SESequencerInput *newInput = [[SESequencerInput alloc]initWithIdentifier:
             identifier];
-        [_sequencer registerInput:newInput forTrackIdentifier:identifier];
+        [self.sequencer registerInput:newInput forTrackIdentifier:identifier];
         
         SESequencerOutput *newOutput = [[SESequencerOutput alloc]
             initWithIdentifier:identifier];
@@ -130,6 +130,8 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         
         // Prapare message for UIColor class
         // CR:  Wow-wow-wow! What are you doing? This looks to me like a magic =(
+        // It's just a sending to UIColor-class a random selector from an array that
+        //  returns by +sharedColorNames method.
         message = [UIColor sharedColorNames][arc4random() % [[UIColor sharedColorNames] count]];
         s = NSSelectorFromString(message);
         SEPad *newPad = [[SEPad alloc]initWithFrame:
@@ -139,8 +141,7 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         newPad.backgroundColor = objc_msgSend([UIColor class], s);
         newPad.identifier = identifier;
         newPad.alpha = pwNormalPadAlpha;
-        // CR:  Who or what 'didTapped'?
-        [newPad addTarget:self action:@selector(didTapped:) forControlEvents:UIControlEventTouchDown];
+        [newPad addTarget:self action:@selector(padDidTapped:) forControlEvents:UIControlEventTouchDown];
         [self.view addSubview:newPad];
         
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
@@ -148,30 +149,30 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         longPress.minimumPressDuration = (CFTimeInterval)1.0;
         [newPad addGestureRecognizer:longPress];
         
-        [_inputs setObject:newInput forKey:identifier];
-        [_outputs setObject:newOutput forKey:identifier];
-        [_players setObject:newPlayer forKey:identifier];
-        [_pads setObject:newPad forKey:identifier];
-        [_sequencer.padsFeedbackOutput setDelegate:self];
+        [self.inputs setObject:newInput forKey:identifier];
+        [self.outputs setObject:newOutput forKey:identifier];
+        [self.players setObject:newPlayer forKey:identifier];
+        [self.pads setObject:newPad forKey:identifier];
+        [self.sequencer.padsFeedbackOutput setDelegate:self];
         
-        _preparingView = [[UIView alloc]init];
-        _preparingView.backgroundColor = [UIColor iOS7BlackColor];
-        _preparingView.frame = (CGRect){
+        self.preparingView = [[UIView alloc]init];
+        self.preparingView.backgroundColor = [UIColor iOS7BlackColor];
+        self.preparingView.frame = (CGRect){
             5,
             -4,
             310,
             0
         };
-        _preparingView.alpha = (CGFloat)0.7;
-        [self.view addSubview:_preparingView];
+        self.preparingView.alpha = (CGFloat)0.7;
+        [self.view addSubview:self.preparingView];
     }
 }
 
 - (void) tuneForSequencer:(SESequencer *)sequencer
     withContentsOfPattern:(SERhythmusPattern *)currentPattern
 {
-    _sequencer = sequencer;
-    _currentPattern = currentPattern;
+    self.sequencer = sequencer;
+    self.currentPattern = currentPattern;
     NSString *identifier = nil;
     NSString *message = nil;
     SEL s = NULL;
@@ -180,7 +181,7 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         identifier = [NSString stringWithFormat:@"%i",i];
         SESequencerInput *newInput = [[SESequencerInput alloc]initWithIdentifier:
             identifier];
-        [_sequencer registerInput:newInput forTrackIdentifier:identifier];
+        [self.sequencer registerInput:newInput forTrackIdentifier:identifier];
         
         SESequencerOutput *newOutput = [[SESequencerOutput alloc]
             initWithIdentifier:identifier];
@@ -200,7 +201,7 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         newPad.backgroundColor = objc_msgSend([UIColor class], s);
         newPad.identifier = identifier;
         newPad.alpha = pwNormalPadAlpha;
-        [newPad addTarget:self action:@selector(didTapped:) forControlEvents:UIControlEventTouchDown];
+        [newPad addTarget:self action:@selector(padDidTapped:) forControlEvents:UIControlEventTouchDown];
         [self.view addSubview:newPad];
         
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
@@ -208,22 +209,22 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         longPress.minimumPressDuration = (CFTimeInterval)1.0;
         [newPad addGestureRecognizer:longPress];
         
-        [_inputs setObject:newInput forKey:identifier];
-        [_outputs setObject:newOutput forKey:identifier];
-        [_players setObject:newPlayer forKey:identifier];
-        [_pads setObject:newPad forKey:identifier];
-        [_sequencer.padsFeedbackOutput setDelegate:self];
+        [self.inputs setObject:newInput forKey:identifier];
+        [self.outputs setObject:newOutput forKey:identifier];
+        [self.players setObject:newPlayer forKey:identifier];
+        [self.pads setObject:newPad forKey:identifier];
+        [self.sequencer.padsFeedbackOutput setDelegate:self];
         
-        _preparingView = [[UIView alloc]init];
-        _preparingView.backgroundColor = [UIColor iOS7BlackColor];
-        _preparingView.frame = (CGRect){
+        self.preparingView = [[UIView alloc]init];
+        self.preparingView.backgroundColor = [UIColor iOS7BlackColor];
+        self.preparingView.frame = (CGRect){
             5,
             -4,
             310,
             0
         };
-        _preparingView.alpha = (CGFloat)0.7;
-        [self.view addSubview:_preparingView];
+        self.preparingView.alpha = (CGFloat)0.7;
+        [self.view addSubview:self.preparingView];
     }
 }
 
@@ -257,16 +258,6 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
                 [blockSelf.padOptionsVC.view setAlpha:0.9];
                 [blockSelf.padOptionsVC.view setFrame:finishLayout];
         }];
-        
-        // Animation without spring
-//        [UIView animateWithDuration:0.3 delay:0.0
-//            options:UIViewAnimationOptionAllowAnimatedContent animations:^{
-//                [padOptionsView setAlpha:0.9];
-//                [padOptionsView setFrame:finishLayout];
-//            } completion:^(BOOL finished) {
-//                [padOptionsView setAlpha:0.9];
-//                [padOptionsView setFrame:finishLayout];
-//            }];
     }
 }
 
@@ -287,7 +278,7 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
     }];
 }
 
-- (void)didTapped:(SEPad *)sender
+- (void)padDidTapped:(SEPad *)sender
 {
     [self.inputs[sender.identifier]generateMessage];
     [sender animatePad];
@@ -326,13 +317,13 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
                 0
             };
         } completion:^(BOOL finished) {
-            _preparingView.frame = (CGRect){
+            self.preparingView.frame = (CGRect){
                 5,
                 -4,
                 310,
                 0
             };
-            _preparingView.alpha = (CGFloat)0.7;
+            self.preparingView.alpha = (CGFloat)0.7;
     }];
      
     

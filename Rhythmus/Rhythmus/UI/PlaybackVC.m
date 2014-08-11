@@ -5,7 +5,6 @@
 @interface PlaybackVC ()
 
 @property (nonatomic, strong) UIView *backgroundView;
-
 @property (nonatomic, strong) UIButton *recButton;
 @property (nonatomic, strong) UIButton *playButton;
 
@@ -17,14 +16,56 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Create background view
-        // CR:  A very rude mistake! Never ever access a view controller's view
-        //      form within an intializer; it's not time yet! Your view controller
-        //      may appear on the screen much later while it has already consumed
-        //      an extra memory.
-        //
-        //      Move this stuff into the -viewDidLoad.
-        self.view.backgroundColor = [UIColor rhythmusPlaybackPanelColor];
+
+    }
+    return self;
+}
+
+- (void) handleRecButton:(UIButton *)sender
+{
+    if ([self.sequencer isPlaying]) {
+        return;
+    }
+    if ([self.sequencer isRecording] || [self.sequencer isPreparing]) {
+        [self.recButton setImage:[UIImage imageNamed:@"recButtonActive"]
+            forState:UIControlStateNormal];
+        [self.sequencer stopRecording];
+    }
+    else {
+        [self.sequencer startRecordingWithPrepare];
+        [self.recButton setImage:[UIImage imageNamed:@"recButtonRecording"]
+            forState:UIControlStateNormal];
+    }
+}
+
+- (void) handlePlayButton:(UIButton *)sender
+{
+    if ([self.sequencer isPlaying]) {
+        [self.playButton setImage:[UIImage imageNamed:@"playButtonActive"]
+            forState:UIControlStateNormal];
+        [self.recButton setImage:[UIImage imageNamed:@"recButtonActive"]
+            forState:UIControlStateNormal];
+        [self.sequencer stop];
+    }
+    else if ([self.sequencer isRecording] || [self.sequencer isPreparing]) {
+        [self.recButton setImage:[UIImage imageNamed:@"recButtonActive"]
+            forState:UIControlStateNormal];
+        [self.sequencer stopRecording];
+    }
+    else {
+            if ([self.sequencer playAllStreams]) {
+                [self.playButton setImage:[UIImage imageNamed:@"playButtonPlaying"]
+                    forState:UIControlStateNormal];
+                [self.recButton setImage:[UIImage imageNamed:@"recButtonDisactive"]
+                    forState:UIControlStateNormal];
+        }
+    }
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor rhythmusPlaybackPanelColor];
         // Add line
         UIView *lineView = [[UIView alloc]init];
         lineView.frame = (CGRect){
@@ -36,85 +77,33 @@
         lineView.backgroundColor = [UIColor rhythmusDividerColor];
         [self.view addSubview:lineView];
         
-        _recButton = [[UIButton alloc]init];
-        _recButton.frame = (CGRect){
+        self.recButton = [[UIButton alloc]init];
+        self.recButton.frame = (CGRect){
             5,
             10,
             145,
             60
         };
-        [_recButton setImage:[UIImage imageNamed:@"recButtonActive"] forState:UIControlStateNormal];
-        [_recButton setImage:[UIImage imageNamed:@"recButtonDisactive"] forState:UIControlStateDisabled];
-        [self.view addSubview:_recButton];
-        [_recButton addTarget:self action:@selector(handleRecButton:)
+        [self.recButton setImage:[UIImage imageNamed:@"recButtonActive"] forState:UIControlStateNormal];
+        [self.recButton setImage:[UIImage imageNamed:@"recButtonDisactive"] forState:UIControlStateDisabled];
+        [self.view addSubview:self.recButton];
+        [self.recButton addTarget:self action:@selector(handleRecButton:)
             forControlEvents:UIControlEventTouchUpInside];
         
-        _playButton = [[UIButton alloc]init];
-        _playButton.frame = (CGRect){
+        self.playButton = [[UIButton alloc]init];
+        self.playButton.frame = (CGRect){
             160,
             10,
             145,
             60
         };
-        [_playButton setImage:[UIImage imageNamed:@"playButtonActive"]
+        [self.playButton setImage:[UIImage imageNamed:@"playButtonActive"]
             forState:UIControlStateNormal];
-        [_playButton setImage:[UIImage imageNamed:@"playButtonDisactive"]
+        [self.playButton setImage:[UIImage imageNamed:@"playButtonDisactive"]
             forState:UIControlStateDisabled];
-        [self.view addSubview:_playButton];
-        [_playButton addTarget:self action:@selector(handlePlayButton:)
+        [self.view addSubview:self.playButton];
+        [self.playButton addTarget:self action:@selector(handlePlayButton:)
             forControlEvents:UIControlEventTouchUpInside];
-        
-//        _recButton.backgroundColor = [UIColor redOrangeColor];
-//        _playButton.backgroundColor = [UIColor manateeColor];
-    }
-    return self;
-}
-
-- (void) handleRecButton:(UIButton *)sender
-{
-    if ([_sequencer isPlaying]) {
-        return;
-    }
-    if ([_sequencer isRecording] || [_sequencer isPreparing]) {
-        [_recButton setImage:[UIImage imageNamed:@"recButtonActive"]
-            forState:UIControlStateNormal];
-        [_sequencer stopRecording];
-    }
-    else {
-        [_sequencer startRecordingWithPrepare];
-        [_recButton setImage:[UIImage imageNamed:@"recButtonRecording"]
-            forState:UIControlStateNormal];
-    }
-}
-
-- (void) handlePlayButton:(UIButton *)sender
-{
-    if ([_sequencer isPlaying]) {
-        [_playButton setImage:[UIImage imageNamed:@"playButtonActive"]
-            forState:UIControlStateNormal];
-        [_recButton setImage:[UIImage imageNamed:@"recButtonActive"]
-            forState:UIControlStateNormal];
-        [_sequencer stop];
-    }
-    else if ([_sequencer isRecording] || [_sequencer isPreparing]) {
-        [_recButton setImage:[UIImage imageNamed:@"recButtonActive"]
-            forState:UIControlStateNormal];
-        [_sequencer stopRecording];
-    }
-    else {
-            if ([_sequencer playAllStreams]) {
-                [_playButton setImage:[UIImage imageNamed:@"playButtonPlaying"]
-                    forState:UIControlStateNormal];
-                [_recButton setImage:[UIImage imageNamed:@"recButtonDisactive"]
-                    forState:UIControlStateNormal];
-        }
-    }
-}
-
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
 }
 
 

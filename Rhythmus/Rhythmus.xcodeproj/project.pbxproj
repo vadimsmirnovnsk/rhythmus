@@ -50,6 +50,7 @@
 		CED7800A19967B430014449A /* StatusBarVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CED7800819967B430014449A /* StatusBarVC.xib */; };
 		CED78013199779F50014449A /* PadOptionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CED78011199779F50014449A /* PadOptionsVC.m */; };
 		CED78014199779F50014449A /* PadOptionsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = CED78012199779F50014449A /* PadOptionsVC.xib */; };
+		CEDD80761998B0AF0018088E /* RootVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CEDD80751998B0AF0018088E /* RootVC.m */; };
 		CEE7662E198CF499002A3E93 /* fileCabinet.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE76628198CF499002A3E93 /* fileCabinet.png */; };
 		CEE7662F198CF499002A3E93 /* fileCabinet@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE76629198CF499002A3E93 /* fileCabinet@2x.png */; };
 		CEE76630198CF499002A3E93 /* padViewTabIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = CEE7662A198CF499002A3E93 /* padViewTabIcon.png */; };
@@ -139,6 +140,8 @@
 		CED78010199779F50014449A /* PadOptionsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PadOptionsVC.h; path = Rhythmus/UI/PadOptionsVC.h; sourceTree = "<group>"; };
 		CED78011199779F50014449A /* PadOptionsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PadOptionsVC.m; path = Rhythmus/UI/PadOptionsVC.m; sourceTree = "<group>"; };
 		CED78012199779F50014449A /* PadOptionsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PadOptionsVC.xib; path = Rhythmus/UI/PadOptionsVC.xib; sourceTree = "<group>"; };
+		CEDD80741998B0AF0018088E /* RootVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RootVC.h; path = Rhythmus/UI/RootVC.h; sourceTree = "<group>"; };
+		CEDD80751998B0AF0018088E /* RootVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RootVC.m; path = Rhythmus/UI/RootVC.m; sourceTree = "<group>"; };
 		CEE76628198CF499002A3E93 /* fileCabinet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fileCabinet.png; path = Pics/fileCabinet.png; sourceTree = "<group>"; };
 		CEE76629198CF499002A3E93 /* fileCabinet@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fileCabinet@2x.png"; path = "Pics/fileCabinet@2x.png"; sourceTree = "<group>"; };
 		CEE7662A198CF499002A3E93 /* padViewTabIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = padViewTabIcon.png; path = Pics/padViewTabIcon.png; sourceTree = "<group>"; };
@@ -297,6 +300,8 @@
 				CEE76634198CF509002A3E93 /* UIColor+ColorFromHexString.m */,
 				CED77FD21993E99A0014449A /* UIColor+iOS7Colors.h */,
 				CED77FD31993E99A0014449A /* UIColor+iOS7Colors.m */,
+				CEDD80741998B0AF0018088E /* RootVC.h */,
+				CEDD80751998B0AF0018088E /* RootVC.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -309,8 +314,8 @@
 				CEA9928B19878EA900CAB5AC /* SESystemTimer.m */,
 				CEA9928119878E3700CAB5AC /* SESequencer.h */,
 				CEA9928219878E3700CAB5AC /* SESequencer.m */,
-				CEA992931987934F00CAB5AC /* SESequencerMessage.m */,
 				CEA992921987934F00CAB5AC /* SESequencerMessage.h */,
+				CEA992931987934F00CAB5AC /* SESequencerMessage.m */,
 				CED77FCF199375D90014449A /* SEMusicTimebase.h */,
 				CED77FD0199375D90014449A /* SEMusicTimebase.m */,
 			);
@@ -511,6 +516,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEA992A2198A85FE00CAB5AC /* SEAudioController.m in Sources */,
+				CEDD80761998B0AF0018088E /* RootVC.m in Sources */,
 				CEA992941987934F00CAB5AC /* SESequencerMessage.m in Sources */,
 				CEA9928C19878EA900CAB5AC /* SESystemTimer.m in Sources */,
 				CEA9928319878E3700CAB5AC /* SESequencer.m in Sources */,

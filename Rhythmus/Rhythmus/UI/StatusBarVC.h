@@ -11,6 +11,4 @@
 @property (nonatomic, weak) SESequencer *sequencer;
 @property (nonatomic, weak) SERhythmusPattern *currentPattern;
 
-- (void) tuneForSequencer:(SESequencer *)sequencer withPattern:(SERhythmusPattern *)pattern;
-
 @end

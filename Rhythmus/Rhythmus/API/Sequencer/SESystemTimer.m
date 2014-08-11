@@ -1,13 +1,9 @@
-//
-//  SESystemTimer.m
-//  Rhythmus_new
-//
-//  Created by Wadim on 7/29/14.
-//  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
-//
 
 #import "SESystemTimer.h"
 #import <mach/mach_time.h>
+
+
+#pragma mark SESystemTimerDelegate Extension
 
 @interface SESystemTimer ()
 
@@ -16,6 +12,9 @@
 @property (nonatomic, readonly) unsigned int period;
 
 @end
+
+
+#pragma mark SESystemTimerDelegate Implementation
 
 @implementation SESystemTimer
 

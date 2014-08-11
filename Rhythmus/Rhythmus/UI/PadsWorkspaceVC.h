@@ -15,8 +15,8 @@
 
 @interface PadsWorkspaceVC : UIViewController <SEReceiverDelegate>
 
-@property (nonatomic, strong) SESequencer *sequencer;
-@property (nonatomic, strong) SERhythmusPattern *currentPattern;
+@property (nonatomic, weak) SESequencer *sequencer;
+@property (nonatomic, weak) SERhythmusPattern *currentPattern;
 
 - (void)tuneForSequencer:(SESequencer *)sequencer;
 - (void)tuneForSequencer:(SESequencer *)sequencer
