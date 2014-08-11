@@ -52,6 +52,8 @@
 {
     SESequencerMessage *newMessage = [[[self class]allocWithZone:zone]init];
     newMessage.type = self.type;
+
+    // CR:  Do NOT access ivars directly.
     newMessage.data = [NSData dataWithBytes:[_data bytes] length:[_data length]];
     return newMessage;
 }

@@ -18,6 +18,12 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Create background view
+        // CR:  A very rude mistake! Never ever access a view controller's view
+        //      form within an intializer; it's not time yet! Your view controller
+        //      may appear on the screen much later while it has already consumed
+        //      an extra memory.
+        //
+        //      Move this stuff into the -viewDidLoad.
         self.view.backgroundColor = [UIColor rhythmusPlaybackPanelColor];
         // Add line
         UIView *lineView = [[UIView alloc]init];

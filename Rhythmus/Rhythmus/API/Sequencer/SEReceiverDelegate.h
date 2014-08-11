@@ -13,10 +13,6 @@
 @protocol SEReceiverDelegate <NSObject>
 
 /**
- *  CR: The method's name is obscure and misleads. You code should always be
- *      selfexplanatory (as much as possible). First of all, how is an object
- *      that handles the delegated duties supposed to know who posts a message?
- *
  *      Follow these patterns when delegating any duties:
  *
  *          - (BOOL)shouldSomebodyDoSomething:(id)sender;

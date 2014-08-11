@@ -211,6 +211,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 }
 
 - (SESequencerMessage *)currentMessage {
+    // CR: It seems the method will crash the app if the mutableMessage is empty.
     return self.mutableMessages[self.messageCounter];
 }
 
@@ -291,6 +292,8 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         }
         // Process all other-within messages
         else {
+            // CR:  The -indexOfObject may return NSNotFound; once it happens you app crashes.
+            //      You'd better know for sure what you're doing.
             previousMessage = [self.mutableMessages objectAtIndex:
                 [self.mutableMessages indexOfObject:message]-1];
             message.type = messageTypeSample;
@@ -394,6 +397,10 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 - (id) copyWithZone:(NSZone *)zone
 {
     SESequencerTrack *newTrack = [[[self class]allocWithZone:zone]init];
+
+    //  CR:
+    //  mutableMessages (keyword is 'mutable') vs. [self.mutableMessages copy] (keyword is 'immutable').
+    //  How do you think will you app crash? I'm pretty sure it will.
     newTrack.mutableMessages = [self.mutableMessages copy];
     newTrack.identifier = [NSString stringWithFormat:@"%@ copy",self.identifier];
     newTrack.output = self.output;
@@ -417,8 +424,13 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         _tempo = DEFAULT_TEMPO_VALUE;
         _systemTimer = [[SESystemTimer alloc]init];
         _systemTimer.delegate = self;
+
+        // CR:  Be careful accessing an ivar via self from within an initializer.
+        //      You'd better know what you're doing. Whatever... it's just
+        //      a reminder.
         self.timeSignature = (SETimeSignature){defaultTimeSignatureUpperPart,
             defaultTimeSignatureLowerPart};
+
         _metronomeOutput = [[SESequencerOutput alloc]
             initWithIdentifier:kDefaultMetronomeOutputIdentifier];
         _metronomeSyncOutput = [[SESequencerOutput alloc]
@@ -445,6 +457,8 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 // Removing tracks methods
 - (BOOL) removeTrackWithIdentifier:(NSString *)identifier
 {
+    // CR:  It doesn't make sense to return a value from this method due to
+    //      @b YES is always returned.
     [self.mutableTracks setValue:nil forKey:identifier];
     return YES;
 }
@@ -533,6 +547,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     self.preparing = YES;
     self.teilInBar = -1;
     //NSLog(@"Send to Prepare Output: Let's do it!");
+    // CR: Again accessing ivars directly?
     [_padsFeedbackOutput.delegate output:_padsFeedbackOutput didGenerateMessage:[SESequencerMessage messageWithType:messageTypeSystemPrepare andParameters:
                     @{kSequencerPrepareWillStartParameter: kSequencerPrepareWillStartParameter}]];
     [self.systemTimer startWithPulsePeriod:(long)
@@ -684,6 +699,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
  * Else create event with raw timestamp and write to stream and try to send event to destination */
 - (BOOL) input:(id)sender didGenerateMessage:(SESequencerMessage *)message
 {
+    // CR: What for have you marked the track as weak?
     SESequencerTrack *const __weak track = [sender track];
     if (!!track) {
         if (message == nil) {

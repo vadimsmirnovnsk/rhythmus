@@ -15,6 +15,7 @@
 
 @interface SEAppDelegate ()
 
+// CR: I'd create a dedicated VC to handle all this stuff.
 @property (nonatomic, strong) SEAudioController *audioController;
 @property (nonatomic, strong) SESamplePlayer *player;
 @property (nonatomic, strong) UITabBarController *rootTabBarController;

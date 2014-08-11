@@ -35,9 +35,23 @@ static CGRect const padsStatusBarLayout = (CGRect){0, 21, 320, 90};
         _currentPattern = [SERhythmusPattern defaultPattern];
         _sequencer.tempo = _currentPattern.tempo;
         _sequencer.timeSignature = _currentPattern.timeSignature;
-    
+
+        // CR:  A very rude mistake! Never ever access a view controller's view
+        //      form within an intializer; it's not time yet! Your view controller
+        //      may appear on the screen much later while it has already consumed
+        //      an extra memory.
+        //
+        //      Move this stuff into the -viewDidLoad.
         PadsWorkspaceVC *newWorkspaceVC = [[PadsWorkspaceVC alloc]init];
         newWorkspaceVC.view.frame = padsWorkspaceLayout;
+        // CR:  The child view controller is improperly added to the parent one.
+        //      Re-read the Apple's documentation on this particular point.
+        //      Your code should look like this:
+        //
+        //          [self addChildViewController:childVC];
+        //          [childVC didMoveToParentViewController:self];
+        //          [self.view addSubview:childVC.view];
+        //
         [self addChildViewController:newWorkspaceVC];
         [self.view addSubview:newWorkspaceVC.view];
         [newWorkspaceVC tuneForSequencer:_sequencer withContentsOfPattern:_currentPattern];
