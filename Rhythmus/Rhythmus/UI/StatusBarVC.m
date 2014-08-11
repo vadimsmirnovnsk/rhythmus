@@ -8,9 +8,6 @@ static void *const statusBarContext = (void *)&statusBarContext;
 
 @interface StatusBarVC ()
 
-@property (nonatomic, strong) SESequencer *sequencer;
-@property (nonatomic, strong) SERhythmusPattern *currentPattern;
-
 @property (nonatomic, weak) IBOutlet UILabel *patternNameLabel;
 @property (nonatomic, weak) IBOutlet UILabel *patternDescriptionLabel;
 @property (nonatomic, weak) IBOutlet UILabel *sequencerTimestampLabel;
@@ -46,24 +43,29 @@ static void *const statusBarContext = (void *)&statusBarContext;
 {
     [self.currentPattern removeObserver:self
         forKeyPath:NSStringFromSelector(@selector(name))];
-    [self.sequencer removeObserver:self
+}
+
+- (void)setSequencer:(SESequencer *)sequencer
+{
+    [_sequencer removeObserver:self
         forKeyPath:NSStringFromSelector(@selector(timeStampStringValue))];
+    _sequencer = sequencer;
+    // Create observer for sequencer.timeStampStringValue
+    [_sequencer addObserver:self
+        forKeyPath:NSStringFromSelector(@selector(timeStampStringValue))
+        options:0
+        context:statusBarContext];
 }
 
 - (void) tuneForSequencer:(SESequencer *)sequencer withPattern:(SERhythmusPattern *)pattern
 {
-    self.sequencer = sequencer;
+    // _sequencer = sequencer;
     self.currentPattern = pattern;
     self.patternNameLabel.text = self.currentPattern.name;
     self.patternDescriptionLabel.text = self.currentPattern.patternDescription;
     // Create observer for currentPattern.patternDescription
     [self.currentPattern addObserver:self
         forKeyPath:NSStringFromSelector(@selector(patternDescription))
-        options:0
-        context:statusBarContext];
-    // Create observer for sequencer.timeStampStringValue
-    [self.sequencer addObserver:self
-        forKeyPath:NSStringFromSelector(@selector(timeStampStringValue))
         options:0
         context:statusBarContext];
 }

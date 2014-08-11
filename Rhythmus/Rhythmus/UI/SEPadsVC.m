@@ -52,6 +52,7 @@ static CGRect const padsStatusBarLayout = (CGRect){0, 21, 320, 90};
         newStatusBarVC.view.frame = padsStatusBarLayout;
         [self addChildViewController:newStatusBarVC];
         [self.view addSubview:newStatusBarVC.view];
+        newStatusBarVC.sequencer = _sequencer;
         [newStatusBarVC tuneForSequencer:_sequencer withPattern:_currentPattern];
         
         // Create the Metronome player

@@ -93,11 +93,11 @@
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"Text is: %@",[tableView cellForRowAtIndexPath:indexPath].textLabel.text);
-    if ([[tableView cellForRowAtIndexPath:indexPath].textLabel.text isEqualToString:@"Selected"]) {
-        [self unlayoutSubviews];
-    }
-    [tableView cellForRowAtIndexPath:indexPath].textLabel.text = @"Selected";
+//    NSLog(@"Text is: %@",[tableView cellForRowAtIndexPath:indexPath].textLabel.text);
+//    if ([[tableView cellForRowAtIndexPath:indexPath].textLabel.text isEqualToString:@"Selected"]) {
+//        [self unlayoutSubviews];
+//    }
+    //[tableView cellForRowAtIndexPath:indexPath].textLabel.text = @"Selected";
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     self.pad.backgroundColor = [tableView cellForRowAtIndexPath:indexPath].backgroundColor;
     [self layoutSubviews];
