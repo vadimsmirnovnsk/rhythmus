@@ -1,6 +1,6 @@
 //
 //  SESequencer.m
-//  Rhythmus_new
+//  Rhythmus
 //
 //  Created by Wadim on 7/29/14.
 //  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
@@ -625,6 +625,36 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     self.teilInBar = 0;
 }
 
+- (void)setTimeStampStringValue:(NSString *)timeStampStringValue
+{
+    NSString *barSubstring = nil;
+    NSString *teilSubstring = nil;
+    if (self.teilInBar < 9) {
+        teilSubstring = [NSString stringWithFormat:@"0%i",self.teilInBar + 1];
+    }
+    else {
+        teilSubstring = [NSString stringWithFormat:@"%i",self.teilInBar + 1];
+    }
+    if (self.bar < 10) {
+        barSubstring = [NSString stringWithFormat:@"00%i", self.bar + 1];
+    }
+    else if (self.bar < 100) {
+        barSubstring = [NSString stringWithFormat:@"0%i", self.bar + 1];
+    }
+    else {
+        barSubstring = [NSString stringWithFormat:@"%i",self.bar + 1];
+    }
+    _timeStampStringValue = [NSString stringWithFormat:@"%@:%@",
+        barSubstring, teilSubstring];
+}
+
+
+- (void) setTempo:(NSInteger)tempo
+{
+    _tempo = tempo;
+    
+}
+
 #pragma mark Private Methods
 - (void) processExpectedTick
 {
@@ -661,29 +691,6 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         }
     }
     return tickForNearestEvent;
-}
-
-- (void)setTimeStampStringValue:(NSString *)timeStampStringValue
-{
-    NSString *barSubstring = nil;
-    NSString *teilSubstring = nil;
-    if (self.teilInBar < 9) {
-        teilSubstring = [NSString stringWithFormat:@"0%i",self.teilInBar + 1];
-    }
-    else {
-        teilSubstring = [NSString stringWithFormat:@"%i",self.teilInBar + 1];
-    }
-    if (self.bar < 10) {
-        barSubstring = [NSString stringWithFormat:@"00%i", self.bar + 1];
-    }
-    else if (self.bar < 100) {
-        barSubstring = [NSString stringWithFormat:@"0%i", self.bar + 1];
-    }
-    else {
-        barSubstring = [NSString stringWithFormat:@"%i",self.bar + 1];
-    }
-    _timeStampStringValue = [NSString stringWithFormat:@"%@:%@",
-        barSubstring, teilSubstring];
 }
 
 #pragma mark SESequencerInputDelegate Methods

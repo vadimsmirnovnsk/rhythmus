@@ -107,6 +107,12 @@
             blue:(CGFloat){40.0/255.0} alpha:(CGFloat){1.0}];
 }
 
++ (UIColor *)darkMineShaftColor
+{
+    return [UIColor colorWithRed:(CGFloat){31.0/255.0} green:(CGFloat){31.0/255.0}
+            blue:(CGFloat){31.0/255.0} alpha:(CGFloat){1.0}];
+}
+
 + (UIColor *)mercuryColor
 {
     return [UIColor colorWithRed:(CGFloat){232.0/255.0} green:(CGFloat){232.0/255.0}
@@ -223,6 +229,11 @@
 + (UIColor *)rhythmusDividerColor
 {
     return [UIColor doveGrayColor];
+}
+
++ (UIColor *)rhythmusMetronomeBackgroundColor
+{
+    return [UIColor darkMineShaftColor];
 }
 
 @end

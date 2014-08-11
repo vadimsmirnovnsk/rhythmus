@@ -25,6 +25,7 @@
 + (UIColor *)mineShaftColor;
 + (UIColor *)lightSilverColor;
 + (UIColor *)doveGrayColor;
++ (UIColor *)darkMineShaftColor;
 
 
 #pragma mark Aliaces
@@ -44,6 +45,7 @@
 + (UIColor *)rhythmusDividerColor;
 + (UIColor *)rhythmusPlaybackPanelColor;
 + (UIColor *)rhythmusMetronomeTextColor;
++ (UIColor *)rhythmusMetronomeBackgroundColor;
 + (UIColor *)rhythmusLedOffColor;
 + (UIColor *)rhythmusLedOnColor;
 + (UIColor *)rhythmusBackgroundColor;

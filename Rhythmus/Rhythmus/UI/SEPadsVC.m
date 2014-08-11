@@ -6,10 +6,12 @@
 #import "PadsWorkspaceVC.h"
 #import "PlaybackVC.h"
 #import "StatusBarVC.h"
+#import "MetronomeVC.h"
 
 static CGRect const padsWorkspaceLayout = (CGRect){0, 205, 320, 360};
-static CGRect const padsPlaybackLayout = (CGRect){5, 124, 310, 125};
+static CGRect const padsPlaybackLayout = (CGRect){5, 134, 310, 115};
 static CGRect const padsStatusBarLayout = (CGRect){0, 21, 320, 90};
+static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
 
 
 #pragma mark - SEPadsVC Extension
@@ -78,6 +80,14 @@ static CGRect const padsStatusBarLayout = (CGRect){0, 21, 320, 90};
     newStatusBarVC.sequencer = self.sequencer;
     newStatusBarVC.currentPattern = self.currentPattern;
 
+    MetronomeVC *newMetronomeVC = [[MetronomeVC alloc]init];
+    newMetronomeVC.view.frame = padsMetronomeLayout;
+    [self addChildViewController:newMetronomeVC];
+    [newMetronomeVC didMoveToParentViewController:self];
+    [self.view addSubview:newMetronomeVC.view];
+    newMetronomeVC.sequencer = self.sequencer;
+//    MetronomeView *newMentronomeView = [[MetronomeView alloc]initWithFrame:padsMetronomeLayout];
+//    [self.view addSubview:newMentronomeView];
 }
 
 
