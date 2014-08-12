@@ -15,7 +15,7 @@ static const NSInteger diodeMaxHeight = 50;
 static const NSInteger diodeWidth = (310 - 68)/14;
 
 static CGRect const backgroundButtonFrame = (CGRect){0, 0, 310, 65};
-static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
+static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 
 #pragma mark - MetronomeDelegate Protocol
@@ -107,9 +107,6 @@ static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
     self.timer = [NSTimer scheduledTimerWithTimeInterval:1/mFPS
         target:self selector:@selector(changeDeflection) userInfo:nil repeats:YES];
      [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
-    
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1/mFPS
-        target:self selector:@selector(changeDeflection) userInfo:nil repeats:YES];
 }
 
 - (void)stop
@@ -130,7 +127,8 @@ static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
     if([self.timer isValid]){
         [self.timer invalidate];
     }
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1/mFPS target:self selector:@selector(changeDeflection) userInfo:nil repeats:YES];
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1/mFPS
+        target:self selector:@selector(changeDeflection) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
     [self.delegate metronome:self didChangeDeflection: self.deflection];
 }
@@ -222,7 +220,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
     
     self.tempoLabel = [[UILabel alloc]init];
     self.tempoLabel.frame = tempoLabelFrame;
-    self.tempoLabel.font = [UIFont fontWithName:@"Open24" size:10];
+    self.tempoLabel.font = [UIFont fontWithName:@"Open 24 Display St" size:25];
     self.tempoLabel.textColor = [UIColor rhythmusLedOnColor];
     self.tempoLabel.textAlignment = NSTextAlignmentCenter;
     self.tempoLabel.text = @"<< TEMPO: 100 BPM >>";
@@ -248,7 +246,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
 
 - (void)highlight:(NSInteger)index
 {
-    for(int i=0;i<14;i++){
+    for(int i=0; i<14; i++){
         ((UIView*)[self.diodes objectAtIndex:i]).backgroundColor =
             [UIColor colorWithWhite:MAX(pow(1.8, -ABS(i-index)), 0.15) alpha:1];
     }
@@ -262,7 +260,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
 
 -(void)metronome:(Metronome*)metronome didChangeDeflection:(CGFloat)deflection
 {
-    [self highlight:(NSInteger)deflection];
+    [self highlight:(6.5*(NSInteger)deflection)+6.5];
 }
 
 -(void)metronome:(Metronome*)metronome didSetNewTempo:(NSInteger)currentTempo
