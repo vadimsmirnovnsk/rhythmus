@@ -222,7 +222,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
     
     self.tempoLabel = [[UILabel alloc]init];
     self.tempoLabel.frame = tempoLabelFrame;
-    self.tempoLabel.font = [UIFont fontWithName:@"Open24" size:10];
+    self.tempoLabel.font = [UIFont fontWithName:@"Open 24 Display St" size:20];
     self.tempoLabel.textColor = [UIColor rhythmusLedOnColor];
     self.tempoLabel.textAlignment = NSTextAlignmentCenter;
     self.tempoLabel.text = @"<< TEMPO: 100 BPM >>";
@@ -262,7 +262,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 24, 310, 47};
 
 -(void)metronome:(Metronome*)metronome didChangeDeflection:(CGFloat)deflection
 {
-    [self highlight:(NSInteger)deflection];
+    [self highlight:(6.5*(NSInteger)deflection)+6.5];
 }
 
 -(void)metronome:(Metronome*)metronome didSetNewTempo:(NSInteger)currentTempo
