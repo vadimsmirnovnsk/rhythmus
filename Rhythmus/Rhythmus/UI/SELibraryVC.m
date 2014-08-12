@@ -1,5 +1,6 @@
 
 #import "SELibraryVC.h"
+#import "UIColor+iOS7Colors.h"
 
 @interface SELibraryVC ()
 
@@ -20,6 +21,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.view.backgroundColor = [UIColor rhythmusBackgroundColor];
 }
 
 

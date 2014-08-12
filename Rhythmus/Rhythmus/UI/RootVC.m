@@ -4,6 +4,7 @@
 #import "SELibraryVC.h"
 #import "SEPadsVC.h"
 #import "SERedactorVC.h"
+#import "UIColor+iOS7Colors.h"
 
 
 #pragma mark - RootVC Extension
@@ -18,6 +19,9 @@
 @property (nonatomic, strong) SEPadsVC *padsVC;
 @property (nonatomic, strong) SERedactorVC *redactorVC;
 
+@property (nonatomic, strong) SERhythmusPattern *currentPattern;
+@property (nonatomic, strong) SESequencer *sequencer;
+
 @end
 
 
@@ -29,35 +33,53 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
+    // Create common pattern and sequencer
+        _currentPattern = [SERhythmusPattern defaultPattern];
+        _sequencer = [[SESequencer alloc]init];
+        _sequencer.tempo = _currentPattern.tempo;
+        _sequencer.timeSignature = _currentPattern.timeSignature;
+        
+    // Create view controllers
         _rootTabBarController = [[UITabBarController alloc]init];
         [_rootTabBarController.tabBar setBackgroundImage:
             [UIImage imageNamed:@"tapBarBackground"]];
         [self addChildViewController:_rootTabBarController];
         [self.view addSubview:_rootTabBarController.view];
         
-        self.libraryVC = [[SELibraryVC alloc]init];
-        self.libraryNC = [[UINavigationController alloc]initWithRootViewController:self.libraryVC];
-        [self.libraryNC.tabBarItem setImage:[UIImage imageNamed:@"fileCabinet"]];
-        self.libraryNC.tabBarItem.imageInsets = (UIEdgeInsets) {
+        _libraryVC = [[SELibraryVC alloc]
+            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+        _libraryNC = [[UINavigationController alloc]initWithRootViewController:self.libraryVC];
+        [_libraryNC.navigationBar setBackgroundColor:[UIColor rhythmusNavBarColor]];
+        [_libraryNC.tabBarItem setImage:[UIImage imageNamed:@"fileCabinet"]];
+        _libraryNC.tabBarItem.imageInsets = (UIEdgeInsets) {
             5, 0, -5, 0
         };
         
-        self.padsVC = [[SEPadsVC alloc]init];
-        [self.padsVC.tabBarItem setImage:[UIImage imageNamed:@"padViewTabIcon"]];
-        self.padsVC.tabBarItem.imageInsets = (UIEdgeInsets) {
+        _padsVC = [[SEPadsVC alloc]
+            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+        [_padsVC.tabBarItem setImage:[UIImage imageNamed:@"padViewTabIcon"]];
+        _padsVC.tabBarItem.imageInsets = (UIEdgeInsets) {
         5, 0, -5, 0
         };
-        self.redactorVC = [[SERedactorVC alloc]init];
-        [self.redactorVC.tabBarItem setImage:[UIImage imageNamed:@"pencil"]];
-        self.redactorVC.tabBarItem.imageInsets = (UIEdgeInsets) {
+        _padsVC.sequencer = _sequencer;
+        _padsVC.currentPattern = _currentPattern;
+
+        
+        _redactorVC = [[SERedactorVC alloc]
+            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+        [_redactorVC.tabBarItem setImage:[UIImage imageNamed:@"pencil"]];
+        _redactorVC.tabBarItem.imageInsets = (UIEdgeInsets) {
             5, 0, -5, 0
         };
+        _redactorVC.sequencer = _sequencer;
+        _redactorVC.currentPattern = _currentPattern;
         
-        [self.rootTabBarController setViewControllers:@[self.libraryNC, self.padsVC,
-            self.redactorVC]];
-        [self.rootTabBarController setSelectedIndex:1];
         
-        self.audioController = [[SEAudioController alloc]init];
+        [_rootTabBarController setViewControllers:@[_libraryNC, _padsVC,
+            _redactorVC]];
+        [_rootTabBarController setSelectedIndex:1];
+        
+        _audioController = [[SEAudioController alloc]init];
     }
     return self;
 }

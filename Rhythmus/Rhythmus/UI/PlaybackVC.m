@@ -70,7 +70,7 @@
         UIView *lineView = [[UIView alloc]init];
         lineView.frame = (CGRect){
             154,
-            10,
+            5,
             2,
             55
         };
@@ -80,7 +80,7 @@
         self.recButton = [[UIButton alloc]init];
         self.recButton.frame = (CGRect){
             5,
-            10,
+            4,
             145,
             60
         };
@@ -93,7 +93,7 @@
         self.playButton = [[UIButton alloc]init];
         self.playButton.frame = (CGRect){
             160,
-            10,
+            4,
             145,
             60
         };

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE3943F21999373F00B990E8 /* MetronomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CE3943F11999373F00B990E8 /* MetronomeVC.m */; };
+		CE3943F81999415800B990E8 /* Open24.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE3943F71999415800B990E8 /* Open24.ttf */; };
 		CEA991CA198640F200CAB5AC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991C9198640F200CAB5AC /* Foundation.framework */; };
 		CEA991CC198640F200CAB5AC /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991CB198640F200CAB5AC /* CoreGraphics.framework */; };
 		CEA991CE198640F200CAB5AC /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991CD198640F200CAB5AC /* UIKit.framework */; };
@@ -80,6 +82,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE3943F01999373F00B990E8 /* MetronomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetronomeVC.h; path = Rhythmus/UI/MetronomeVC.h; sourceTree = "<group>"; };
+		CE3943F11999373F00B990E8 /* MetronomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MetronomeVC.m; path = Rhythmus/UI/MetronomeVC.m; sourceTree = "<group>"; };
+		CE3943F71999415800B990E8 /* Open24.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Open24.ttf; path = Resources/Open24.ttf; sourceTree = "<group>"; };
 		CEA991C6198640F200CAB5AC /* Rhythmus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rhythmus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA991C9198640F200CAB5AC /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		CEA991CB198640F200CAB5AC /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -189,6 +194,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE10E32519995C40000BFD88 /* LibraryView */ = {
+			isa = PBXGroup;
+			children = (
+				CEE76641198CFDEB002A3E93 /* SELibraryVC.h */,
+				CEE76642198CFDEB002A3E93 /* SELibraryVC.m */,
+				CEE76643198CFDEB002A3E93 /* SELibraryVC.xib */,
+			);
+			name = LibraryView;
+			sourceTree = "<group>";
+		};
+		CE10E32619995C4C000BFD88 /* RedactorView */ = {
+			isa = PBXGroup;
+			children = (
+				CEE7664E198CFE4C002A3E93 /* SERedactorVC.h */,
+				CEE7664F198CFE4C002A3E93 /* SERedactorVC.m */,
+				CEE76650198CFE4C002A3E93 /* SERedactorVC.xib */,
+			);
+			name = RedactorView;
+			sourceTree = "<group>";
+		};
 		CE6F974519914248009CED03 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +265,7 @@
 				CEA991DB198640F200CAB5AC /* SEAppDelegate.m */,
 				CEA991E0198640F200CAB5AC /* Images.xcassets */,
 				CEA991DD198640F200CAB5AC /* Rhythmus.xcdatamodeld */,
+				CE3943F71999415800B990E8 /* Open24.ttf */,
 				CEA991D2198640F200CAB5AC /* Supporting Files */,
 			);
 			path = Rhythmus;
@@ -290,13 +316,9 @@
 		CEA991FF1986459600CAB5AC /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				CE10E32619995C4C000BFD88 /* RedactorView */,
+				CE10E32519995C40000BFD88 /* LibraryView */,
 				CED77FD51993F53B0014449A /* PadsView */,
-				CEE76641198CFDEB002A3E93 /* SELibraryVC.h */,
-				CEE76642198CFDEB002A3E93 /* SELibraryVC.m */,
-				CEE76643198CFDEB002A3E93 /* SELibraryVC.xib */,
-				CEE7664E198CFE4C002A3E93 /* SERedactorVC.h */,
-				CEE7664F198CFE4C002A3E93 /* SERedactorVC.m */,
-				CEE76650198CFE4C002A3E93 /* SERedactorVC.xib */,
 				CEE76635198CF509002A3E93 /* UIColor+ColorFromHexString.h */,
 				CEE76634198CF509002A3E93 /* UIColor+ColorFromHexString.m */,
 				CED77FD21993E99A0014449A /* UIColor+iOS7Colors.h */,
@@ -344,6 +366,8 @@
 				CED77FE11994D3800014449A /* PlaybackVC.m */,
 				CED77FD61993F59D0014449A /* PadsWorkspaceVC.h */,
 				CED77FD71993F59D0014449A /* PadsWorkspaceVC.m */,
+				CE3943F01999373F00B990E8 /* MetronomeVC.h */,
+				CE3943F11999373F00B990E8 /* MetronomeVC.m */,
 				CEE76649198CFE30002A3E93 /* SEPadsVC.h */,
 				CEE7664A198CFE30002A3E93 /* SEPadsVC.m */,
 				CEE7664B198CFE30002A3E93 /* SEPadsVC.xib */,
@@ -479,6 +503,7 @@
 				CED7800A19967B430014449A /* StatusBarVC.xib in Resources */,
 				CEDD80A81998C1840018088E /* pencil.png in Resources */,
 				CEDD80A21998C1840018088E /* recButtonActive.png in Resources */,
+				CE3943F81999415800B990E8 /* Open24.ttf in Resources */,
 				CEDD809C1998C1840018088E /* playButtonDisactive.png in Resources */,
 				CEDD80A11998C1840018088E /* recButtonDisactive.png in Resources */,
 				CEDD80981998C1840018088E /* playButtonPlaying.png in Resources */,
@@ -533,6 +558,7 @@
 				CEA991D8198640F200CAB5AC /* main.m in Sources */,
 				CED7800919967B430014449A /* StatusBarVC.m in Sources */,
 				CEE76636198CF509002A3E93 /* UIColor+ColorFromHexString.m in Sources */,
+				CE3943F21999373F00B990E8 /* MetronomeVC.m in Sources */,
 				CEA991DF198640F200CAB5AC /* Rhythmus.xcdatamodeld in Sources */,
 				CED77FD1199375D90014449A /* SEMusicTimebase.m in Sources */,
 			);
