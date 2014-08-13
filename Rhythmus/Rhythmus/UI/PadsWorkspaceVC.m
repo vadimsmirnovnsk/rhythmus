@@ -153,11 +153,7 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         newPad.backgroundColor = objc_msgSend([UIColor class], s);
         newPad.identifier = identifier;
         newPad.alpha = pwNormalPadAlpha;
-
-        // CR:  I'd use something like @selector(userDidTapPad:).
-        //          - (void)userDidTapPad:(SEPad *)pad;
-        //      Such a selector could make your code clearer.
-        [newPad addTarget:self action:@selector(padDidTapped:) forControlEvents:UIControlEventTouchDown];
+        [newPad addTarget:self action:@selector(userDidTapPad:) forControlEvents:UIControlEventTouchDown];
         [self.view addSubview:newPad];
         
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
@@ -217,7 +213,7 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         newPad.backgroundColor = objc_msgSend([UIColor class], s);
         newPad.identifier = identifier;
         newPad.alpha = pwNormalPadAlpha;
-        [newPad addTarget:self action:@selector(padDidTapped:) forControlEvents:UIControlEventTouchDown];
+        [newPad addTarget:self action:@selector(userDidTapPad:) forControlEvents:UIControlEventTouchDown];
         [self.view addSubview:newPad];
         
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc]
@@ -294,7 +290,7 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
     }];
 }
 
-- (void)padDidTapped:(SEPad *)sender
+- (void)userDidTapPad:(SEPad *)sender
 {
     [self.inputs[sender.identifier]generateMessage];
     [sender animatePad];

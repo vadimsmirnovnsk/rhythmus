@@ -39,10 +39,10 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
         NSURL *sampleURL = [NSURL fileURLWithPath:samplePath];
         _metronomePlayer = [SEAudioController playerWithContentsOfURL:sampleURL];
 
-        self.workspaceVC = [[PadsWorkspaceVC alloc]init];
-        self.playbackVC = [[PlaybackVC alloc]init];
-        self.statusBarVC = [[StatusBarVC alloc]init];
-        self.metronomeVC = [[MetronomeVC alloc]init];
+        _workspaceVC = [[PadsWorkspaceVC alloc]init];
+        _playbackVC = [[PlaybackVC alloc]init];
+        _statusBarVC = [[StatusBarVC alloc]init];
+        _metronomeVC = [[MetronomeVC alloc]init];
     }
     return self;
 }

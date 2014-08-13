@@ -28,8 +28,11 @@ static CGRect const redactorEditorLayout = (CGRect){5, 200, 310, 400};
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        self.editorVC = [[EditorViewController alloc]init];
-        self.editorVC.delegate = self;
+        _editorVC = [[EditorViewController alloc]init];
+        _editorVC.delegate = self;
+        _playbackVC = [[PlaybackVC alloc]init];
+        _statusBarVC = [[StatusBarVC alloc]init];
+        _metronomeVC = [[MetronomeVC alloc]init];
     }
     return self;
 }
@@ -40,17 +43,14 @@ static CGRect const redactorEditorLayout = (CGRect){5, 200, 310, 400};
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor rhythmusBackgroundColor];
     
-    self.playbackVC = [[PlaybackVC alloc]init];
     self.playbackVC.view.frame = padsPlaybackLayout;
     [self addChildViewController:self.playbackVC];
     [self.playbackVC didMoveToParentViewController:self];
     
-    self.statusBarVC = [[StatusBarVC alloc]init];
     self.statusBarVC.view.frame = padsStatusBarLayout;
     [self addChildViewController:self.statusBarVC];
     [self.statusBarVC didMoveToParentViewController:self];
     
-    self.metronomeVC = [[MetronomeVC alloc]init];
     self.metronomeVC.view.frame = padsMetronomeLayout;
     [self addChildViewController:self.metronomeVC];
     [self.metronomeVC didMoveToParentViewController:self];
@@ -81,7 +81,7 @@ static CGRect const redactorEditorLayout = (CGRect){5, 200, 310, 400};
     _sequencer = sequencer;
     [self.playbackVC setSequencer:sequencer];
     [self.statusBarVC setSequencer:sequencer];
-    [self.metronomeVC setSequencer:sequencer];
+    // [self.metronomeVC setSequencer:sequencer];
 }
 
 - (void)redrawEditor

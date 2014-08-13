@@ -1,5 +1,11 @@
-// CR: Why have you removed the copyright?
-// This class contains over the 800 lines.. I want just make it some short)
+//
+//  SESequencer.h
+//  Rhythmus
+//
+//  Created by Wadim on 7/29/14.
+//  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
+//
+
 #import <Foundation/Foundation.h>
 #import "SEReceiverDelegate.h"
 #import "SEMusicTimebase.h"
@@ -65,9 +71,6 @@
 
 #pragma mark Track Methods
 // Removing tracks methods
-// CR:  I don't really think this API has to be public.
-// I think that it can be usable by Redactor
-//      OK, you may remove my remark (though I still doubt you need such an API).
 - (BOOL) removeTrackWithIdentifier:(NSString *)identifier;
 - (void) removeAllTracks;
 - (void) loadData:(NSArray * /*of SESequencerMessages*/)trackData
@@ -75,9 +78,6 @@
 - (NSArray */*of SESequencerMessages*/) dataForTrackIdentifier:(NSString *)identifier;
 
 // Info tracks methods
-// CR:  What for you provide such a method?
-// For getting list of track identifiers, for processing in the Redactor, for example.
-//      OK, you may remove my remark (though I still doubt you need such an API).
 - (NSArray *)trackIdentifiers;
 
 // Registering inputs and outputs methods

@@ -58,8 +58,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 @property (nonatomic, strong) NSTimer *metronomeTimer;
 @property (nonatomic, strong) NSTimer *tapTempoTimer;
 @property (nonatomic, readwrite) NSInteger times;
-// CR:  You'd better use 'copy' instead of 'strong'.
-@property (nonatomic, strong) NSDate *lastDate;
+@property (nonatomic, copy) NSDate *lastDate;
 @property (nonatomic, readwrite) NSInteger currentTempo;
 @property (nonatomic, readwrite) CGFloat elementaryDeflection;
 
@@ -74,10 +73,10 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 @property (strong, nonatomic) NSMutableArray *diodes;
 // CR:  Why don't you use 'weak' instead of 'strong'?
-// Because we create this objects in code. It's not an Outlets.
+// Because we create this objects in code. It's not an Outlet.
 @property (nonatomic, strong) UIButton *backgroundButton;
 // CR:  Why don't you use 'weak' instead of 'strong'?
-// Because we create this objects in code. It's not an Outlets.
+// Because we create this objects in code. It's not an Outlet.
 @property (nonatomic, strong) UILabel *tempoLabel;
 @property (nonatomic, strong) Metronome *metronome;
 
@@ -194,7 +193,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 #pragma mark - MetronomeVC Implementation
 
-@implementation MetronomeVC
+@implementation MetronomeVC 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -247,6 +246,9 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 - (void)highlight:(NSInteger)index
 {
+    if ([self.diodes count] == 0) {
+        return;
+    }
     for(int i=0; i<diodesCount; i++){
         ((UIView*)[self.diodes objectAtIndex:i]).backgroundColor =
             [UIColor colorWithWhite:MAX(pow(1.8, -ABS(i-index)), 0.15) alpha:1];
@@ -254,6 +256,9 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 }
 
 - (void)switchOffDiodes {
+    if ([self.diodes count] == 0) {
+        return;
+    }
     for(int i=0; i<diodesCount; i++){
         ((UIView *)[self.diodes objectAtIndex:i]).backgroundColor =
         [UIColor rhythmusLedOffColor];

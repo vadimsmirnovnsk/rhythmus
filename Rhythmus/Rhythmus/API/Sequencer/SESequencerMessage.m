@@ -49,8 +49,7 @@
     newMessage.initialDuration = self.initialDuration;
     newMessage.rawTimestamp = self.rawTimestamp;
     newMessage.parameters = [self.parameters copy];
-    // CR:  Why don't you use [self.data copy]? Or you simply don't look for the easy ways?
-    newMessage.data = [NSData dataWithBytes:[self.data bytes] length:[self.data length]];
+    newMessage.data = [self.data copy];
 
     return newMessage;
 }

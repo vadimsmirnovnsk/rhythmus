@@ -25,6 +25,15 @@ static const CGFloat bulbActiveAlpha = 0.9;
 
 @implementation EditorViewController
 
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
+    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        self.view.backgroundColor = [UIColor rhythmusBackgroundColor];
+        self.streams = [[NSMutableArray alloc]init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -33,14 +42,16 @@ static const CGFloat bulbActiveAlpha = 0.9;
 
 - (void)redraw
 {
-    [[self.editField subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [[self.editField subviews] 
+        makeObjectsPerformSelector:@selector(removeFromSuperview)];
     NSString *message = nil;
     SEL s = NULL;
-    self.view.backgroundColor = [UIColor rhythmusBackgroundColor];
-    self.streams = [[NSMutableArray alloc]init];
     SESequencerMessage *processingMessage = nil;
     NSArray *processingTrack = nil;
     NSInteger bulbInitAsset = 0;
+    if ([self.streams count]) {
+        [self.streams removeAllObjects];
+    }
     for(int i = 0; i < [self.currentPattern.padSettings count]; i++) {
         NSMutableArray* newStream = [[NSMutableArray alloc]init];
         processingTrack = [[self.currentPattern.padSettings[i] track] copy];
@@ -51,10 +62,10 @@ static const CGFloat bulbActiveAlpha = 0.9;
             [[SoundDurationView alloc]initWithFrame:(CGRect){
                 bulbInitAsset,
                 i * (editorViewBulbHeight + editorViewBulbTopAsset) + editorViewTopAsset,
-                processingMessage.initialDuration,
+                processingMessage.initialDuration - editorViewBulbWidthAsset,
                 editorViewBulbHeight
             }];
-            bulbInitAsset = bulbInitAsset + button.frame.size.width + editorViewBulbWidthAsset;
+            bulbInitAsset = bulbInitAsset + processingMessage.initialDuration;
             button.singleDurationWidth = singleDurationWidth;
             button.duration = 1;
             button.layer.cornerRadius = 8;

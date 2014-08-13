@@ -1,10 +1,3 @@
-//
-//  SESequencer.m
-//  Rhythmus
-//
-//  Created by Wadim on 7/29/14.
-//  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
-//
 
 #import "SESequencer.h"
 #import "SESystemTimer.h"
@@ -296,23 +289,11 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         }
         // Process all other-within messages
         else {
-            // CR:  The -indexOfObject may return NSNotFound; once it happens you app crashes.
-            //      You'd better know for sure what you're doing.
-            // In this else-block index can't be <= 0)
-            //
-            //      That's nice that you have the information on such a detail;
-            //      though I doubt your teammate does. You'd better do the following thing:
-            //
-            //      NSUInteger const index = [self.mutableMessages indexOfObject:message];
-            //      NSAssert((index != NSNotFound),
-            //               @"A sequencer has failed to detect an index of a message.");
-            //      NSAssert((index > 0),
-            //               @"A message index is out of bounds.");
-            //
-            //      previousMessage = [self.mutableMessages objectAtIndex:(index - 1)];
-            //
-            previousMessage = [self.mutableMessages objectAtIndex:
-                [self.mutableMessages indexOfObject:message]-1];
+            NSUInteger const index = [self.mutableMessages indexOfObject:message];
+            NSAssert((index != NSNotFound), 
+                     @"A sequencer has failed to detect an index of a message.");
+            NSAssert((index > 0), @"A message index is out of bounds.");
+            previousMessage = [self.mutableMessages objectAtIndex:(index - 1)];
             message.type = messageTypeSample;
             message.initialDuration = message.PPQNTimeStamp - previousMessage.PPQNTimeStamp;
         }
@@ -436,10 +417,6 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         _systemTimer = [[SESystemTimer alloc]init];
         _systemTimer.delegate = self;
 
-        // CR:  Be careful accessing an ivar via self from within an initializer.
-        //      You'd better know what you're doing. Whatever... it's just
-        //      a reminder.
-        // Yes, in this case this is what I need)
         self.timeSignature = (SETimeSignature){defaultTimeSignatureUpperPart,
             defaultTimeSignatureLowerPart};
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>603DC3EB-CB5D-4B2C-AFC4-4C39150218FE</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Rhythmus</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>78C3A13B-F327-46DA-ADF4-3E13922BFCAF</key>
+		<string>https://github.com/vadimsmirnovnsk/rhythmus.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Rhythmus/Rhythmus.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>78C3A13B-F327-46DA-ADF4-3E13922BFCAF</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/vadimsmirnovnsk/rhythmus.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>78C3A13B-F327-46DA-ADF4-3E13922BFCAF</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>78C3A13B-F327-46DA-ADF4-3E13922BFCAF</string>
+			<key>IDESourceControlWCCName</key>
+			<string>rhythmus</string>
+		</dict>
+	</array>
+</dict>
+</plist>
