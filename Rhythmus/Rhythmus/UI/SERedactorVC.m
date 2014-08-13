@@ -6,16 +6,19 @@
 #import "PlaybackVC.h"
 #import "StatusBarVC.h"
 #import "MetronomeVC.h"
+#import "EditorViewController.h"
 
 static CGRect const padsPlaybackLayout = (CGRect){5, 134, 310, 115};
 static CGRect const padsStatusBarLayout = (CGRect){0, 21, 320, 90};
 static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
+static CGRect const redactorEditorLayout = (CGRect){5, 200, 310, 400};
 
 @interface SERedactorVC ()
 
 @property (nonatomic, strong) PlaybackVC *playbackVC;
 @property (nonatomic, strong) StatusBarVC *statusBarVC;
 @property (nonatomic, strong) MetronomeVC *metronomeVC;
+@property (nonatomic, strong) EditorViewController *editorVC;
 
 @end
 
@@ -25,24 +28,9 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
-        _playbackVC = [[PlaybackVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        _playbackVC.view.frame = padsPlaybackLayout;
-        [self addChildViewController:_playbackVC];
-        [_playbackVC didMoveToParentViewController:self];
+        self.editorVC = [[EditorViewController alloc]init];
+        self.editorVC.delegate = self;
         
-        _statusBarVC = [[StatusBarVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        _statusBarVC.view.frame = padsStatusBarLayout;
-        [self addChildViewController:_statusBarVC];
-        [_statusBarVC didMoveToParentViewController:self];
-        
-        _metronomeVC = [[MetronomeVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        _metronomeVC.view.frame = padsMetronomeLayout;
-        [self addChildViewController:_metronomeVC];
-        [_metronomeVC didMoveToParentViewController:self];
     }
     return self;
 }
@@ -53,9 +41,30 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor rhythmusBackgroundColor];
     
+    self.playbackVC = [[PlaybackVC alloc]init];
+    self.playbackVC.view.frame = padsPlaybackLayout;
+    [self addChildViewController:self.playbackVC];
+    [self.playbackVC didMoveToParentViewController:self];
+    
+    self.statusBarVC = [[StatusBarVC alloc]init];
+    self.statusBarVC.view.frame = padsStatusBarLayout;
+    [self addChildViewController:self.statusBarVC];
+    [self.statusBarVC didMoveToParentViewController:self];
+    
+    self.metronomeVC = [[MetronomeVC alloc]init];
+    self.metronomeVC.view.frame = padsMetronomeLayout;
+    [self addChildViewController:self.metronomeVC];
+    [self.metronomeVC didMoveToParentViewController:self];
+    
+    self.editorVC.view.frame = redactorEditorLayout;
+    [self addChildViewController:self.editorVC];
+    [self.editorVC didMoveToParentViewController:self];
+
     [self.view addSubview:_playbackVC.view];
     [self.view addSubview:_statusBarVC.view];
     [self.view addSubview:_metronomeVC.view];
+    [self.view addSubview:_editorVC.view];
+    
 
 }
 

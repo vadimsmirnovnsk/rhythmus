@@ -207,9 +207,6 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 {
     [super viewDidLoad];
     [self drawDiodes];
-    
-    [self.metronome start];
-    
     self.view.backgroundColor = [UIColor rhythmusMetronomeBackgroundColor];
     self.backgroundButton = [[UIButton alloc]initWithFrame:backgroundButtonFrame];
     self.backgroundButton.backgroundColor = [UIColor clearColor];
@@ -260,7 +257,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 -(void)metronome:(Metronome*)metronome didChangeDeflection:(CGFloat)deflection
 {
-    [self highlight:(6.5*(NSInteger)deflection)+6.5];
+    [self highlight:((NSInteger)(6.5*deflection)+6.5)];
 }
 
 -(void)metronome:(Metronome*)metronome didSetNewTempo:(NSInteger)currentTempo
