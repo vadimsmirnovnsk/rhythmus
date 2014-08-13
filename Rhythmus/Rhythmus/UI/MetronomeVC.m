@@ -36,6 +36,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 @property (nonatomic, readwrite) CGFloat period;
 @property (nonatomic, readwrite) NSInteger tempo;
 @property (nonatomic, readwrite) BOOL isMetronomeActivate;
+// CR:  Why the metronomes know about the sequencers?
 @property (nonatomic, weak) SESequencer* sequencer;
 @property (nonatomic, weak) id<MetronomeDelegate> delegate;
 
@@ -56,6 +57,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 @property (nonatomic, strong) NSTimer *metronomeTimer;
 @property (nonatomic, strong) NSTimer *tapTempoTimer;
 @property (nonatomic, readwrite) NSInteger times;
+// CR:  You'd better use 'copy' instead of 'strong'.
 @property (nonatomic, strong) NSDate *lastDate;
 @property (nonatomic, readwrite) NSInteger currentTempo;
 @property (nonatomic, readwrite) CGFloat elementaryDeflection;
@@ -70,7 +72,9 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 @interface MetronomeVC () <MetronomeDelegate>
 
 @property (strong, nonatomic) NSMutableArray *diodes;
+// CR:  Why don't you use 'weak' instead of 'strong'?
 @property (nonatomic, strong) UIButton *backgroundButton;
+// CR:  Why don't you use 'weak' instead of 'strong'?
 @property (nonatomic, strong) UILabel *tempoLabel;
 @property (nonatomic, strong) Metronome *metronome;
 
@@ -208,7 +212,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
     [super viewDidLoad];
     [self drawDiodes];
     
-    [self.metronome start];
+    [self.metronome start]; // CR:  It's too early to start the metronome.
     
     self.view.backgroundColor = [UIColor rhythmusMetronomeBackgroundColor];
     self.backgroundButton = [[UIButton alloc]initWithFrame:backgroundButtonFrame];
@@ -260,6 +264,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 -(void)metronome:(Metronome*)metronome didChangeDeflection:(CGFloat)deflection
 {
+    // CR:  What are the magic number below?
     [self highlight:(6.5*(NSInteger)deflection)+6.5];
 }
 

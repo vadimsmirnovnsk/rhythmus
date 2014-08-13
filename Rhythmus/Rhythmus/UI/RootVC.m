@@ -40,6 +40,14 @@
         _sequencer.timeSignature = _currentPattern.timeSignature;
         
     // Create view controllers
+
+        // CR:  A very rude mistake! Never ever access a view controller's view
+        //      form within an intializer; it's not time yet! Your view controller
+        //      may appear on the screen much later while it has already consumed
+        //      an extra memory.
+        //
+        //      Move this stuff into the -viewDidLoad.
+
         _rootTabBarController = [[UITabBarController alloc]init];
         [_rootTabBarController.tabBar setBackgroundImage:
             [UIImage imageNamed:@"tapBarBackground"]];

@@ -132,6 +132,18 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         // CR:  Wow-wow-wow! What are you doing? This looks to me like a magic =(
         // It's just a sending to UIColor-class a random selector from an array that
         //  returns by +sharedColorNames method.
+        //
+        //      OK, I see. Why don't you create a dedicated method or function that does
+        //      such a magic inside? BTW, have a look at PadOptionsVC: there you'll find
+        //      the following code (starting at the 67th line):
+        //
+        //              NSString *message = [UIColor sharedColorNames][indexPath.row];
+        //              SEL s = NSSelectorFromString(message);
+        //              // Send message to UIColor
+        //              tableViewCell.backgroundColor = objc_msgSend([UIColor class], s);
+        //
+        //      Don't you see a similar magic?
+        //
         message = [UIColor sharedColorNames][arc4random() % [[UIColor sharedColorNames] count]];
         s = NSSelectorFromString(message);
         SEPad *newPad = [[SEPad alloc]initWithFrame:
@@ -141,6 +153,10 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         newPad.backgroundColor = objc_msgSend([UIColor class], s);
         newPad.identifier = identifier;
         newPad.alpha = pwNormalPadAlpha;
+
+        // CR:  I'd use something like @selector(userDidTapPad:).
+        //          - (void)userDidTapPad:(SEPad *)pad;
+        //      Such a selector could make your code clearer.
         [newPad addTarget:self action:@selector(padDidTapped:) forControlEvents:UIControlEventTouchDown];
         [self.view addSubview:newPad];
         

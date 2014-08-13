@@ -38,7 +38,14 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
         NSString *samplePath = [[NSBundle mainBundle]pathForResource:@"drumstick" ofType:@"wav"];
         NSURL *sampleURL = [NSURL fileURLWithPath:samplePath];
         _metronomePlayer = [SEAudioController playerWithContentsOfURL:sampleURL];
-        
+
+        // CR:  A very rude mistake! Never ever access a view controller's view
+        //      form within an intializer; it's not time yet! Your view controller
+        //      may appear on the screen much later while it has already consumed
+        //      an extra memory.
+        //
+        //      Move this stuff into the -viewDidLoad.
+
         _workspaceVC = [[PadsWorkspaceVC alloc]
             initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
         _workspaceVC.view.frame = padsWorkspaceLayout;

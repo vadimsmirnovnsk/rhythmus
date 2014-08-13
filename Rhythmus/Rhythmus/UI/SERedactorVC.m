@@ -26,6 +26,13 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+
+        // CR:  A very rude mistake! Never ever access a view controller's view
+        //      form within an intializer; it's not time yet! Your view controller
+        //      may appear on the screen much later while it has already consumed
+        //      an extra memory.
+        //
+        //      Move this stuff into the -viewDidLoad.
         _playbackVC = [[PlaybackVC alloc]
             initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
         _playbackVC.view.frame = padsPlaybackLayout;

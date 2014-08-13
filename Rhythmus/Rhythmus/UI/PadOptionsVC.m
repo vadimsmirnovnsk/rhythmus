@@ -39,8 +39,6 @@
     [self.delegate optionsControllerDidCanceled:self];
 }
 
-// CR: Why don't you use the view controller's layouting features?
-// Will make it some later)
 // TODO: Use the view controller's layouting features
 - (void)layoutSubviews {
   [UIView animateWithDuration:0.5 animations:^{
@@ -65,6 +63,7 @@
                                                reuseIdentifier:REUSABLE_CELL_ID];
     }
     tableViewCell.textLabel.text = @"";
+    // CR:  See my remarks on color creation within PadsWorkspaceVC.m.
     // Prapare message for UIColor class
     NSString *message = [UIColor sharedColorNames][indexPath.row];
     SEL s = NSSelectorFromString(message);
