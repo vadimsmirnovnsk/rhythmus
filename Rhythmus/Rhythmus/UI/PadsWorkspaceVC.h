@@ -5,6 +5,16 @@
 #import "SERhythmusPattern.h"
 
 
+#pragma mark PadsWorkspaceProtocol
+
+@class PadsWorkspaceVC;
+@protocol PadsWorkspaceProtocol <NSObject>
+
+- (void) workspaceDidFinishPatternRecording:(PadsWorkspaceVC *)sender;
+
+@end
+
+
 #pragma mark - SEPad Interface
 
 @interface SEPad : UIButton
@@ -20,6 +30,7 @@
 
 @property (nonatomic, weak) SESequencer *sequencer;
 @property (nonatomic, weak) SERhythmusPattern *currentPattern;
+@property (nonatomic, weak) id<PadsWorkspaceProtocol> delegate;
 
 - (void)tuneForSequencer:(SESequencer *)sequencer;
 - (void)tuneForSequencer:(SESequencer *)sequencer

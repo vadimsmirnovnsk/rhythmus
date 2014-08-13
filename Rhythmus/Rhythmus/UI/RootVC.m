@@ -9,7 +9,7 @@
 
 #pragma mark - RootVC Extension
 
-@interface RootVC ()
+@interface RootVC () <SEPadsDelegate>
 
 @property (nonatomic, strong) SEAudioController *audioController;
 @property (nonatomic, strong) SESamplePlayer *player;
@@ -67,6 +67,7 @@
     };
     self.padsVC.sequencer = self.sequencer;
     self.padsVC.currentPattern = self.currentPattern;
+    self.padsVC.delegate = self;
     
     
     self.redactorVC = [[SERedactorVC alloc]init];
@@ -82,6 +83,18 @@
                                                 self.redactorVC]];
     [self.rootTabBarController setSelectedIndex:1];
 }
+
+#pragma mark - SEPadsDelegate Protocol Implementation
+- (void) padsDidFinishPatternRecording:(SEPadsVC *)sender {
+    for (SEPadSetting *padSetting in self.currentPattern.padSettings) {
+        padSetting.track = [self.sequencer dataForTrackIdentifier:
+            [NSString stringWithFormat:@"%i", 
+            [self.currentPattern.padSettings indexOfObject:padSetting]]];
+    }
+    [self.redactorVC redrawEditor];
+}
+
+
 
 
 @end

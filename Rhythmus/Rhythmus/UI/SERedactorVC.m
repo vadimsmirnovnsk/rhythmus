@@ -84,6 +84,11 @@ static CGRect const redactorEditorLayout = (CGRect){5, 200, 310, 400};
     [self.metronomeVC setSequencer:sequencer];
 }
 
+- (void)redrawEditor
+{
+    [self.editorVC redraw];
+}
+
 
 
 @end

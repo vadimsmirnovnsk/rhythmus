@@ -682,6 +682,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 - (void) setTempo:(NSInteger)tempo
 {
     _tempo = tempo;
+    // TODO: Make changing tempo in runtime. Rewrite systemTimer with NSThread.
     // self.systemTimer.period = (defaultBPMtoPPQNTickConstant/_tempo)*1000;
 }
 

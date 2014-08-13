@@ -73,8 +73,12 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 @interface MetronomeVC () <MetronomeDelegate, SEReceiverDelegate>
 
 @property (strong, nonatomic) NSMutableArray *diodes;
-@property (nonatomic, weak) UIButton *backgroundButton;
-@property (nonatomic, weak) UILabel *tempoLabel;
+// CR:  Why don't you use 'weak' instead of 'strong'?
+// Because we create this objects in code. It's not an Outlets.
+@property (nonatomic, strong) UIButton *backgroundButton;
+// CR:  Why don't you use 'weak' instead of 'strong'?
+// Because we create this objects in code. It's not an Outlets.
+@property (nonatomic, strong) UILabel *tempoLabel;
 @property (nonatomic, strong) Metronome *metronome;
 
 @end

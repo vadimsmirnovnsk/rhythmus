@@ -9,7 +9,7 @@
 
 @property (nonatomic, copy) NSString *colorName;
 @property (nonatomic, copy) NSURL *sampleURL;
-@property (nonatomic, strong) NSArray *track;
+@property (nonatomic, copy) NSArray *track;
 
 @end
 

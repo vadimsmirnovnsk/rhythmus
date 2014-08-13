@@ -357,8 +357,9 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         if (message.parameters[kSequencerDidFifnishRecordingWithLastBar]) {
             [self.currentPattern setBars:
                 [message.parameters[kSequencerDidFifnishRecordingWithLastBar]intValue]];
-            NSLog(@"Bars = %i", self.currentPattern.bars);
-            NSLog(@"Message bars = %i",[message.parameters[kSequencerDidFifnishRecordingWithLastBar]intValue]);
+            [self.delegate workspaceDidFinishPatternRecording:self];
+            // NSLog(@"Bars = %i", self.currentPattern.bars);
+            // NSLog(@"Message bars = %i",[message.parameters[kSequencerDidFifnishRecordingWithLastBar]intValue]);
         }
         else {
             [self.pads[message.parameters[kSequencerPadsFeedbackParameter]] animatePad];

@@ -15,7 +15,7 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
 
 #pragma mark - SEPadsVC Extension
 
-@interface SEPadsVC ()
+@interface SEPadsVC () <PadsWorkspaceProtocol>
 
 @property (nonatomic, strong) PadsWorkspaceVC *workspaceVC;
 @property (nonatomic, strong) PlaybackVC *playbackVC;
@@ -58,6 +58,7 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
     //          [self.view addSubview:childVC.view];
     //
     
+    self.workspaceVC.delegate = self;
     self.workspaceVC.view.frame = padsWorkspaceLayout;
     [self addChildViewController:self.workspaceVC];
     [self.workspaceVC didMoveToParentViewController:self];
@@ -97,6 +98,11 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
     [self.workspaceVC tuneForSequencer:self.sequencer withContentsOfPattern:currentPattern];
     [self.statusBarVC setCurrentPattern:currentPattern];
     
+}
+
+#pragma mark PadsWorkspaceProtocol Implementation
+- (void) workspaceDidFinishPatternRecording:(PadsWorkspaceVC *)sender {
+    [self.delegate padsDidFinishPatternRecording:self];
 }
 
 

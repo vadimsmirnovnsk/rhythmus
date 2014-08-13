@@ -9,4 +9,6 @@
 // Set currentPattern after setting the Sequencer
 @property (nonatomic, weak) SERhythmusPattern *currentPattern;
 
+- (void)redraw;
+
 @end

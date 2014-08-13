@@ -5,11 +5,12 @@
 #import "SoundDurationView.h"
 #import "UIColor+iOS7Colors.h"
 #import "SERhythmusPattern.h"
+#import "SESequencerMessage.h"
 
 static const NSInteger editorViewTopAsset = 4;
 static const NSInteger editorViewBulbHeight = 75;
 static const NSInteger editorViewBulbTopAsset = 4;
-static const NSInteger editorViewBulbWidthAsset = 2;
+static const NSInteger editorViewBulbWidthAsset = 5;
 static const NSInteger singleDurationWidth = 200;
 
 static const CGFloat bulbDisactiveAlpha = 0.3;
@@ -27,20 +28,33 @@ static const CGFloat bulbActiveAlpha = 0.9;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self redraw];
+}
+
+- (void)redraw
+{
+    [[self.editField subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     NSString *message = nil;
     SEL s = NULL;
     self.view.backgroundColor = [UIColor rhythmusBackgroundColor];
     self.streams = [[NSMutableArray alloc]init];
-    for(int i = 0; i < 4; i++){
+    SESequencerMessage *processingMessage = nil;
+    NSArray *processingTrack = nil;
+    NSInteger bulbInitAsset = 0;
+    for(int i = 0; i < [self.currentPattern.padSettings count]; i++) {
         NSMutableArray* newStream = [[NSMutableArray alloc]init];
-        for(int j=0; j<10; j++){
+        processingTrack = [[self.currentPattern.padSettings[i] track] copy];
+        bulbInitAsset = 0;
+        for(int j=0; j< [processingTrack count]; j++) {
+            processingMessage = processingTrack[j];
             SoundDurationView* button =
             [[SoundDurationView alloc]initWithFrame:(CGRect){
-                j * (singleDurationWidth + editorViewBulbWidthAsset),
+                bulbInitAsset,
                 i * (editorViewBulbHeight + editorViewBulbTopAsset) + editorViewTopAsset,
-                singleDurationWidth,
+                processingMessage.initialDuration,
                 editorViewBulbHeight
             }];
+            bulbInitAsset = bulbInitAsset + button.frame.size.width + editorViewBulbWidthAsset;
             button.singleDurationWidth = singleDurationWidth;
             button.duration = 1;
             button.layer.cornerRadius = 8;
@@ -53,7 +67,12 @@ static const CGFloat bulbActiveAlpha = 0.9;
             [button addTarget:self
                        action:@selector(selectDuration:)
              forControlEvents:UIControlEventTouchUpInside];
-            button.alpha = 0.3;
+            if (processingMessage.type == messageTypePause) {
+                button.alpha = bulbDisactiveAlpha;
+            }
+            else {
+                button.alpha = bulbActiveAlpha;
+            }
             
             button.layer.borderColor = (__bridge CGColorRef)(button.backgroundColor);
             
@@ -63,7 +82,8 @@ static const CGFloat bulbActiveAlpha = 0.9;
         [self.streams addObject:newStream];
     }
     
-    _editField.contentSize = (CGSize){10*singleDurationWidth,300};
+    _editField.contentSize = (CGSize){bulbInitAsset,300};
+
 }
 
 -(void)selectDuration:(SoundDurationView*)sender
