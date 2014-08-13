@@ -39,37 +39,10 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
         NSURL *sampleURL = [NSURL fileURLWithPath:samplePath];
         _metronomePlayer = [SEAudioController playerWithContentsOfURL:sampleURL];
 
-        // CR:  A very rude mistake! Never ever access a view controller's view
-        //      form within an intializer; it's not time yet! Your view controller
-        //      may appear on the screen much later while it has already consumed
-        //      an extra memory.
-        //
-        //      Move this stuff into the -viewDidLoad.
-
-        _workspaceVC = [[PadsWorkspaceVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        _workspaceVC.view.frame = padsWorkspaceLayout;
-        [self addChildViewController:_workspaceVC];
-        [_workspaceVC didMoveToParentViewController:self];
-        
-        _playbackVC = [[PlaybackVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        _playbackVC.view.frame = padsPlaybackLayout;
-        [self addChildViewController:_playbackVC];
-        [_playbackVC didMoveToParentViewController:self];
-            
-        _statusBarVC = [[StatusBarVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        _statusBarVC.view.frame = padsStatusBarLayout;
-        [self addChildViewController:_statusBarVC];
-        [_statusBarVC didMoveToParentViewController:self];
-        
-        
-        _metronomeVC = [[MetronomeVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        _metronomeVC.view.frame = padsMetronomeLayout;
-        [self addChildViewController:_metronomeVC];
-        [_metronomeVC didMoveToParentViewController:self];
+        self.workspaceVC = [[PadsWorkspaceVC alloc]init];
+        self.playbackVC = [[PlaybackVC alloc]init];
+        self.statusBarVC = [[StatusBarVC alloc]init];
+        self.metronomeVC = [[MetronomeVC alloc]init];
     }
     return self;
 }
@@ -84,10 +57,27 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
     //          [childVC didMoveToParentViewController:self];
     //          [self.view addSubview:childVC.view];
     //
-    [self.view addSubview:_workspaceVC.view];
-    [self.view addSubview:_playbackVC.view];
-    [self.view addSubview:_statusBarVC.view];
-    [self.view addSubview:_metronomeVC.view];
+    
+    self.workspaceVC.view.frame = padsWorkspaceLayout;
+    [self addChildViewController:self.workspaceVC];
+    [self.workspaceVC didMoveToParentViewController:self];
+    
+    self.playbackVC.view.frame = padsPlaybackLayout;
+    [self addChildViewController:self.playbackVC];
+    [self.playbackVC didMoveToParentViewController:self];
+    
+    self.statusBarVC.view.frame = padsStatusBarLayout;
+    [self addChildViewController:self.statusBarVC];
+    [self.statusBarVC didMoveToParentViewController:self];
+    
+    self.metronomeVC.view.frame = padsMetronomeLayout;
+    [self addChildViewController:self.metronomeVC];
+    [self.metronomeVC didMoveToParentViewController:self];
+    
+    [self.view addSubview:self.workspaceVC.view];
+    [self.view addSubview:self.playbackVC.view];
+    [self.view addSubview:self.statusBarVC.view];
+    [self.view addSubview:self.metronomeVC.view];
 }
 
 - (void)setSequencer:(SESequencer *)sequencer

@@ -28,6 +28,8 @@
 @interface SESystemTimer : NSObject
 
 @property (nonatomic, weak) id<SESystemTimerDelegate> delegate;
+@property (atomic, readwrite) unsigned long period;
+@property (nonatomic, getter = isClocking) BOOL clocking;
 
 - (void) startWithPulsePeriod:(unsigned long)usecPeriod;
 - (BOOL) start; // Start with current options

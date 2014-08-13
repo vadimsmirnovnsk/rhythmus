@@ -6,16 +6,19 @@
 #import "PlaybackVC.h"
 #import "StatusBarVC.h"
 #import "MetronomeVC.h"
+#import "EditorViewController.h"
 
 static CGRect const padsPlaybackLayout = (CGRect){5, 134, 310, 115};
 static CGRect const padsStatusBarLayout = (CGRect){0, 21, 320, 90};
 static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
+static CGRect const redactorEditorLayout = (CGRect){5, 200, 310, 400};
 
 @interface SERedactorVC ()
 
 @property (nonatomic, strong) PlaybackVC *playbackVC;
 @property (nonatomic, strong) StatusBarVC *statusBarVC;
 @property (nonatomic, strong) MetronomeVC *metronomeVC;
+@property (nonatomic, strong) EditorViewController *editorVC;
 
 @end
 
@@ -25,31 +28,8 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
-
-        // CR:  A very rude mistake! Never ever access a view controller's view
-        //      form within an intializer; it's not time yet! Your view controller
-        //      may appear on the screen much later while it has already consumed
-        //      an extra memory.
-        //
-        //      Move this stuff into the -viewDidLoad.
-        _playbackVC = [[PlaybackVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        _playbackVC.view.frame = padsPlaybackLayout;
-        [self addChildViewController:_playbackVC];
-        [_playbackVC didMoveToParentViewController:self];
-        
-        _statusBarVC = [[StatusBarVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        _statusBarVC.view.frame = padsStatusBarLayout;
-        [self addChildViewController:_statusBarVC];
-        [_statusBarVC didMoveToParentViewController:self];
-        
-        _metronomeVC = [[MetronomeVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        _metronomeVC.view.frame = padsMetronomeLayout;
-        [self addChildViewController:_metronomeVC];
-        [_metronomeVC didMoveToParentViewController:self];
+        self.editorVC = [[EditorViewController alloc]init];
+        self.editorVC.delegate = self;
     }
     return self;
 }
@@ -60,9 +40,30 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
     // Do any additional setup after loading the view from its nib.
     self.view.backgroundColor = [UIColor rhythmusBackgroundColor];
     
+    self.playbackVC = [[PlaybackVC alloc]init];
+    self.playbackVC.view.frame = padsPlaybackLayout;
+    [self addChildViewController:self.playbackVC];
+    [self.playbackVC didMoveToParentViewController:self];
+    
+    self.statusBarVC = [[StatusBarVC alloc]init];
+    self.statusBarVC.view.frame = padsStatusBarLayout;
+    [self addChildViewController:self.statusBarVC];
+    [self.statusBarVC didMoveToParentViewController:self];
+    
+    self.metronomeVC = [[MetronomeVC alloc]init];
+    self.metronomeVC.view.frame = padsMetronomeLayout;
+    [self addChildViewController:self.metronomeVC];
+    [self.metronomeVC didMoveToParentViewController:self];
+    
+    self.editorVC.view.frame = redactorEditorLayout;
+    [self addChildViewController:self.editorVC];
+    [self.editorVC didMoveToParentViewController:self];
+
     [self.view addSubview:_playbackVC.view];
     [self.view addSubview:_statusBarVC.view];
     [self.view addSubview:_metronomeVC.view];
+    [self.view addSubview:_editorVC.view];
+    
 
 }
 
@@ -72,6 +73,7 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
     self.sequencer.tempo = currentPattern.tempo;
     self.sequencer.timeSignature = currentPattern.timeSignature;
     self.statusBarVC.currentPattern = currentPattern;
+    self.editorVC.currentPattern = currentPattern;
 }
 
 - (void)setSequencer:(SESequencer *)sequencer

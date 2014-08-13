@@ -11,6 +11,10 @@ static NSString *const kSequencerPrepareWillAbortParameter = @"Prepare will abor
 static NSString *const kSequencerPrepareDidClickWithTeil = @"Prepare did click with teil";
 static NSString *const kSequencerRecordWillStartParameter = @"Record will start";
 
+// Metronome parameters
+static NSString *const kMetronomeWillStartParameter = @"Metronome will start";
+static NSString *const kMetronomeWillStopParameter = @"Metronome will stop";
+
 
 @interface SESequencerMessage : NSObject <NSCopying>
 
@@ -25,7 +29,8 @@ typedef enum {
     messageTypeSample = 2,
     messageTypeWorkspaceFeedback = 3,
     messageTypeSystemPrepare = 4,
-    messageTypeMetronomeClick = 5
+    messageTypeMetronomeClick = 5,
+    messageTypeMetronomeSync = 6
 } MessageType;
 
 @property (nonatomic, readwrite) MessageType type;

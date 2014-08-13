@@ -8,8 +8,7 @@
 @interface SESystemTimer ()
 
 @property (nonatomic, readwrite) BOOL shouldReset;
-@property (nonatomic, getter = isClocking) BOOL clocking;
-@property (nonatomic, readonly) unsigned int period;
+@property (nonatomic, readwrite) unsigned long oldPeriod;
 
 @end
 
@@ -20,6 +19,8 @@
 
 - (void) startWithPulsePeriod:(unsigned long)usecPeriod
 {
+    self.period = usecPeriod;
+    self.oldPeriod = usecPeriod;
     // Checking for already pulsing
     if (self.clocking) {
         return;
@@ -38,9 +39,9 @@
                 blockSelf.shouldReset = NO;
                 tick = 0;
             }
-            usleep(usecPeriod/1000);
+            usleep(blockSelf.period/1000);
             currentTime = mach_absolute_time();
-            tick = (currentTime - beginTime)*timebase.numer / timebase.denom / usecPeriod;
+            tick = (currentTime - beginTime)*timebase.numer / timebase.denom / blockSelf.period;
             // Return counted ticks to main thread
             dispatch_sync(dispatch_get_main_queue(), ^{
                 [blockSelf.delegate timer:blockSelf didCountTick:tick];

@@ -13,6 +13,9 @@
 
 @end
 
+
+#pragma mark - PadsWorkspace Interface
+
 @interface PadsWorkspaceVC : UIViewController <SEReceiverDelegate>
 
 @property (nonatomic, weak) SESequencer *sequencer;

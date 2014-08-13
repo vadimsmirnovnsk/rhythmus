@@ -1,4 +1,5 @@
 // CR: Why have you removed the copyright?
+// This class contains over the 800 lines.. I want just make it some short)
 #import <Foundation/Foundation.h>
 #import "SEReceiverDelegate.h"
 #import "SEMusicTimebase.h"

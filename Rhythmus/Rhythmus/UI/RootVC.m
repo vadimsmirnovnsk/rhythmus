@@ -38,55 +38,6 @@
         _sequencer = [[SESequencer alloc]init];
         _sequencer.tempo = _currentPattern.tempo;
         _sequencer.timeSignature = _currentPattern.timeSignature;
-        
-    // Create view controllers
-
-        // CR:  A very rude mistake! Never ever access a view controller's view
-        //      form within an intializer; it's not time yet! Your view controller
-        //      may appear on the screen much later while it has already consumed
-        //      an extra memory.
-        //
-        //      Move this stuff into the -viewDidLoad.
-
-        _rootTabBarController = [[UITabBarController alloc]init];
-        [_rootTabBarController.tabBar setBackgroundImage:
-            [UIImage imageNamed:@"tapBarBackground"]];
-        [self addChildViewController:_rootTabBarController];
-        [self.view addSubview:_rootTabBarController.view];
-        
-        _libraryVC = [[SELibraryVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        _libraryNC = [[UINavigationController alloc]initWithRootViewController:self.libraryVC];
-        [_libraryNC.navigationBar setBackgroundColor:[UIColor rhythmusNavBarColor]];
-        [_libraryNC.tabBarItem setImage:[UIImage imageNamed:@"fileCabinet"]];
-        _libraryNC.tabBarItem.imageInsets = (UIEdgeInsets) {
-            5, 0, -5, 0
-        };
-        
-        _padsVC = [[SEPadsVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        [_padsVC.tabBarItem setImage:[UIImage imageNamed:@"padViewTabIcon"]];
-        _padsVC.tabBarItem.imageInsets = (UIEdgeInsets) {
-        5, 0, -5, 0
-        };
-        _padsVC.sequencer = _sequencer;
-        _padsVC.currentPattern = _currentPattern;
-
-        
-        _redactorVC = [[SERedactorVC alloc]
-            initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-        [_redactorVC.tabBarItem setImage:[UIImage imageNamed:@"pencil"]];
-        _redactorVC.tabBarItem.imageInsets = (UIEdgeInsets) {
-            5, 0, -5, 0
-        };
-        _redactorVC.sequencer = _sequencer;
-        _redactorVC.currentPattern = _currentPattern;
-        
-        
-        [_rootTabBarController setViewControllers:@[_libraryNC, _padsVC,
-            _redactorVC]];
-        [_rootTabBarController setSelectedIndex:1];
-        
         _audioController = [[SEAudioController alloc]init];
     }
     return self;
@@ -95,7 +46,41 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.rootTabBarController = [[UITabBarController alloc]init];
+    [self.rootTabBarController.tabBar setBackgroundImage:
+     [UIImage imageNamed:@"tapBarBackground"]];
+    [self addChildViewController:self.rootTabBarController];
+    [self.view addSubview:self.rootTabBarController.view];
+    
+    self.libraryVC = [[SELibraryVC alloc]init];
+    self.libraryNC = [[UINavigationController alloc]initWithRootViewController:self.libraryVC];
+    [self.libraryNC.navigationBar setBackgroundColor:[UIColor rhythmusNavBarColor]];
+    [self.libraryNC.tabBarItem setImage:[UIImage imageNamed:@"fileCabinet"]];
+    self.libraryNC.tabBarItem.imageInsets = (UIEdgeInsets) {
+        5, 0, -5, 0
+    };
+    
+    self.padsVC = [[SEPadsVC alloc]init];
+    [self.padsVC.tabBarItem setImage:[UIImage imageNamed:@"padViewTabIcon"]];
+    self.padsVC.tabBarItem.imageInsets = (UIEdgeInsets) {
+        5, 0, -5, 0
+    };
+    self.padsVC.sequencer = self.sequencer;
+    self.padsVC.currentPattern = self.currentPattern;
+    
+    
+    self.redactorVC = [[SERedactorVC alloc]init];
+    [self.redactorVC.tabBarItem setImage:[UIImage imageNamed:@"pencil"]];
+    self.redactorVC.tabBarItem.imageInsets = (UIEdgeInsets) {
+        5, 0, -5, 0
+    };
+    self.redactorVC.sequencer = self.sequencer;
+    self.redactorVC.currentPattern = self.currentPattern;
+    
+    
+    [self.rootTabBarController setViewControllers:@[self.libraryNC, self.padsVC,
+                                                self.redactorVC]];
+    [self.rootTabBarController setSelectedIndex:1];
 }
 
 

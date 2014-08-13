@@ -1,6 +1,7 @@
 
 #import "MetronomeVC.h"
 #import "UIColor+iOS7Colors.h"
+#import "SESequencerMessage.h"
 
 #define METRONOME_FPS 25.0;
 #define METRONOME_MAX_TEMPO 280;
@@ -31,7 +32,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 #pragma mark - Metronome Interface
 
-@interface Metronome : NSObject <SEReceiverDelegate>
+@interface Metronome : NSObject
 
 @property (nonatomic, readwrite) CGFloat period;
 @property (nonatomic, readwrite) NSInteger tempo;
@@ -69,13 +70,11 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 #pragma mark - MetronomeVC Extension
 
-@interface MetronomeVC () <MetronomeDelegate>
+@interface MetronomeVC () <MetronomeDelegate, SEReceiverDelegate>
 
 @property (strong, nonatomic) NSMutableArray *diodes;
-// CR:  Why don't you use 'weak' instead of 'strong'?
-@property (nonatomic, strong) UIButton *backgroundButton;
-// CR:  Why don't you use 'weak' instead of 'strong'?
-@property (nonatomic, strong) UILabel *tempoLabel;
+@property (nonatomic, weak) UIButton *backgroundButton;
+@property (nonatomic, weak) UILabel *tempoLabel;
 @property (nonatomic, strong) Metronome *metronome;
 
 @end
@@ -117,6 +116,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 {
     [self.timer invalidate];
     self.timer = nil;
+    self.deflection = 0;
 }
 
 - (void)synchronize:(NSInteger)part
@@ -154,7 +154,8 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
     if (self.times>0) {
         if ([self.tapTempoTimer isValid]) {
             [self.tapTempoTimer invalidate];
-            self.tapTempoTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(resetTapTempo) userInfo:self repeats:NO];
+            self.tapTempoTimer = [NSTimer scheduledTimerWithTimeInterval:2 
+                target:self selector:@selector(resetTapTempo) userInfo:self repeats:NO];
         }
         NSTimeInterval currentInterval = [[NSDate date] timeIntervalSinceDate:self.lastDate];
         self.currentTempo = (int)(60*self.times/currentInterval);
@@ -184,11 +185,6 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
     self.times = 0;
 }
 
-- (void) output:(SESequencerOutput *)sender didGenerateMessage:(SESequencerMessage *)message
-{
-    NSLog(@"I'm corn captain");
-}
-
 @end
 
 
@@ -211,9 +207,6 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 {
     [super viewDidLoad];
     [self drawDiodes];
-    
-    [self.metronome start]; // CR:  It's too early to start the metronome.
-    
     self.view.backgroundColor = [UIColor rhythmusMetronomeBackgroundColor];
     self.backgroundButton = [[UIButton alloc]initWithFrame:backgroundButtonFrame];
     self.backgroundButton.backgroundColor = [UIColor clearColor];
@@ -250,9 +243,16 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 - (void)highlight:(NSInteger)index
 {
-    for(int i=0; i<14; i++){
+    for(int i=0; i<diodesCount; i++){
         ((UIView*)[self.diodes objectAtIndex:i]).backgroundColor =
             [UIColor colorWithWhite:MAX(pow(1.8, -ABS(i-index)), 0.15) alpha:1];
+    }
+}
+
+- (void)switchOffDiodes {
+    for(int i=0; i<diodesCount; i++){
+        ((UIView *)[self.diodes objectAtIndex:i]).backgroundColor =
+        [UIColor rhythmusLedOffColor];
     }
 }
 
@@ -260,18 +260,40 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 {
     _sequencer = sequencer;
     self.metronome.tempo = sequencer.tempo;
+    sequencer.metronomeSyncOutput.delegate = self;
 }
 
+#pragma mark MetronomeDelegate Protocol Implemetation
 -(void)metronome:(Metronome*)metronome didChangeDeflection:(CGFloat)deflection
 {
     // CR:  What are the magic number below?
-    [self highlight:(6.5*(NSInteger)deflection)+6.5];
+    [self highlight:((NSInteger)(6.5*deflection)+6.5)];
 }
 
 -(void)metronome:(Metronome*)metronome didSetNewTempo:(NSInteger)currentTempo
 {
     self.tempoLabel.text = [NSString stringWithFormat:@"<< TEMPO: %i BPM >>",currentTempo];
     self.sequencer.tempo = currentTempo;
+}
+
+#pragma mark SEReceiverDelegate Protocol Implementation
+- (void) output:(SESequencerOutput *)sender didGenerateMessage:(SESequencerMessage *)message
+{
+    if (message.type == messageTypeMetronomeSync) {
+        if (message.parameters[@"Teil"]) {
+            if ([self.metronome isMetronomeActivate]) {
+                [self.metronome synchronize:[message.parameters[@"Teil"]intValue]];
+            }
+        }
+        else if (message.parameters[kMetronomeWillStartParameter]) {
+            [self.metronome start];
+            self.metronome.deflection = 0;
+        }
+        else if (message.parameters[kMetronomeWillStopParameter]) {
+            [self.metronome stop];
+            [self switchOffDiodes];
+        }
+    }
 }
 
 @end

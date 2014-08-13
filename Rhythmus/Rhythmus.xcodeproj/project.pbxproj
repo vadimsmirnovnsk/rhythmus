@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		847BB580199B411F006DF80D /* EditorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847BB578199B411F006DF80D /* EditorViewController.m */; };
+		847BB581199B411F006DF80D /* EditorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847BB579199B411F006DF80D /* EditorViewController.xib */; };
+		847BB582199B411F006DF80D /* SelectDurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847BB57B199B411F006DF80D /* SelectDurationViewController.m */; };
+		847BB583199B411F006DF80D /* SelectDurationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847BB57C199B411F006DF80D /* SelectDurationViewController.xib */; };
+		847BB584199B411F006DF80D /* SoundDurationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 847BB57F199B411F006DF80D /* SoundDurationView.m */; };
 		CE3943F21999373F00B990E8 /* MetronomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CE3943F11999373F00B990E8 /* MetronomeVC.m */; };
 		CE3943F81999415800B990E8 /* Open24.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE3943F71999415800B990E8 /* Open24.ttf */; };
 		CEA991CA198640F200CAB5AC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991C9198640F200CAB5AC /* Foundation.framework */; };
@@ -82,6 +87,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		847BB577199B411F006DF80D /* EditorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EditorViewController.h; path = Rhythmus/UI/EditorViewController.h; sourceTree = "<group>"; };
+		847BB578199B411F006DF80D /* EditorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EditorViewController.m; path = Rhythmus/UI/EditorViewController.m; sourceTree = "<group>"; };
+		847BB579199B411F006DF80D /* EditorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EditorViewController.xib; path = Rhythmus/UI/EditorViewController.xib; sourceTree = "<group>"; };
+		847BB57A199B411F006DF80D /* SelectDurationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectDurationViewController.h; path = Rhythmus/UI/SelectDurationViewController.h; sourceTree = "<group>"; };
+		847BB57B199B411F006DF80D /* SelectDurationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectDurationViewController.m; path = Rhythmus/UI/SelectDurationViewController.m; sourceTree = "<group>"; };
+		847BB57C199B411F006DF80D /* SelectDurationViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SelectDurationViewController.xib; path = Rhythmus/UI/SelectDurationViewController.xib; sourceTree = "<group>"; };
+		847BB57D199B411F006DF80D /* SelectDurationViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectDurationViewControllerDelegate.h; path = Rhythmus/UI/SelectDurationViewControllerDelegate.h; sourceTree = "<group>"; };
+		847BB57E199B411F006DF80D /* SoundDurationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundDurationView.h; path = Rhythmus/UI/SoundDurationView.h; sourceTree = "<group>"; };
+		847BB57F199B411F006DF80D /* SoundDurationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoundDurationView.m; path = Rhythmus/UI/SoundDurationView.m; sourceTree = "<group>"; };
 		CE3943F01999373F00B990E8 /* MetronomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetronomeVC.h; path = Rhythmus/UI/MetronomeVC.h; sourceTree = "<group>"; };
 		CE3943F11999373F00B990E8 /* MetronomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MetronomeVC.m; path = Rhythmus/UI/MetronomeVC.m; sourceTree = "<group>"; };
 		CE3943F71999415800B990E8 /* Open24.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Open24.ttf; path = Resources/Open24.ttf; sourceTree = "<group>"; };
@@ -207,6 +221,15 @@
 		CE10E32619995C4C000BFD88 /* RedactorView */ = {
 			isa = PBXGroup;
 			children = (
+				847BB577199B411F006DF80D /* EditorViewController.h */,
+				847BB578199B411F006DF80D /* EditorViewController.m */,
+				847BB579199B411F006DF80D /* EditorViewController.xib */,
+				847BB57A199B411F006DF80D /* SelectDurationViewController.h */,
+				847BB57B199B411F006DF80D /* SelectDurationViewController.m */,
+				847BB57C199B411F006DF80D /* SelectDurationViewController.xib */,
+				847BB57D199B411F006DF80D /* SelectDurationViewControllerDelegate.h */,
+				847BB57E199B411F006DF80D /* SoundDurationView.h */,
+				847BB57F199B411F006DF80D /* SoundDurationView.m */,
 				CEE7664E198CFE4C002A3E93 /* SERedactorVC.h */,
 				CEE7664F198CFE4C002A3E93 /* SERedactorVC.m */,
 				CEE76650198CFE4C002A3E93 /* SERedactorVC.xib */,
@@ -513,11 +536,13 @@
 				CEDD807C1998C16F0018088E /* drumstick.wav in Resources */,
 				CEDD80A71998C1840018088E /* padViewTabIcon@2x.png in Resources */,
 				CEDD80801998C16F0018088E /* hihat.aif in Resources */,
+				847BB583199B411F006DF80D /* SelectDurationViewController.xib in Resources */,
 				CEDD807F1998C16F0018088E /* bassdrum.aif in Resources */,
 				CEE76645198CFDEB002A3E93 /* SELibraryVC.xib in Resources */,
 				CED78014199779F50014449A /* PadOptionsVC.xib in Resources */,
 				CEDD80AA1998C1840018088E /* tapBarBackground@2x.png in Resources */,
 				CEDD80971998C1840018088E /* playButtonPlaying@2x.png in Resources */,
+				847BB581199B411F006DF80D /* EditorViewController.xib in Resources */,
 				CEDD807D1998C16F0018088E /* clap.aif in Resources */,
 				CEE76652198CFE4C002A3E93 /* SERedactorVC.xib in Resources */,
 				CEDD80A61998C1840018088E /* padViewTabIcon.png in Resources */,
@@ -550,11 +575,14 @@
 				CEE7664C198CFE30002A3E93 /* SEPadsVC.m in Sources */,
 				CEE76644198CFDEB002A3E93 /* SELibraryVC.m in Sources */,
 				CED77FE21994D3800014449A /* PlaybackVC.m in Sources */,
+				847BB582199B411F006DF80D /* SelectDurationViewController.m in Sources */,
 				CED77FD81993F59D0014449A /* PadsWorkspaceVC.m in Sources */,
 				CEA991DC198640F200CAB5AC /* SEAppDelegate.m in Sources */,
 				CEE76651198CFE4C002A3E93 /* SERedactorVC.m in Sources */,
+				847BB580199B411F006DF80D /* EditorViewController.m in Sources */,
 				CED77FD41993E99A0014449A /* UIColor+iOS7Colors.m in Sources */,
 				CEA991D8198640F200CAB5AC /* main.m in Sources */,
+				847BB584199B411F006DF80D /* SoundDurationView.m in Sources */,
 				CED7800919967B430014449A /* StatusBarVC.m in Sources */,
 				CEE76636198CF509002A3E93 /* UIColor+ColorFromHexString.m in Sources */,
 				CE3943F21999373F00B990E8 /* MetronomeVC.m in Sources */,

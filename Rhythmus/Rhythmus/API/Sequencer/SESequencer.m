@@ -528,6 +528,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     if (self.isPreparing || self.isRecording || self.isPlaying) {
         return NO;
     }
+    [self.metronomeSyncOutput.delegate output:self.metronomeSyncOutput
+         didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeSync
+         parameters:@{kMetronomeWillStartParameter: kMetronomeWillStartParameter}]];
     SESequencerTrack *track = nil;
     for (id<NSCopying> key in self.mutableTracks) {
         track = self.mutableTracks[key];
@@ -553,6 +556,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     //NSLog(@"Send to Prepare Output: Let's do it!");
     [self.padsFeedbackOutput.delegate output:self.padsFeedbackOutput didGenerateMessage:[SESequencerMessage messageWithType:messageTypeSystemPrepare parameters:
                     @{kSequencerPrepareWillStartParameter: kSequencerPrepareWillStartParameter}]];
+    [self.metronomeSyncOutput.delegate output:self.metronomeSyncOutput
+        didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeSync
+        parameters:@{kMetronomeWillStartParameter: kMetronomeWillStartParameter}]];
     [self.systemTimer startWithPulsePeriod:(long)
         (defaultBPMtoPPQNTickConstant/_tempo)*1000];
 }
@@ -585,6 +591,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     [self.padsFeedbackOutput.delegate output:self.padsFeedbackOutput
         didGenerateMessage:[SESequencerMessage messageWithType:messageTypeWorkspaceFeedback
         parameters:@{kSequencerDidFifnishRecordingWithLastBar:@(self.bar)}]];
+    [self.metronomeSyncOutput.delegate output:self.metronomeSyncOutput
+        didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeSync
+        parameters:@{kMetronomeWillStopParameter: kMetronomeWillStopParameter}]];
 }
 
 /* Play all streams, so what can else say. */
@@ -606,8 +615,14 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     self.expectedTick = 0;
     // Process start tick
     [self processExpectedTick];
-    [_metronomeOutput.delegate output:_metronomeOutput
+    [self.metronomeOutput.delegate output:self.metronomeOutput
                 didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeClick
+                parameters:@{@"Bar":@(self.bar), @"Teil":@(self.teilInBar)}]];
+    [self.metronomeSyncOutput.delegate output:self.metronomeSyncOutput
+                didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeSync
+                parameters:@{kMetronomeWillStartParameter: kMetronomeWillStartParameter}]];
+    [self.metronomeSyncOutput.delegate output:self.metronomeSyncOutput
+                didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeSync
                 parameters:@{@"Bar":@(self.bar), @"Teil":@(self.teilInBar)}]];
     [self.systemTimer startWithPulsePeriod:(long)
         (defaultBPMtoPPQNTickConstant/_tempo)*1000];
@@ -620,6 +635,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 - (void) stop
 {
     [self.systemTimer stop];
+    [self.metronomeSyncOutput.delegate output:self.metronomeSyncOutput
+        didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeSync
+        parameters:@{kMetronomeWillStopParameter: kMetronomeWillStopParameter}]];
 }
 
 - (void) pause
@@ -664,7 +682,7 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
 - (void) setTempo:(NSInteger)tempo
 {
     _tempo = tempo;
-    
+    // self.systemTimer.period = (defaultBPMtoPPQNTickConstant/_tempo)*1000;
 }
 
 #pragma mark Private Methods
@@ -747,6 +765,9 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
              NSLog(@"Click! Bar: %i Teil: %i", self.bar, self.teilInBar);
             [self.metronomeOutput.delegate output:self.metronomeOutput
                 didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeClick
+                parameters:@{@"Bar":@(self.bar), @"Teil":@(self.teilInBar)}]];
+            [self.metronomeSyncOutput.delegate output:self.metronomeSyncOutput
+                didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeSync
                 parameters:@{@"Bar":@(self.bar), @"Teil":@(self.teilInBar)}]];
                 // Process preparing ticks
                 if (self.isPreparing) {
