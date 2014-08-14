@@ -7,6 +7,8 @@
 #define METRONOME_MAX_TEMPO 280;
 #define METRONOME_MIN_TEMPO 40;
 
+static const float piNumber = 3.14;
+
 static const float mFPS = METRONOME_FPS;
 static const NSInteger mMaxTempo = METRONOME_MAX_TEMPO;
 static const NSInteger mMinTempo = METRONOME_MIN_TEMPO;
@@ -17,7 +19,6 @@ static const NSInteger diodeWidth = (310 - 68)/14;
 
 static CGRect const backgroundButtonFrame = (CGRect){0, 0, 310, 65};
 static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
-
 
 #pragma mark - MetronomeDelegate Protocol
 
@@ -34,7 +35,6 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 @interface Metronome : NSObject
 
-@property (nonatomic, readwrite) CGFloat period;
 @property (nonatomic, readwrite) NSInteger tempo;
 @property (nonatomic, readwrite) BOOL isMetronomeActivate;
 // CR:  Why the metronomes know about the sequencers?
@@ -53,6 +53,8 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 @interface Metronome ()
 
+@property (nonatomic, readwrite) CGFloat cyclicFrequency;
+@property (nonatomic) CGFloat timeline;
 @property (nonatomic, readwrite) CGFloat deflection;
 @property (nonatomic, strong) NSTimer* timer;
 @property (nonatomic, strong) NSTimer *metronomeTimer;
@@ -60,7 +62,6 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 @property (nonatomic, readwrite) NSInteger times;
 @property (nonatomic, copy) NSDate *lastDate;
 @property (nonatomic, readwrite) NSInteger currentTempo;
-@property (nonatomic, readwrite) CGFloat elementaryDeflection;
 
 - (void)changeDeflection;
 
@@ -90,7 +91,9 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 - (instancetype)init
 {
     if(self = [super init]){
-        self.deflection = 0;
+        _deflection = 1;
+        _cyclicFrequency = 1;
+        _timeline = 0;
     }
     return self;
 }
@@ -98,14 +101,13 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 - (void)setDelegate:(id<MetronomeDelegate>)delegate
 {
     _delegate = delegate;
-    self.period = 1;
-    self.elementaryDeflection = (1/mFPS)/self.period;
+    self.cyclicFrequency = 1;
 }
 
 - (void)setTempo:(NSInteger)tempo
 {
     _tempo = tempo;
-    self.elementaryDeflection = 0.08*tempo/60;
+    self.cyclicFrequency = (float)tempo/60*piNumber;
 }
 
 - (void)start
@@ -119,17 +121,16 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 {
     [self.timer invalidate];
     self.timer = nil;
-    self.deflection = 0;
 }
 
 - (void)synchronize:(NSInteger)part
 {
     if(part%2){
         self.deflection = 1;
-        self.elementaryDeflection  = -ABS(self.elementaryDeflection);
+        self.timeline = 0;
     } else {
         self.deflection = -1;
-        self.elementaryDeflection  = ABS(self.elementaryDeflection);
+        self.timeline = piNumber/self.cyclicFrequency;
     }
     if([self.timer isValid]){
         [self.timer invalidate];
@@ -142,15 +143,9 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 - (void)changeDeflection
 {
-    if(self.deflection > 1){
-        self.elementaryDeflection *= -1;
-        self.deflection = 2-self.deflection;
-    } else if(self.deflection < -1){
-        self.elementaryDeflection *= -1;
-        self.deflection = -2 -self.deflection;
-    }
+    self.deflection = cos(self.cyclicFrequency*self.timeline);
+    self.timeline += 1/mFPS;
     [self.delegate metronome:self didChangeDeflection: self.deflection];
-    self.deflection += self.elementaryDeflection;
 }
 
 - (void)tapTempoButtonDidTapped:(id)sender {
@@ -180,6 +175,17 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
         self.currentTempo = mMaxTempo;
     }
     if (self.times > 1) {
+        [self.delegate metronome:self didSetNewTempo:self.tempo];
+    }
+}
+
+-(void)tapTempoButtonDidSlided:(UIPanGestureRecognizer*)recognizer
+{
+    if(ABS([recognizer translationInView:recognizer.view].x) > 10){
+        CGPoint translation = [recognizer translationInView:recognizer.view];
+        self.tempo = MIN(mMaxTempo,MAX(mMinTempo, self.tempo+(NSInteger)(translation.x/10)));
+        [recognizer setTranslation:CGPointZero inView:recognizer.view];
+        
         [self.delegate metronome:self didSetNewTempo:self.tempo];
     }
 }
@@ -216,6 +222,10 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
     [self.backgroundButton addTarget:self
         action:@selector(backgroundButtonDidTapped:)
         forControlEvents:UIControlEventTouchUpInside];
+    
+    UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(backgroundButtonDidSlided:)];
+    [self.backgroundButton addGestureRecognizer:recognizer];
+    
     [self.view addSubview:self.backgroundButton];
     
     self.tempoLabel = [[UILabel alloc]init];
@@ -242,6 +252,11 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 - (void)backgroundButtonDidTapped:(UIButton *)sender
 {
     [self.metronome tapTempoButtonDidTapped:sender];
+}
+
+-(void)backgroundButtonDidSlided:(UIPanGestureRecognizer*)recognizer
+{
+    [self.metronome tapTempoButtonDidSlided:recognizer];
 }
 
 - (void)highlight:(NSInteger)index
@@ -276,7 +291,12 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 -(void)metronome:(Metronome*)metronome didChangeDeflection:(CGFloat)deflection
 {
     // CR:  What are the magic number below?
-    [self highlight:((NSInteger)(6.5*deflection)+6.5)];
+    CGFloat index = 6.5*deflection+6.5;
+    NSInteger roundIndex = index;
+    if(index > roundIndex+0.5){
+        roundIndex += 1;
+    }
+    [self highlight:roundIndex];
 }
 
 -(void)metronome:(Metronome*)metronome didSetNewTempo:(NSInteger)currentTempo

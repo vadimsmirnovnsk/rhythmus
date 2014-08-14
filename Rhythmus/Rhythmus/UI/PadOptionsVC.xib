@@ -6,8 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PadOptionsVC">
             <connections>
-                <outlet property="colorTableView" destination="9Hw-Yt-lE0" id="sLT-xs-bNp"/>
-                <outlet property="heightConstraint" destination="F2M-Tn-J9b" id="uQ3-gm-qfU"/>
+                <outlet property="tableView" destination="9Hw-Yt-lE0" id="SbX-Et-MWh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -42,39 +41,26 @@
                     <color key="thumbTintColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
                 </switch>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="9Hw-Yt-lE0">
-                    <rect key="frame" x="5" y="59" width="310" height="42"/>
+                    <rect key="frame" x="5" y="59" width="310" height="504"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="42" id="F2M-Tn-J9b"/>
-                    </constraints>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="c37-6X-sfa"/>
                         <outlet property="delegate" destination="-1" id="rF0-fL-q6X"/>
                     </connections>
                 </tableView>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="p01-bd-rGJ">
-                    <rect key="frame" x="5" y="109" width="310" height="42"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="42" id="Vik-rn-DVt"/>
-                    </constraints>
-                </tableView>
             </subviews>
             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
+                <constraint firstAttribute="bottom" secondItem="9Hw-Yt-lE0" secondAttribute="bottom" constant="5" id="3UC-pa-Qta"/>
                 <constraint firstItem="9Hw-Yt-lE0" firstAttribute="centerX" secondItem="2RB-uI-YiD" secondAttribute="centerX" id="3l9-bx-Ja4"/>
                 <constraint firstItem="9Hw-Yt-lE0" firstAttribute="leading" secondItem="esH-SE-AXt" secondAttribute="leading" id="9JV-nT-4SA"/>
                 <constraint firstItem="9Hw-Yt-lE0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="5" id="Di1-G8-xbK"/>
                 <constraint firstItem="9Hw-Yt-lE0" firstAttribute="top" secondItem="QJK-GX-lEN" secondAttribute="bottom" constant="8" symbolic="YES" id="HbU-4A-yhy"/>
-                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="leading" secondItem="p01-bd-rGJ" secondAttribute="leading" id="Hrh-cv-JnL"/>
                 <constraint firstItem="9Hw-Yt-lE0" firstAttribute="trailing" secondItem="QJK-GX-lEN" secondAttribute="trailing" id="J3n-Kn-ejc"/>
                 <constraint firstItem="9Hw-Yt-lE0" firstAttribute="top" secondItem="2RB-uI-YiD" secondAttribute="bottom" constant="24" id="JH0-Nn-TfS"/>
                 <constraint firstItem="9Hw-Yt-lE0" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Qit-9a-51T"/>
-                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="trailing" secondItem="p01-bd-rGJ" secondAttribute="trailing" id="aeo-hg-hIe"/>
                 <constraint firstItem="esH-SE-AXt" firstAttribute="centerY" secondItem="QJK-GX-lEN" secondAttribute="centerY" id="bjx-t5-1S3"/>
-                <constraint firstItem="p01-bd-rGJ" firstAttribute="top" secondItem="9Hw-Yt-lE0" secondAttribute="bottom" constant="8" symbolic="YES" id="dsd-X4-DB6"/>
                 <constraint firstItem="9Hw-Yt-lE0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="59" id="nyf-SW-Yfp"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
