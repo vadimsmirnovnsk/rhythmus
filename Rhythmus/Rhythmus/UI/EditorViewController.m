@@ -15,6 +15,7 @@ static const NSInteger singleDurationWidth = 200;
 
 static const CGFloat bulbDisactiveAlpha = 0.3;
 static const CGFloat bulbActiveAlpha = 0.9;
+static const CGFloat scaleCoefficient = 0.75;
 
 @interface EditorViewController () <SelectDurationViewControllerDelegate>
 
@@ -62,10 +63,10 @@ static const CGFloat bulbActiveAlpha = 0.9;
             [[SoundDurationView alloc]initWithFrame:(CGRect){
                 bulbInitAsset,
                 i * (editorViewBulbHeight + editorViewBulbTopAsset) + editorViewTopAsset,
-                processingMessage.initialDuration - editorViewBulbWidthAsset,
+                scaleCoefficient * processingMessage.initialDuration - editorViewBulbWidthAsset,
                 editorViewBulbHeight
             }];
-            bulbInitAsset = bulbInitAsset + processingMessage.initialDuration;
+            bulbInitAsset = bulbInitAsset + scaleCoefficient * processingMessage.initialDuration;
             button.singleDurationWidth = singleDurationWidth;
             button.duration = 1;
             button.layer.cornerRadius = 8;

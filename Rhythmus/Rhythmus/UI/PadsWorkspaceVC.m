@@ -358,7 +358,15 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
             // NSLog(@"Message bars = %i",[message.parameters[kSequencerDidFifnishRecordingWithLastBar]intValue]);
         }
         else {
-            [self.pads[message.parameters[kSequencerPadsFeedbackParameter]] animatePad];
+            NSInteger padIndex = [message.parameters[kSequencerPadsFeedbackParameter]integerValue];
+            SEPad *animatingPad = 
+                self.pads[message.parameters[kSequencerPadsFeedbackParameter]];
+            CGRect animatingPadInitialFrame = [[PadsWorkspaceVC sharedPadsLayouts][padIndex]CGRectValue];
+
+            if (animatingPad.frame.size.width == animatingPadInitialFrame.size.width) {
+                [self.pads[message.parameters[kSequencerPadsFeedbackParameter]] animatePad];
+            }
+            
         }
     }
     else if (message.type == messageTypeSystemPrepare) {
