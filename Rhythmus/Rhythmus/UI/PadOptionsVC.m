@@ -1,14 +1,18 @@
 
 #import "PadOptionsVC.h"
 #import "UIColor+iOS7Colors.h"
+#import "SELibrary.h"
+#import "SETableViewCell.h"
+
+static NSString *const cellId = @"PadsTableViewCell";
 
 
 #pragma mark PadOptionsVC Extension
 
 @interface PadOptionsVC ()
 
+@property (nonatomic,strong) SELibrary* library;
 @property (nonatomic, weak) IBOutlet UITableView *colorTableView;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *heightConstraint;
 
 - (IBAction)processCancel:(UIButton *)sender;
 
@@ -19,19 +23,17 @@
 
 @implementation PadOptionsVC
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    self.library = [SELibrary sharedLibrary];
+    [self.colorTableView registerNib:[UINib nibWithNibName:@"SETableViewCell" bundle:[NSBundle mainBundle]]
+     forCellReuseIdentifier:cellId];
+    
+    self.colorTableView.dataSource = self;
+    self.colorTableView.delegate = self;
+    
+    self.colorTableView.backgroundColor = [UIColor rhythmusBackgroundColor];
 }
 
 - (void)processCancel:(UIButton *)sender
@@ -39,10 +41,11 @@
     [self.delegate optionsControllerDidCanceled:self];
 }
 
+// CR: Why don't you use the view controller's layouting features?
+// Will make it some later)
 // TODO: Use the view controller's layouting features
 - (void)layoutSubviews {
   [UIView animateWithDuration:0.5 animations:^{
-      self.heightConstraint.constant = 150;
       [self.colorTableView setNeedsLayout];
       [self.colorTableView layoutIfNeeded];
   }];
@@ -54,32 +57,24 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
     cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-#define REUSABLE_CELL_ID @"ReusableCellID"
 
     UITableViewCell *tableViewCell =
-        [tableView dequeueReusableCellWithIdentifier:REUSABLE_CELL_ID];
-    if (!tableViewCell) {
-        tableViewCell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
-                                               reuseIdentifier:REUSABLE_CELL_ID];
-    }
-    tableViewCell.textLabel.text = @"";
-    // CR:  See my remarks on color creation within PadsWorkspaceVC.m.
-    // Prapare message for UIColor class
-    NSString *message = [UIColor sharedColorNames][indexPath.row];
-    SEL s = NSSelectorFromString(message);
-    // Send message to UIColor
-    tableViewCell.backgroundColor = objc_msgSend([UIColor class], s);
-    if (tableViewCell.backgroundColor == self.pad.backgroundColor) {
-        tableViewCell.textLabel.text = @"Selected";
-    }
+        [tableView dequeueReusableCellWithIdentifier:cellId];
+    
+    ((SETableViewCell*)tableViewCell).nameLabel.text =
+        [NSString stringWithFormat:@"%@",self.library.sampleCache[indexPath.row][kLibraryFileName]];
+    
     return tableViewCell;
-
-#undef REUSABLE_CELL_ID
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[UIColor sharedColorNames]count];
+    return [self.library.sampleCache count];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 70;
 }
 
 #pragma mark UITableViewDelegate Protocol methods
@@ -87,9 +82,7 @@
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    self.pad.backgroundColor = [tableView cellForRowAtIndexPath:indexPath].backgroundColor;
-    [self layoutSubviews];
+    NSLog(@"fileURL : %@",self.library.sampleCache[indexPath.row][kLibraryFileURL]);
 }
 
 

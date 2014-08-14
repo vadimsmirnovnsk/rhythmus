@@ -1,11 +1,12 @@
 
 #import "MetronomeVC.h"
 #import "UIColor+iOS7Colors.h"
-#import "SESequencerMessage.h"
 
 #define METRONOME_FPS 25.0;
 #define METRONOME_MAX_TEMPO 280;
 #define METRONOME_MIN_TEMPO 40;
+
+static const float piNumber = 3.14;
 
 static const float mFPS = METRONOME_FPS;
 static const NSInteger mMaxTempo = METRONOME_MAX_TEMPO;
@@ -32,12 +33,10 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 #pragma mark - Metronome Interface
 
-@interface Metronome : NSObject
+@interface Metronome : NSObject <SEReceiverDelegate>
 
-@property (nonatomic, readwrite) CGFloat period;
 @property (nonatomic, readwrite) NSInteger tempo;
 @property (nonatomic, readwrite) BOOL isMetronomeActivate;
-// CR:  Why the metronomes know about the sequencers?
 @property (nonatomic, weak) SESequencer* sequencer;
 @property (nonatomic, weak) id<MetronomeDelegate> delegate;
 
@@ -53,14 +52,15 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 @interface Metronome ()
 
+@property (nonatomic, readwrite) CGFloat cyclicFrequency;
+@property (nonatomic) CGFloat timeline;
 @property (nonatomic, readwrite) CGFloat deflection;
 @property (nonatomic, strong) NSTimer* timer;
 @property (nonatomic, strong) NSTimer *metronomeTimer;
 @property (nonatomic, strong) NSTimer *tapTempoTimer;
 @property (nonatomic, readwrite) NSInteger times;
-@property (nonatomic, copy) NSDate *lastDate;
+@property (nonatomic, strong) NSDate *lastDate;
 @property (nonatomic, readwrite) NSInteger currentTempo;
-@property (nonatomic, readwrite) CGFloat elementaryDeflection;
 
 - (void)changeDeflection;
 
@@ -69,14 +69,10 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 #pragma mark - MetronomeVC Extension
 
-@interface MetronomeVC () <MetronomeDelegate, SEReceiverDelegate>
+@interface MetronomeVC () <MetronomeDelegate>
 
 @property (strong, nonatomic) NSMutableArray *diodes;
-// CR:  Why don't you use 'weak' instead of 'strong'?
-// Because we create this objects in code. It's not an Outlet.
 @property (nonatomic, strong) UIButton *backgroundButton;
-// CR:  Why don't you use 'weak' instead of 'strong'?
-// Because we create this objects in code. It's not an Outlet.
 @property (nonatomic, strong) UILabel *tempoLabel;
 @property (nonatomic, strong) Metronome *metronome;
 
@@ -90,7 +86,9 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 - (instancetype)init
 {
     if(self = [super init]){
-        self.deflection = 0;
+        _deflection = 0;
+        _cyclicFrequency = 1;
+        _timeline = 0;
     }
     return self;
 }
@@ -98,14 +96,13 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 - (void)setDelegate:(id<MetronomeDelegate>)delegate
 {
     _delegate = delegate;
-    self.period = 1;
-    self.elementaryDeflection = (1/mFPS)/self.period;
+    self.cyclicFrequency = 1;
 }
 
 - (void)setTempo:(NSInteger)tempo
 {
     _tempo = tempo;
-    self.elementaryDeflection = 0.08*tempo/60;
+    self.cyclicFrequency = (float)tempo/60*2*piNumber;
 }
 
 - (void)start
@@ -119,17 +116,16 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 {
     [self.timer invalidate];
     self.timer = nil;
-    self.deflection = 0;
 }
 
 - (void)synchronize:(NSInteger)part
 {
     if(part%2){
         self.deflection = 1;
-        self.elementaryDeflection  = -ABS(self.elementaryDeflection);
+        self.timeline = 0;
     } else {
         self.deflection = -1;
-        self.elementaryDeflection  = ABS(self.elementaryDeflection);
+        self.timeline = piNumber/self.cyclicFrequency;
     }
     if([self.timer isValid]){
         [self.timer invalidate];
@@ -142,23 +138,16 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 - (void)changeDeflection
 {
-    if(self.deflection > 1){
-        self.elementaryDeflection *= -1;
-        self.deflection = 2-self.deflection;
-    } else if(self.deflection < -1){
-        self.elementaryDeflection *= -1;
-        self.deflection = -2 -self.deflection;
-    }
+    self.deflection = cos(self.cyclicFrequency*self.timeline);
+    self.timeline += 1/mFPS;
     [self.delegate metronome:self didChangeDeflection: self.deflection];
-    self.deflection += self.elementaryDeflection;
 }
 
 - (void)tapTempoButtonDidTapped:(id)sender {
     if (self.times>0) {
         if ([self.tapTempoTimer isValid]) {
             [self.tapTempoTimer invalidate];
-            self.tapTempoTimer = [NSTimer scheduledTimerWithTimeInterval:2 
-                target:self selector:@selector(resetTapTempo) userInfo:self repeats:NO];
+            self.tapTempoTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(resetTapTempo) userInfo:self repeats:NO];
         }
         NSTimeInterval currentInterval = [[NSDate date] timeIntervalSinceDate:self.lastDate];
         self.currentTempo = (int)(60*self.times/currentInterval);
@@ -184,8 +173,26 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
     }
 }
 
+-(void)tapTempoButtonDidSlided:(UIPanGestureRecognizer*)recognizer
+{
+    if(ABS([recognizer translationInView:recognizer.view].x) > 10){
+        CGPoint translation = [recognizer translationInView:recognizer.view];
+        self.tempo = MIN(mMaxTempo,MAX(mMinTempo, self.tempo+(NSInteger)(translation.x/10)));
+        [recognizer setTranslation:CGPointZero inView:recognizer.view];
+        
+        [self.delegate metronome:self didSetNewTempo:self.tempo];
+    }
+}
+
 - (void) resetTapTempo {
     self.times = 0;
+}
+
+
+
+- (void) output:(SESequencerOutput *)sender didGenerateMessage:(SESequencerMessage *)message
+{
+    NSLog(@"I'm corn captain");
 }
 
 @end
@@ -193,7 +200,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 #pragma mark - MetronomeVC Implementation
 
-@implementation MetronomeVC 
+@implementation MetronomeVC
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -210,12 +217,19 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 {
     [super viewDidLoad];
     [self drawDiodes];
+    
+    [self.metronome start];
+    
     self.view.backgroundColor = [UIColor rhythmusMetronomeBackgroundColor];
     self.backgroundButton = [[UIButton alloc]initWithFrame:backgroundButtonFrame];
     self.backgroundButton.backgroundColor = [UIColor clearColor];
     [self.backgroundButton addTarget:self
         action:@selector(backgroundButtonDidTapped:)
         forControlEvents:UIControlEventTouchUpInside];
+    
+    UIPanGestureRecognizer* recognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(backgroundButtonDidSlided:)];
+    [self.backgroundButton addGestureRecognizer:recognizer];
+    
     [self.view addSubview:self.backgroundButton];
     
     self.tempoLabel = [[UILabel alloc]init];
@@ -244,24 +258,16 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
     [self.metronome tapTempoButtonDidTapped:sender];
 }
 
-- (void)highlight:(NSInteger)index
+-(void)backgroundButtonDidSlided:(UIPanGestureRecognizer*)recognizer
 {
-    if ([self.diodes count] == 0) {
-        return;
-    }
-    for(int i=0; i<diodesCount; i++){
-        ((UIView*)[self.diodes objectAtIndex:i]).backgroundColor =
-            [UIColor colorWithWhite:MAX(pow(1.8, -ABS(i-index)), 0.15) alpha:1];
-    }
+    [self.metronome tapTempoButtonDidSlided:recognizer];
 }
 
-- (void)switchOffDiodes {
-    if ([self.diodes count] == 0) {
-        return;
-    }
-    for(int i=0; i<diodesCount; i++){
-        ((UIView *)[self.diodes objectAtIndex:i]).backgroundColor =
-        [UIColor rhythmusLedOffColor];
+- (void)highlight:(NSInteger)index
+{
+    for(int i=0; i<14; i++){
+        ((UIView*)[self.diodes objectAtIndex:i]).backgroundColor =
+            [UIColor colorWithWhite:MAX(pow(1.8, -ABS(i-index)), 0.15) alpha:1];
     }
 }
 
@@ -269,40 +275,22 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 {
     _sequencer = sequencer;
     self.metronome.tempo = sequencer.tempo;
-    sequencer.metronomeSyncOutput.delegate = self;
 }
 
-#pragma mark MetronomeDelegate Protocol Implemetation
 -(void)metronome:(Metronome*)metronome didChangeDeflection:(CGFloat)deflection
 {
-    // CR:  What are the magic number below?
-    [self highlight:((NSInteger)(6.5*deflection)+6.5)];
+    CGFloat arg = 6.5*deflection+6.5;
+    NSInteger roundArg = (NSInteger)arg;
+    if(arg > roundArg+0.5){
+        roundArg += 1;
+    }
+    [self highlight:roundArg];
 }
 
 -(void)metronome:(Metronome*)metronome didSetNewTempo:(NSInteger)currentTempo
 {
     self.tempoLabel.text = [NSString stringWithFormat:@"<< TEMPO: %i BPM >>",currentTempo];
     self.sequencer.tempo = currentTempo;
-}
-
-#pragma mark SEReceiverDelegate Protocol Implementation
-- (void) output:(SESequencerOutput *)sender didGenerateMessage:(SESequencerMessage *)message
-{
-    if (message.type == messageTypeMetronomeSync) {
-        if (message.parameters[@"Teil"]) {
-            if ([self.metronome isMetronomeActivate]) {
-                [self.metronome synchronize:[message.parameters[@"Teil"]intValue]];
-            }
-        }
-        else if (message.parameters[kMetronomeWillStartParameter]) {
-            [self.metronome start];
-            self.metronome.deflection = 0;
-        }
-        else if (message.parameters[kMetronomeWillStopParameter]) {
-            [self.metronome stop];
-            [self switchOffDiodes];
-        }
-    }
 }
 
 @end
