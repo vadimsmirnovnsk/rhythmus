@@ -19,7 +19,6 @@ static const NSInteger diodeWidth = (310 - 68)/14;
 static CGRect const backgroundButtonFrame = (CGRect){0, 0, 310, 65};
 static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
-
 #pragma mark - MetronomeDelegate Protocol
 
 @class Metronome;
@@ -86,7 +85,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 - (instancetype)init
 {
     if(self = [super init]){
-        _deflection = 0;
+        _deflection = 1;
         _cyclicFrequency = 1;
         _timeline = 0;
     }
@@ -102,7 +101,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 - (void)setTempo:(NSInteger)tempo
 {
     _tempo = tempo;
-    self.cyclicFrequency = (float)tempo/60*2*piNumber;
+    self.cyclicFrequency = (float)tempo/60*piNumber;
 }
 
 - (void)start
@@ -279,12 +278,13 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 -(void)metronome:(Metronome*)metronome didChangeDeflection:(CGFloat)deflection
 {
-    CGFloat arg = 6.5*deflection+6.5;
-    NSInteger roundArg = (NSInteger)arg;
-    if(arg > roundArg+0.5){
-        roundArg += 1;
+    // CR:  What are the magic number below?
+    CGFloat index = 6.5*deflection+6.5;
+    NSInteger roundIndex = index;
+    if(index > roundIndex+0.5){
+        roundIndex += 1;
     }
-    [self highlight:roundArg];
+    [self highlight:roundIndex];
 }
 
 -(void)metronome:(Metronome*)metronome didSetNewTempo:(NSInteger)currentTempo

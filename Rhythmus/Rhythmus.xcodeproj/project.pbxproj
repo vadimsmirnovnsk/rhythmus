@@ -12,6 +12,10 @@
 		847BB582199B411F006DF80D /* SelectDurationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 847BB57B199B411F006DF80D /* SelectDurationViewController.m */; };
 		847BB583199B411F006DF80D /* SelectDurationViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 847BB57C199B411F006DF80D /* SelectDurationViewController.xib */; };
 		847BB584199B411F006DF80D /* SoundDurationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 847BB57F199B411F006DF80D /* SoundDurationView.m */; };
+		848813DD199CA7750030B1CE /* SETableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 848813DB199CA7750030B1CE /* SETableViewCell.m */; };
+		848813DE199CA7750030B1CE /* SETableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 848813DC199CA7750030B1CE /* SETableViewCell.xib */; };
+		848813E2199CA9D10030B1CE /* SELibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 848813E1199CA9D10030B1CE /* SELibrary.m */; };
+		848813E5199CD9D80030B1CE /* DTCustomColoredAccessory.m in Sources */ = {isa = PBXBuildFile; fileRef = 848813E4199CD9D80030B1CE /* DTCustomColoredAccessory.m */; };
 		CE3943F21999373F00B990E8 /* MetronomeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = CE3943F11999373F00B990E8 /* MetronomeVC.m */; };
 		CE3943F81999415800B990E8 /* Open24.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE3943F71999415800B990E8 /* Open24.ttf */; };
 		CEA991CA198640F200CAB5AC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CEA991C9198640F200CAB5AC /* Foundation.framework */; };
@@ -96,6 +100,14 @@
 		847BB57D199B411F006DF80D /* SelectDurationViewControllerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectDurationViewControllerDelegate.h; path = Rhythmus/UI/SelectDurationViewControllerDelegate.h; sourceTree = "<group>"; };
 		847BB57E199B411F006DF80D /* SoundDurationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SoundDurationView.h; path = Rhythmus/UI/SoundDurationView.h; sourceTree = "<group>"; };
 		847BB57F199B411F006DF80D /* SoundDurationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SoundDurationView.m; path = Rhythmus/UI/SoundDurationView.m; sourceTree = "<group>"; };
+		848813DA199CA7750030B1CE /* SETableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SETableViewCell.h; path = Rhythmus/UI/SETableViewCell.h; sourceTree = "<group>"; };
+		848813DB199CA7750030B1CE /* SETableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SETableViewCell.m; path = Rhythmus/UI/SETableViewCell.m; sourceTree = "<group>"; };
+		848813DC199CA7750030B1CE /* SETableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SETableViewCell.xib; path = Rhythmus/UI/SETableViewCell.xib; sourceTree = "<group>"; };
+		848813DF199CA9290030B1CE /* SEPatternSaver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SEPatternSaver.h; path = Rhythmus/UI/SEPatternSaver.h; sourceTree = "<group>"; };
+		848813E0199CA9D10030B1CE /* SELibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SELibrary.h; path = Rhythmus/API/SELibrary.h; sourceTree = "<group>"; };
+		848813E1199CA9D10030B1CE /* SELibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SELibrary.m; path = Rhythmus/API/SELibrary.m; sourceTree = "<group>"; };
+		848813E3199CD9D80030B1CE /* DTCustomColoredAccessory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DTCustomColoredAccessory.h; path = Rhythmus/UI/DTCustomColoredAccessory.h; sourceTree = "<group>"; };
+		848813E4199CD9D80030B1CE /* DTCustomColoredAccessory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DTCustomColoredAccessory.m; path = Rhythmus/UI/DTCustomColoredAccessory.m; sourceTree = "<group>"; };
 		CE3943F01999373F00B990E8 /* MetronomeVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MetronomeVC.h; path = Rhythmus/UI/MetronomeVC.h; sourceTree = "<group>"; };
 		CE3943F11999373F00B990E8 /* MetronomeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MetronomeVC.m; path = Rhythmus/UI/MetronomeVC.m; sourceTree = "<group>"; };
 		CE3943F71999415800B990E8 /* Open24.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Open24.ttf; path = Resources/Open24.ttf; sourceTree = "<group>"; };
@@ -214,6 +226,10 @@
 				CEE76641198CFDEB002A3E93 /* SELibraryVC.h */,
 				CEE76642198CFDEB002A3E93 /* SELibraryVC.m */,
 				CEE76643198CFDEB002A3E93 /* SELibraryVC.xib */,
+				848813DA199CA7750030B1CE /* SETableViewCell.h */,
+				848813DB199CA7750030B1CE /* SETableViewCell.m */,
+				848813DC199CA7750030B1CE /* SETableViewCell.xib */,
+				848813DF199CA9290030B1CE /* SEPatternSaver.h */,
 			);
 			name = LibraryView;
 			sourceTree = "<group>";
@@ -331,6 +347,8 @@
 				CEA9921B1986466800CAB5AC /* SERhythmusPattern.m */,
 				CEA992A0198A85FE00CAB5AC /* SEAudioController.h */,
 				CEA992A1198A85FE00CAB5AC /* SEAudioController.m */,
+				848813E0199CA9D10030B1CE /* SELibrary.h */,
+				848813E1199CA9D10030B1CE /* SELibrary.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -347,6 +365,8 @@
 				CED77FD31993E99A0014449A /* UIColor+iOS7Colors.m */,
 				CEDD80741998B0AF0018088E /* RootVC.h */,
 				CEDD80751998B0AF0018088E /* RootVC.m */,
+				848813E3199CD9D80030B1CE /* DTCustomColoredAccessory.h */,
+				848813E4199CD9D80030B1CE /* DTCustomColoredAccessory.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -547,6 +567,7 @@
 				CEE76652198CFE4C002A3E93 /* SERedactorVC.xib in Resources */,
 				CEDD80A61998C1840018088E /* padViewTabIcon.png in Resources */,
 				CEDD80A41998C1840018088E /* fileCabinet.png in Resources */,
+				848813DE199CA7750030B1CE /* SETableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -580,13 +601,16 @@
 				CEA991DC198640F200CAB5AC /* SEAppDelegate.m in Sources */,
 				CEE76651198CFE4C002A3E93 /* SERedactorVC.m in Sources */,
 				847BB580199B411F006DF80D /* EditorViewController.m in Sources */,
+				848813DD199CA7750030B1CE /* SETableViewCell.m in Sources */,
 				CED77FD41993E99A0014449A /* UIColor+iOS7Colors.m in Sources */,
 				CEA991D8198640F200CAB5AC /* main.m in Sources */,
 				847BB584199B411F006DF80D /* SoundDurationView.m in Sources */,
 				CED7800919967B430014449A /* StatusBarVC.m in Sources */,
 				CEE76636198CF509002A3E93 /* UIColor+ColorFromHexString.m in Sources */,
 				CE3943F21999373F00B990E8 /* MetronomeVC.m in Sources */,
+				848813E2199CA9D10030B1CE /* SELibrary.m in Sources */,
 				CEA991DF198640F200CAB5AC /* Rhythmus.xcdatamodeld in Sources */,
+				848813E5199CD9D80030B1CE /* DTCustomColoredAccessory.m in Sources */,
 				CED77FD1199375D90014449A /* SEMusicTimebase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,4 +1,3 @@
-
 #import "SELibraryVC.h"
 #import "UIColor+iOS7Colors.h"
 #import "SETableViewCell.h"
@@ -21,7 +20,8 @@ static NSString *const cellId = @"LibraryTableViewCell";
     self.library = [SELibrary sharedLibrary];
     [super viewDidLoad];
     [self.tableView registerNib:[UINib nibWithNibName:@"SETableViewCell" bundle:[NSBundle mainBundle]]
-              forCellReuseIdentifier:cellId];
+        forCellReuseIdentifier:cellId];
+
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;

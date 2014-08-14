@@ -2,7 +2,7 @@
 //  SETableViewCell.m
 //  Rhythmus
 //
-//  Created by Admin on 13/08/14.
+//  Created by Admin on 14/08/14.
 //  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
 //
 
@@ -15,14 +15,12 @@
 
 @end
 
-
-
 @implementation SETableViewCell
 
 - (void)awakeFromNib
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.layer.borderWidth = 1;
+    self.layer.borderWidth = 2;
     self.layer.borderColor = [[UIColor purpleColor] CGColor];
 }
 
@@ -43,6 +41,7 @@
 }
 
 - (IBAction)select:(id)sender {
-    NSLog(@"Dismiss controller");
+    self.buttonBlock();
 }
+
 @end

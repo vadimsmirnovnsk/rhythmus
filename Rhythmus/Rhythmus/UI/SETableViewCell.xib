@@ -13,18 +13,19 @@
                 <rect key="frame" x="0.0" y="0.0" width="310" height="69"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VUb-lx-rhg">
-                        <rect key="frame" x="9" y="10" width="50" height="50"/>
+                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HIs-ob-Ez0">
+                        <rect key="frame" x="10" y="10" width="50" height="50"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <state key="normal" backgroundImage="spongebob.png">
+                        <color key="backgroundColor" red="0.5" green="0.0" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
+                        <state key="normal" backgroundImage="padViewTabIcon.png">
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
-                            <action selector="select:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="0sm-we-SOZ"/>
+                            <action selector="select:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="u5E-1y-zt9"/>
                         </connections>
                     </button>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ac-Xi-U09">
-                        <rect key="frame" x="62" y="16" width="187" height="37"/>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sc2-m1-A8H">
+                        <rect key="frame" x="63" y="15" width="185" height="39"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -33,12 +34,12 @@
                 </subviews>
             </tableViewCellContentView>
             <connections>
-                <outlet property="nameLabel" destination="0Ac-Xi-U09" id="uRN-2N-7uM"/>
-                <outlet property="selectButton" destination="VUb-lx-rhg" id="T12-2R-cjb"/>
+                <outlet property="nameLabel" destination="sc2-m1-A8H" id="I8k-YN-d8F"/>
+                <outlet property="selectButton" destination="HIs-ob-Ez0" id="pAJ-1s-VPY"/>
             </connections>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="spongebob.png" width="456" height="500"/>
+        <image name="padViewTabIcon.png" width="30" height="30"/>
     </resources>
 </document>

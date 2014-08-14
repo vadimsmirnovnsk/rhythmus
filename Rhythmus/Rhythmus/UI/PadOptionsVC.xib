@@ -6,7 +6,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PadOptionsVC">
             <connections>
-                <outlet property="colorTableView" destination="9Hw-Yt-lE0" id="sLT-xs-bNp"/>
+                <outlet property="tableView" destination="9Hw-Yt-lE0" id="SbX-Et-MWh"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -52,16 +52,16 @@
             </subviews>
             <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="leading" secondItem="esH-SE-AXt" secondAttribute="leading" id="0N0-iZ-aPP"/>
-                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="top" secondItem="QJK-GX-lEN" secondAttribute="bottom" constant="8" symbolic="YES" id="2Jq-m0-wfN"/>
-                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="59" id="7kS-89-E2u"/>
-                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="centerX" secondItem="2RB-uI-YiD" secondAttribute="centerX" id="Amw-xR-B7X"/>
-                <constraint firstAttribute="trailing" secondItem="9Hw-Yt-lE0" secondAttribute="trailing" constant="5" id="HwL-Jq-i0u"/>
-                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="trailing" secondItem="QJK-GX-lEN" secondAttribute="trailing" id="M9m-0T-ZG0"/>
-                <constraint firstAttribute="bottom" secondItem="9Hw-Yt-lE0" secondAttribute="bottom" constant="5" id="OYM-LR-sKt"/>
-                <constraint firstItem="esH-SE-AXt" firstAttribute="centerY" secondItem="QJK-GX-lEN" secondAttribute="centerY" id="RKC-e4-v27"/>
-                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="5" id="Rsr-ja-kNp"/>
-                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="top" secondItem="2RB-uI-YiD" secondAttribute="bottom" constant="24" id="x1o-k3-onk"/>
+                <constraint firstAttribute="bottom" secondItem="9Hw-Yt-lE0" secondAttribute="bottom" constant="5" id="3UC-pa-Qta"/>
+                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="centerX" secondItem="2RB-uI-YiD" secondAttribute="centerX" id="3l9-bx-Ja4"/>
+                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="leading" secondItem="esH-SE-AXt" secondAttribute="leading" id="9JV-nT-4SA"/>
+                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="5" id="Di1-G8-xbK"/>
+                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="top" secondItem="QJK-GX-lEN" secondAttribute="bottom" constant="8" symbolic="YES" id="HbU-4A-yhy"/>
+                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="trailing" secondItem="QJK-GX-lEN" secondAttribute="trailing" id="J3n-Kn-ejc"/>
+                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="top" secondItem="2RB-uI-YiD" secondAttribute="bottom" constant="24" id="JH0-Nn-TfS"/>
+                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Qit-9a-51T"/>
+                <constraint firstItem="esH-SE-AXt" firstAttribute="centerY" secondItem="QJK-GX-lEN" secondAttribute="centerY" id="bjx-t5-1S3"/>
+                <constraint firstItem="9Hw-Yt-lE0" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="59" id="nyf-SW-Yfp"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>

@@ -2,7 +2,7 @@
 //  SEPatternSaver.h
 //  Rhythmus
 //
-//  Created by Admin on 13/08/14.
+//  Created by Admin on 14/08/14.
 //  Copyright (c) 2014 Smirnov Electronics. All rights reserved.
 //
 
