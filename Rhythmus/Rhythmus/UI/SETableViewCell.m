@@ -7,6 +7,7 @@
 //
 
 #import "SETableViewCell.h"
+#import "UIColor+iOS7Colors.h"  
 
 @interface SETableViewCell ()
 
@@ -20,8 +21,8 @@
 - (void)awakeFromNib
 {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    self.layer.borderWidth = 2;
-    self.layer.borderColor = [[UIColor purpleColor] CGColor];
+    // self.layer.borderWidth = 2;
+    // self.layer.borderColor = [[UIColor mineShaftColor] CGColor];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

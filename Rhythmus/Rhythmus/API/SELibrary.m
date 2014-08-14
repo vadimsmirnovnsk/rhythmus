@@ -27,6 +27,13 @@
         
         NSString* path = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,
                                                               NSUserDomainMask, YES) objectAtIndex:0];
+                                                              
+                                                            
+        [[NSFileManager defaultManager] createFileAtPath:[NSString stringWithFormat:@"%@/firstPattern.pattern",path] contents:nil attributes:nil];
+        [[NSFileManager defaultManager] createFileAtPath:[NSString stringWithFormat:@"%@/secondPattern.pattern",path] contents:nil attributes:nil];
+        [[NSFileManager defaultManager] createFileAtPath:[NSString stringWithFormat:@"%@/thirdPattern.pattern",path] contents:nil attributes:nil];
+        [[NSFileManager defaultManager] createFileAtPath:[NSString stringWithFormat:@"%@/fourthPattern.pattern",path] contents:nil attributes:nil];
+        
         NSArray* content = [self nestedContentsOfDirectory:path];
         for(NSString* filePath in content){
             NSString* fileName = [[filePath pathComponents] lastObject];

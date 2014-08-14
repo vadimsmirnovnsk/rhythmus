@@ -389,6 +389,7 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
 - (void)optionsControllerDidCanceled:(PadOptionsVC *)sender
 {
     [self cancelOptionsView];
+    
 }
 
 @end

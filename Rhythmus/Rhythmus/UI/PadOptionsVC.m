@@ -34,13 +34,14 @@ static NSString*const colorCellId = @"ColorCellId";
     self.library = [SELibrary sharedLibrary];
     [self.tableView registerNib:[UINib nibWithNibName:@"SETableViewCell" bundle:[NSBundle mainBundle]]
               forCellReuseIdentifier:sampleCellId];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:colorCellId];
+    [self.tableView registerClass:
+        [UITableViewCell class] forCellReuseIdentifier:colorCellId];
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.expandedSections = [[NSMutableIndexSet alloc] init];
     
-    self.tableView.backgroundColor = [UIColor rhythmusBackgroundColor];
+    self.tableView.backgroundColor = [UIColor clearColor];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canCollapseSection:(NSInteger)section
@@ -76,9 +77,11 @@ static NSString*const colorCellId = @"ColorCellId";
         if (!indexPath.row)
         {
             if(indexPath.section == 0){
-                tableViewCell.textLabel.text = @"Colors";
+                tableViewCell.textLabel.text = @"Select Color";
+                tableViewCell.textLabel.textAlignment = NSTextAlignmentCenter;
             } else {
-                tableViewCell.textLabel.text = @"Samples";
+                tableViewCell.textLabel.text = @"Select Sample";
+                tableViewCell.textLabel.textAlignment = NSTextAlignmentCenter;
             }
             if ([self.expandedSections containsIndex:indexPath.section])
             {
@@ -118,9 +121,9 @@ static NSString*const colorCellId = @"ColorCellId";
         if ([self.expandedSections containsIndex:section])
         {
             if(section == 0){
-                return [[UIColor sharedColorNames]count];
+                return [[UIColor sharedColorNames]count]+1;
             }
-            return [self.library.sampleCache count];
+            return [self.library.sampleCache count]+1;
         }
             
         return 1;

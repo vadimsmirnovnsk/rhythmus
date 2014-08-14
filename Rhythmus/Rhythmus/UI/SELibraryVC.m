@@ -24,8 +24,6 @@ static NSString *const cellId = @"LibraryTableViewCell";
     
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    
-    
     self.tableView.backgroundColor = [UIColor rhythmusBackgroundColor];
 }
 
