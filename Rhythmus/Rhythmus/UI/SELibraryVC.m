@@ -68,12 +68,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
         NSURL* fileURL = self.library.patternCache[indexPath.row][kLibraryFileURL];
         if ([[NSFileManager defaultManager] removeItemAtPath: [fileURL path] error: NULL]  == YES){
             [self.library.patternCache removeObjectAtIndex:indexPath.row];
-            NSLog (@"Remove successful");
         } else{
             NSLog (@"Remove failed");
         }
     }
-    [self.tableView reloadData];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:YES];
 }
 
 -(void)savePattern:(id)pattern

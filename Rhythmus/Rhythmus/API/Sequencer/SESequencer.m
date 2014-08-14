@@ -544,7 +544,6 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     }
     self.preparing = YES;
     self.teilInBar = -1;
-    //NSLog(@"Send to Prepare Output: Let's do it!");
     [self.padsFeedbackOutput.delegate output:self.padsFeedbackOutput didGenerateMessage:[SESequencerMessage messageWithType:messageTypeSystemPrepare parameters:
                     @{kSequencerPrepareWillStartParameter: kSequencerPrepareWillStartParameter}]];
     [self.metronomeSyncOutput.delegate output:self.metronomeSyncOutput
@@ -574,7 +573,6 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
     unsigned long stopRecordingTick = (self.bar ? self.bar : 1)
      * self.timeSignature.upperPart *
      [SEMusicTimebase ticksPerDuration:self.timeSignature.lowerPart withPPQN:defaultPPQN];
-    NSLog(@"Stop Recording Tick: %lu", stopRecordingTick);
     SESequencerTrack *track = nil;
     float singleQuarterPulse = (60/((float)_tempo*defaultPPQN));
     for (id<NSCopying> key in self.mutableTracks) {
@@ -769,7 +767,6 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         }
         self.ticksForLastTeil = self.ticksForLastTeil + self.ticksPerTeil;
         if (self.isClick) {
-             NSLog(@"Click! Bar: %i Teil: %i", self.bar, self.teilInBar);
             [self.metronomeOutput.delegate output:self.metronomeOutput
                 didGenerateMessage:[SESequencerMessage messageWithType:messageTypeMetronomeClick
                 parameters:@{@"Bar":@(self.bar), @"Teil":@(self.teilInBar)}]];
@@ -807,7 +804,6 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         self.preparing = NO;
     }
     if (self.timeSignature.upperPart - 1 == self.teilInBar) {
-        // NSLog(@"Send to Prepare Output: GO!");
         [self.padsFeedbackOutput.delegate output:self.padsFeedbackOutput
             didGenerateMessage:[SESequencerMessage
             messageWithType:messageTypeSystemPrepare parameters:
@@ -818,7 +814,6 @@ static NSString *const kDefaultPadsFeedbackOutputIdentifier = @"Pads Feedback Ou
         self.recording = YES;
     }
     else {
-        //NSLog(@"Send to Prepare Output: %i", self.timeSignature.upperPart - self.teilInBar - 1);
         [self.padsFeedbackOutput.delegate output:self.padsFeedbackOutput
                 didGenerateMessage:[SESequencerMessage
                 messageWithType:messageTypeSystemPrepare parameters:

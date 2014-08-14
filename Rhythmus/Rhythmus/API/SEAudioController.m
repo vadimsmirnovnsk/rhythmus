@@ -166,12 +166,6 @@
         NSLog(@"Error %ld, %@", (long)audioSessionError.code,
             audioSessionError.localizedDescription);
     }
- 
-//    [[NSNotificationCenter defaultCenter] addObserver:self
-//        selector:@selector(handleRouteChange:) name:AVAudioSessionRouteChangeNotification
-//        object:self.audioSession];
- 
-    // ToDo: Activate only with PlayButton
     NSLog(@"Activate with start application.");
     [self.audioSession setActive:YES error:&audioSessionError];
         if (audioSessionError) {

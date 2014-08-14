@@ -37,7 +37,6 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 @property (nonatomic, readwrite) NSInteger tempo;
 @property (nonatomic, readwrite) BOOL isMetronomeActivate;
-// CR:  Why the metronomes know about the sequencers?
 @property (nonatomic, weak) SESequencer* sequencer;
 @property (nonatomic, weak) id<MetronomeDelegate> delegate;
 
@@ -73,11 +72,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 @interface MetronomeVC () <MetronomeDelegate>
 
 @property (strong, nonatomic) NSMutableArray *diodes;
-// CR:  Why don't you use 'weak' instead of 'strong'?
-// Because we create this objects in code. It's not an Outlet.
 @property (nonatomic, strong) UIButton *backgroundButton;
-// CR:  Why don't you use 'weak' instead of 'strong'?
-// Because we create this objects in code. It's not an Outlet.
 @property (nonatomic, strong) UILabel *tempoLabel;
 @property (nonatomic, strong) Metronome *metronome;
 
@@ -284,13 +279,11 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 {
     _sequencer = sequencer;
     self.metronome.tempo = sequencer.tempo;
-    // sequencer.metronomeSyncOutput.delegate = self;
 }
 
 #pragma mark MetronomeDelegate Protocol Implemetation
 -(void)metronome:(Metronome*)metronome didChangeDeflection:(CGFloat)deflection
 {
-    // CR:  What are the magic number below?
     CGFloat index = 6.5*deflection+6.5;
     NSInteger roundIndex = index;
     if(index > roundIndex+0.5){

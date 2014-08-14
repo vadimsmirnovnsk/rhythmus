@@ -127,23 +127,6 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         sampleURL = [NSURL fileURLWithPath:samplePath];
         SESamplePlayer *newPlayer = [SEAudioController playerWithContentsOfURL:sampleURL];
         [newOutput setDelegate: newPlayer];
-        
-        // Prapare message for UIColor class
-        // CR:  Wow-wow-wow! What are you doing? This looks to me like a magic =(
-        // It's just a sending to UIColor-class a random selector from an array that
-        //  returns by +sharedColorNames method.
-        //
-        //      OK, I see. Why don't you create a dedicated method or function that does
-        //      such a magic inside? BTW, have a look at PadOptionsVC: there you'll find
-        //      the following code (starting at the 67th line):
-        //
-        //              NSString *message = [UIColor sharedColorNames][indexPath.row];
-        //              SEL s = NSSelectorFromString(message);
-        //              // Send message to UIColor
-        //              tableViewCell.backgroundColor = objc_msgSend([UIColor class], s);
-        //
-        //      Don't you see a similar magic?
-        //
         message = [UIColor sharedColorNames][arc4random() % [[UIColor sharedColorNames] count]];
         s = NSSelectorFromString(message);
         SEPad *newPad = [[SEPad alloc]initWithFrame:
@@ -243,7 +226,6 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
 - (void)longPressTap:(UILongPressGestureRecognizer *)recognizer
 {
     if (recognizer.state == UIGestureRecognizerStateBegan) {
-        NSLog(@"Long gesture recognized for view: %@", recognizer.view);
         // Create Options View
         self.padOptionsVC = [[PadOptionsVC alloc]init];
         self.padOptionsVC.view.backgroundColor = [UIColor mineShaftColor];
@@ -354,8 +336,6 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
             [self.currentPattern setBars:
                 [message.parameters[kSequencerDidFifnishRecordingWithLastBar]intValue]];
             [self.delegate workspaceDidFinishPatternRecording:self];
-            // NSLog(@"Bars = %i", self.currentPattern.bars);
-            // NSLog(@"Message bars = %i",[message.parameters[kSequencerDidFifnishRecordingWithLastBar]intValue]);
         }
         else {
             NSInteger padIndex = [message.parameters[kSequencerPadsFeedbackParameter]integerValue];
@@ -376,11 +356,8 @@ const CGRect pwShieldViewRect = (CGRect){0, - 150, 310, 400};
         else if (message.parameters[kSequencerRecordWillStartParameter] ||
                  message.parameters[kSequencerPrepareWillAbortParameter]) {
             [self hidePrepareSubview];
-            NSLog(@"Go!");
         }
         else if (message.parameters[kSequencerPrepareDidClickWithTeil]) {
-            NSLog(@"Prepare did click: %i",
-                [message.parameters[kSequencerPrepareDidClickWithTeil]intValue]);
         }
     }
 }

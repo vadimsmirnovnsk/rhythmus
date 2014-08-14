@@ -7,16 +7,6 @@
 @class SESystemTimer;
 @protocol SESystemTimerDelegate <NSObject>
 
-/**
- *      Follow these patterns when delegating any duties:
- *
- *          - (BOOL)shouldSomebodyDoSomething:(id)sender;
- *          - (void)somebodyDid/WillDoSomething:(id)sender;
- *          - (void)somebody:(id)sender did/WillFinishDoingSomethingWithResult:(id)result;
- *
- *      That's it! Isn't it simple? ;-)
- */
- 
 - (void) timer:(SESystemTimer *)timer didCountTick:(uint64_t)tick;
 - (void) timerDidStop:(SESystemTimer *)timer;
 
