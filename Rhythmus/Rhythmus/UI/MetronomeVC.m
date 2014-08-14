@@ -69,7 +69,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 
 #pragma mark - MetronomeVC Extension
 
-@interface MetronomeVC () <MetronomeDelegate, SEReceiverDelegate>
+@interface MetronomeVC () <MetronomeDelegate>
 
 @property (strong, nonatomic) NSMutableArray *diodes;
 // CR:  Why don't you use 'weak' instead of 'strong'?
@@ -269,7 +269,7 @@ static CGRect const tempoLabelFrame = (CGRect){0, 20, 310, 51};
 {
     _sequencer = sequencer;
     self.metronome.tempo = sequencer.tempo;
-    sequencer.metronomeSyncOutput.delegate = self;
+    // sequencer.metronomeSyncOutput.delegate = self;
 }
 
 #pragma mark MetronomeDelegate Protocol Implemetation

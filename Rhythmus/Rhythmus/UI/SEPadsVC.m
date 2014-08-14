@@ -87,6 +87,7 @@ static CGRect const padsMetronomeLayout = (CGRect){5, 65, 310, 114};
     [self.playbackVC setSequencer:sequencer];
     [self.statusBarVC setSequencer:sequencer];
     [self.metronomeVC setSequencer:sequencer];
+    sequencer.metronomeSyncOutput.delegate = self.metronomeVC;
     [sequencer.metronomeOutput setDelegate:self.metronomePlayer];
 }
 

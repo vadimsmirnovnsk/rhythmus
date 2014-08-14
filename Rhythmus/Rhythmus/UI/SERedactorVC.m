@@ -46,6 +46,7 @@ static CGRect const redactorEditorLayout = (CGRect){5, 200, 310, 400};
     self.playbackVC.view.frame = padsPlaybackLayout;
     [self addChildViewController:self.playbackVC];
     [self.playbackVC didMoveToParentViewController:self];
+    [self.playbackVC switchOffRecButton];
     
     self.statusBarVC.view.frame = padsStatusBarLayout;
     [self addChildViewController:self.statusBarVC];
@@ -81,7 +82,9 @@ static CGRect const redactorEditorLayout = (CGRect){5, 200, 310, 400};
     _sequencer = sequencer;
     [self.playbackVC setSequencer:sequencer];
     [self.statusBarVC setSequencer:sequencer];
-    // [self.metronomeVC setSequencer:sequencer];
+    [self.metronomeVC setSequencer:sequencer];
+    sequencer.metronomeSyncOutput2.delegate = self.metronomeVC;
+    
 }
 
 - (void)redrawEditor

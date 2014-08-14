@@ -7,4 +7,6 @@
 
 @property (nonatomic, weak) SESequencer *sequencer;
 
+- (void)switchOffRecButton;
+
 @end

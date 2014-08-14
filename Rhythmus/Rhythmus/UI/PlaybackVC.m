@@ -106,5 +106,10 @@
             forControlEvents:UIControlEventTouchUpInside];
 }
 
+- (void)switchOffRecButton
+{
+    [self.recButton setEnabled:NO];
+}
+
 
 @end

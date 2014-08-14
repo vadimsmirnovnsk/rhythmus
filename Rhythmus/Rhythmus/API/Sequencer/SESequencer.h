@@ -65,6 +65,8 @@
 @property (nonatomic, readwrite) SETimeSignature timeSignature;
 @property (nonatomic, strong) SESequencerOutput *metronomeOutput;
 @property (nonatomic, strong) SESequencerOutput *metronomeSyncOutput;
+// TODO: rewrite with automatic multiplexing inputs/outputs
+@property (nonatomic, strong) SESequencerOutput *metronomeSyncOutput2;
 @property (nonatomic, strong) SESequencerOutput *padsFeedbackOutput;
 @property (nonatomic, copy, readonly) NSString *timeStampStringValue;
 
